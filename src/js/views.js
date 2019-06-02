@@ -1,18 +1,18 @@
 import config from "./modules/config";
+import 'babel-polyfill';
 
-class MainView{
+class MainGameView{
     constructor(ctx){
         this.ctx = ctx;
+        this.count = 0;
     }
 
-    mainScene(canvas = this.ctx){
+    async mainGameScene(img,canvas = this.ctx){
 
-        let img = new Image();
-        img.src = '../images/s1.png';
-        console.log(img);
+
         let ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,this.ctx.width,this.ctx.height);
         ctx.fillStyle = 'black';
-        img.onload = () => {
             let x = -50;
             let y = 0;
             let width = config().width;
@@ -28,7 +28,6 @@ class MainView{
                 }
                 x = -50; y += 192;
             }
-        }
         // ctx.fillRect(0,0, canvas.width,canvas.height);
     }
 
@@ -51,6 +50,45 @@ class MainView{
         chat.appendChild(input);
         gameBox.appendChild(chat);
     }
+
+    async mainMenu(canvas = this.ctx){
+        let ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0,config().width,config().height);
+        if (this.count === 0){
+        this.count++;
+        return 200;
+        } else return 304;
+    }
+
+    async loginRender(){
+
+        let wrapper = document.createElement('div');
+        wrapper.classList.add('loginPanel');
+
+        let inputLogin = document.createElement('input');
+        inputLogin.setAttribute('type','text',);
+        inputLogin.classList.add('loginMain');
+        inputLogin.setAttribute('placeholder','login');
+
+        let inputGo = document.createElement('input');
+        inputGo.classList.add('loginButton');
+        inputGo.setAttribute('type','button');
+        inputGo.setAttribute('value','Enter');
+
+        wrapper.appendChild(inputLogin);
+        wrapper.appendChild(inputGo);
+        document.body.append(wrapper);
+
+        return document.querySelector('.loginButton');
+
+    }
+
+    removeLogin(){
+        return document.querySelector('.loginPanel').remove();
+    }
 }
 
-export { MainView };
+
+export { MainGameView };

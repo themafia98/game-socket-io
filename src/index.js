@@ -1,4 +1,5 @@
 
+
 // STYLE
 import './style/main.scss';
 
@@ -8,4 +9,6 @@ import './images/s2.png';
 
 // JavaScript
 import main from './js/main.js';
-main();
+import socketIO from './js/modules/socketClient';
+let socket = socketIO();
+main(socket);
