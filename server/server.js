@@ -14,8 +14,8 @@ io.on('connection', function(socket){
     console.log("New client has connected with id:",socket.id);
 
     socket.on('messageServer', function(e){
-        console.log(socket.username);
-        io.emit('chatMessage', e, socket.username);
+        let username = players[socket.id].name;
+        io.emit('chatMessage', e, username);
       });
 
       socket.on('save',(player) => {
