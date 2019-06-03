@@ -2,29 +2,45 @@ const http = require('http'),
     io = require('socket.io')(),
     port = 5000;
 
+    io.set('log level',0);
     io.origins('localhost:*');
     io.listen(port);
     console.log('Listen io');
 
+    let players = {};
 
 io.on('connection', function(socket){
-    console.log('a user connected');
+
+    console.log("New client has connected with id:",socket.id);
 
     socket.on('messageServer', function(e){
         console.log(socket.username);
         io.emit('chatMessage', e, socket.username);
       });
 
-      socket.on('save',(username) => {
+      socket.on('save',(player) => {
 
-        console.log(`${username} connect!`);
+        console.log(`${player.name} connect!`);
+        socket.player = player;
+        socket.player.id = socket.id;
 
-        socket.username = username;
-        
-        socket.emit('changeState', username);
+        players[socket.id] = player;
+        socket.emit('changeState', player);
+        io.emit('update', players);
     });
 
-    socket.on('saveCoords',function(data){
-        socket.coords = data;
+    socket.on('saveChanges',function(data){
+
+        players[data.id].coords = data.coords;
+        io.emit('update', players);
     });
+
+    socket.on('disconnect',function(){
+
+        console.log('user leave game');
+        delete players[socket.id];
+        io.emit('disconnectPlayer', socket.id);
+    });
+
   });
+

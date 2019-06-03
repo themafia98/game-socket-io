@@ -5,8 +5,6 @@ class MainGameView{
     constructor(ctx){
         this.ctx = ctx;
         this.count = 0;
-        this.startW = config().width/2;
-        this.startH = config().height/2;
         this.speed = 5;
     }
 
@@ -31,32 +29,40 @@ class MainGameView{
                 }
                 x = -50; y += 192;
             }
-        // ctx.fillRect(0,0, canvas.width,canvas.height);
     }
 
-    async renderHero(img,go,socket,canvas = this.ctx){
+    async renderHero(skin,player,go,socket,canvas = this.ctx){
 
         let ctx = canvas.getContext('2d');
-        
         switch(go){
-            case 'down': this.startH += this.speed; break;
-            case 'up': this.startH -= this.speed; break;
-            case 'left':this.startW -= this.speed; break;
-            case 'right': this.startW += this.speed; break;
+            case 'down': player.coords.H += this.speed; break;
+            case 'up': player.coords.H -= this.speed; break;
+            case 'left':player.coords.W -= this.speed; break;
+            case 'right': player.coords.W += this.speed; break;
             default:{
        
             }
         }
- 
-        ctx.drawImage(img,this.startW, this.startH);
-        socket.emit('saveCoords',{W: this.startW, H: this.startH});
-        console.log(socket.coords);
+        ctx.drawImage(skin,player.coords.W, player.coords.H);
+        socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H} });
     }
 
+    async renderEnemy(skin2,other_players,socket){
+
+        let ctx = this.ctx.getContext('2d');
+        for (let id in other_players){
+            ctx.drawImage(skin2,other_players[id].coords.W, other_players[id].coords.H);
+        }
+    }
+
+
     chatBox(){
+
         let gameBox = document.querySelector('.game');
         let width = config().width;
         let height = config().height;
+
+        this.count = 0;
 
         let chat = document.createElement('div');
         chat.classList.toggle('chatBox');
@@ -73,18 +79,18 @@ class MainGameView{
         gameBox.appendChild(chat);
     }
 
-    async mainMenu(canvas = this.ctx){
+    mainMenu(canvas = this.ctx){
         let ctx = canvas.getContext('2d');
 
         ctx.fillStyle = 'black';
         ctx.fillRect(0,0,config().width,config().height);
         if (this.count === 0){
-        this.count++;
+            this.count++;
         return 200;
         } else return 304;
     }
 
-    async loginRender(){
+   loginRender(){
 
         let wrapper = document.createElement('div');
         wrapper.classList.add('loginPanel');
@@ -106,8 +112,6 @@ class MainGameView{
         return document.querySelector('.loginButton');
 
     }
-
-
 
     removeLogin(){
         return document.querySelector('.loginPanel').remove();

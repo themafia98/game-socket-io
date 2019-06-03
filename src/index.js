@@ -1,5 +1,4 @@
 
-
 // STYLE
 import './style/main.scss';
 
@@ -9,7 +8,8 @@ import './images/s2.png';
 import './images/hero1.png';
 
 // JavaScript
-import main from './js/main.js';
+import {main,route} from './js/main.js';
 import socketIO from './js/modules/socketClient';
+import controll from './js/controll';
 let socket = socketIO();
 main(socket);
