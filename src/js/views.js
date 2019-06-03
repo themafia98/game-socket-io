@@ -43,14 +43,20 @@ class MainGameView{
        
             }
         }
+        ctx.fillStyle = 'red';
+        ctx.font = '20px serif';
+        ctx.fillText(player.name,player.coords.W,player.coords.H-10);
         ctx.drawImage(skin,105,254,60,125,player.coords.W, player.coords.H,60,125);
         socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H} });
     }
 
-    async renderEnemy(skin2,other_players,socket){
+    async renderEnemy(skin2,other_players){
 
         let ctx = this.ctx.getContext('2d');
         for (let id in other_players){
+            ctx.fillStyle = 'red';
+            ctx.font = '20px serif';
+            ctx.fillText(other_players[id].name,other_players[id].coords.W,other_players[id].coords.H-10);
             ctx.drawImage(skin2,105,254,60,125,other_players[id].coords.W, other_players[id].coords.H,60,125);
         }
     }
@@ -59,11 +65,6 @@ class MainGameView{
     chatBox(){
 
         let gameBox = document.querySelector('.game');
-        let width = config().width;
-        let height = config().height;
-
-        this.count = 0;
-
         let chat = document.createElement('div');
         chat.classList.toggle('chatBox');
 
@@ -81,13 +82,19 @@ class MainGameView{
 
     mainMenu(canvas = this.ctx){
         let ctx = canvas.getContext('2d');
-
-        ctx.fillStyle = 'black';
+        ctx.save();
+        ctx.fillStyle = '#f3e5ab';
         ctx.fillRect(0,0,config().width,config().height);
-        if (this.count === 0){
-            this.count++;
-        return 200;
-        } else return 304;
+        ctx.fillStyle = 'green';
+        ctx.font = '50px serif';
+        ctx.translate(-120,0);
+        ctx.shadowColor = 'lightgreen';
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 8;
+        ctx.shadowBlur = 5;
+        ctx.fillText('Social game',config().width/2,80);
+        ctx.restore();
+        ctx.save();
     }
 
    loginRender(){
@@ -96,9 +103,32 @@ class MainGameView{
         wrapper.classList.add('loginPanel');
 
         let inputLogin = document.createElement('input');
-        inputLogin.setAttribute('type','text',);
+        inputLogin.setAttribute('type','text');
         inputLogin.classList.add('loginMain');
         inputLogin.setAttribute('placeholder','login');
+
+        let channelWrapper = document.createElement('div');
+        channelWrapper.classList.add('channels');
+
+        let aboutChannel = document.createElement('p');
+        aboutChannel.classList.add('worldsList');
+        aboutChannel.innerHTML = 'Worlds';
+
+        let label1 = document.createElement('label');
+        label1.innerHTML = '1';
+
+        let label2 = document.createElement('label');
+        label2.innerHTML = '2';
+
+        let channel1 = document.createElement('input');
+        channel1.setAttribute('type','radio');
+        channel1.setAttribute('name','channels');
+        channel1.setAttribute('data-world', '1');
+
+        let channel2 = document.createElement('input');
+        channel2.setAttribute('type','radio');
+        channel2.setAttribute('name','channels');
+        channel2.setAttribute('data-world', '2');
 
         let inputGo = document.createElement('input');
         inputGo.classList.add('loginButton');
@@ -106,6 +136,14 @@ class MainGameView{
         inputGo.setAttribute('value','Enter');
 
         wrapper.appendChild(inputLogin);
+        wrapper.append(aboutChannel);
+        channelWrapper.appendChild(label1);
+        channelWrapper.appendChild(channel1);
+        channelWrapper.appendChild(label2);
+        channelWrapper.appendChild(channel2);
+
+        wrapper.appendChild(channelWrapper);
+
         wrapper.appendChild(inputGo);
         document.body.append(wrapper);
 

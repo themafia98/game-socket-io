@@ -15,10 +15,17 @@ body{
     width: 500px;
     height: 300px;
     transform: translate(-50%,-50%);
+    box-shadow: 0 0 15px;
     input{
         margin: 10px;
         text-align: center;
         font-weight: bold;
+    }
+
+    .worldsList{
+        margin: 0;
+        font-weight: bold;
+        color: red;
     }
 }
 
@@ -58,5 +65,16 @@ body{
         font-size: 20px;
         color: rgb(0, 15, 230);
         opacity: 1;
+        margin: 2px;
+    }
+}
+
+@media screen and (max-width:552px){
+    .loginPanel{
+        width: 300px;
+        height: 325px;
+    }
+    .chatBox{
+        display: none;
     }
 }

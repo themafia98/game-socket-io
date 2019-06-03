@@ -31,6 +31,10 @@ export default function controll(views,loader,route){
         if (e.target.classList[0] === 'loginButton'){
 
             let username = document.querySelector('.loginMain').value;
+            let worldNumber = [...document.querySelectorAll('[name="channels"]')];
+            worldNumber = worldNumber.find(btn => btn.checked === true);
+            if (!worldNumber) return;
+            worldNumber = worldNumber.dataset.world;
             let socket = socketIO(views,loader,route);
 
             socket.on('connect', function() {
@@ -41,7 +45,7 @@ export default function controll(views,loader,route){
             
                 loader.loadPlayer(player);
                 loader.saveSocket(socket);
-                socket.emit('save', player);
+                socket.emit('save', {player: player, worldNumber: worldNumber});
               });
         }
 
@@ -53,10 +57,11 @@ export default function controll(views,loader,route){
         let target = e.target;
 
         if (states('game','get')){
-            console.log(e.which);
+            let input = document.querySelector('.chatBox__input');
             if (e.which == 13 && target.classList[0] === 'chatBox__input'){
-                console.log('change');
-                loader.getSocket().emit('messageServer', e.target.value);
+                if (input.value)
+                    loader.getSocket().emit('messageServer', e.target.value);
+                input.value = '';
             }
 
             inputDown = '';

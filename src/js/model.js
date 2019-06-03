@@ -18,7 +18,7 @@ class Game{
 
             this.ctx.setAttribute('width',config().width);
             this.ctx.setAttribute('height',config().height);
-            // this.view.mainScene();
+            view.mainMenu();
         },false);
     }
 }
