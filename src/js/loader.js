@@ -7,6 +7,7 @@ export default class Loader{
         this.playersSkin = [];
         this.player = {};
         this.other = {};
+        this.socket = [];
     }
 
     loadTexture(texture){
@@ -27,6 +28,14 @@ export default class Loader{
 
     getPlayer(){
         return this.player;
+    }
+
+    saveSocket(socket){
+        return this.socket = socket;
+    }
+
+    getSocket(){
+        return this.socket;
     }
 
 }

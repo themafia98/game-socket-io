@@ -5,54 +5,57 @@ import controll from './controll';
 import Loader from './loader';
 
 
-export function main(socket){
+    function main(){
 
-    let game = new Game(document.getElementById('MMO'));
-    let loader = new Loader();
-    let views = new MainGameView(game.ctx);
+        const game = new Game(document.getElementById('MMO'));
+        const loader = new Loader();
+        const views = new MainGameView(game.ctx);
 
-    let img = new Image();
-    let hero = new Image();
-    img.src = '../images/s1.png';
-    hero.src = '../images/hero1.png';
+        let img = new Image();
+        let hero = new Image();
+        img.src = '../images/s1.png';
+        hero.src = '../images/hero1.png';
 
-    loader.loadTexture(img);
-    loader.loadGamerSkin(hero);
+        loader.loadTexture(img);
+        loader.loadGamerSkin(hero);
 
-    controll(socket,route,views,loader);
+        controll(views,loader,route.bind(this));
 
-    game.setSize();
-    game.eventResize(views);
-    states('main','set');
-    if (states('main','get')){
-        views.mainMenu();
-        views.loginRender();
-    }
-
-    let skin = loader.getGamerSkin(0);
-
-    async function route(time){
-
-        if(!loader.player) return requestAnimationFrame(route);
-
-        if (states('game','get')){
-
-            let answer = isEmpty(loader.other);
-    
-            views.mainGameScene(img);
-            views.renderHero(skin,loader.player,window.getInput(),socket);
-            if (!answer) views.renderEnemy(skin,loader.other,socket);
+        game.setSize();
+        game.eventResize(views);
+        states('main','set');
+        if (states('main','get')){
+            views.mainMenu();
+            views.loginRender();
         }
-        requestAnimationFrame(route);
-    }
 
+        let skin = loader.getGamerSkin(0);
+        let skin2 = loader.getGamerSkin(0);
+ 
+        async function route(time){
+
+            // if(!loader.player) return requestAnimationFrame(route);
+        
+            if (states('game','get')){
+                let answer = isEmpty(loader.other);
+        
+                views.mainGameScene(loader.texture[0]);
+                views.renderHero(skin,loader.player,window.getInput(),loader.getSocket());
+                if (!answer) views.renderEnemy(skin,loader.other,loader.getSocket());
+            }
+            requestAnimationFrame(route);
+        }
+        
+        function isEmpty(obj) {
+            for (var key in obj) {
+              return false;
+            }
+            return true;
+          }
     // let loop = requestAnimationFrame(route);
 };
 
-function isEmpty(obj) {
-    for (var key in obj) {
-      return false;
-    }
-    return true;
-  }
+export {main};
+
+
 

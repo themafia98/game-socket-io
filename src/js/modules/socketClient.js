@@ -1,21 +1,77 @@
 import io from 'socket.io-client';
+import states from './states';
 
-export default function SocketIOClient(views){
+export default function SocketIOClient(views,loader,route){
 
-const socket = io('http://localhost:5000/', { transport : ['websocket']});
+const socket = io('http://localhost:5000/');
 
 socket.on('connection',function(socket){
 
-    console.log('Listen socket io :' + socket);
+    console.log('Listen socket io :' + socket.connection);
 });
 
   socket.on('error', function() {
     console.log('there was an error');
   });
 
-  socket.on('connect', function() {
-    console.log('socket connection established');
-  });
+  socket.on('chatMessage',function(e,username = 'test'){
+    let chatList = document.querySelector('.chatBox__window');
+    if (chatList.children.length > 30)
+        chatList.firstChild.remove();
+    let message = document.createElement('p');
+    message.classList.add('message');
+    message.innerHTML = username + ': ' + e;
+    chatList.appendChild(message);
+    chatList.scrollTop = chatList.scrollHeight;
+});
+
+    socket.on('changeState',function(player){
+
+        console.log('Hello,' + player.name);
+        states('game','set');
+            views.removeLogin();
+            views.chatBox();
+            // route.call(this,null,loader,views,socket);
+            requestAnimationFrame(route);
+    });
+
+  
+
+    socket.on('update',function(players){
+
+        let found = {};
+
+        for (let id in players){
+
+            if (loader.other[id] == undefined && id != socket.id){
+                loader.other[id] = players[id];
+                console.log('Create new player');
+            }
+
+            found[id] = true;
+
+            if (id != socket.id){
+                loader.other[id].coords = players[id].coords;
+            }
+        }
+
+        for (let id in loader.other){
+          if(!found[id]){
+            delete loader.other[id];
+          }
+        }
+    });
+
+    socket.on('saveChangesClient',function(player){
+
+        let currentPlayer = loader.getPlayer();
+        currentPlayer.coords = player.coords;
+    });
+
+    socket.on('disconnectPlayer',function(id){
+
+       delete loader.other[id];
+    });
 
   return socket;
 }

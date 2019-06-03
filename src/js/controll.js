@@ -1,7 +1,8 @@
 import {Player} from './model';
 import states from './modules/states';
+import socketIO from './modules/socketClient';
 
-export default function controll(socket,route,views,loader){
+export default function controll(views,loader,route){
 
     let inputDown = null;
 
@@ -29,12 +30,19 @@ export default function controll(socket,route,views,loader){
 
         if (e.target.classList[0] === 'loginButton'){
 
-            let name = document.querySelector('.loginMain').value;
-            let skin = loader.getGamerSkin(0);
-            let player = new Player(name,skin);
-            player.id = socket.id;
-            loader.loadPlayer(player);
-            socket.emit('save', player);
+            let username = document.querySelector('.loginMain').value;
+            let socket = socketIO(views,loader,route);
+
+            socket.on('connect', function() {
+                console.log('socket connection, create new player.');
+                let skin = loader.getGamerSkin(0);
+                let player = new Player(username,skin);
+                player.id = socket.id;
+            
+                loader.loadPlayer(player);
+                loader.saveSocket(socket);
+                socket.emit('save', player);
+              });
         }
 
     },false);
@@ -48,66 +56,13 @@ export default function controll(socket,route,views,loader){
             console.log(e.which);
             if (e.which == 13 && target.classList[0] === 'chatBox__input'){
                 console.log('change');
-                socket.emit('messageServer', e.target.value);
+                loader.getSocket().emit('messageServer', e.target.value);
             }
 
             inputDown = '';
         }
     },false);
 
-
-    socket.on('chatMessage',function(e,username = 'test'){
-        let chatList = document.querySelector('.chatBox__window');
-        if (chatList.children.length > 30)
-            chatList.firstChild.remove();
-        let name = 'Pavel';
-        let message = document.createElement('p');
-        message.classList.add('message');
-        message.innerHTML = username + ': ' + e;
-        chatList.appendChild(message);
-        chatList.scrollTop = chatList.scrollHeight;
-    });
-
-        socket.on('changeState',function(player){
-
-            console.log('Hello,' + player.name);
-            states('game','set');
-                views.removeLogin();
-                views.chatBox();
-                requestAnimationFrame(route);
-        });
-
-        let skin2 = loader.getGamerSkin(0);
-
-        socket.on('update',function(players){
-
-            let found = {};
-
-            for (let id in players){
-
-                if (loader.other[id] == undefined && id != socket.id){
-                    loader.other[id] = players;
-                    console.log('Create new player');
-                }
-
-                found[id] = true;
-
-                if (id != socket.id){
-                    loader.other[id].coords = players[id].coords;
-                }
-            }
-        });
-
-        socket.on('saveChangesClient',function(player){
-
-            let currentPlayer = loader.getPlayer();
-            currentPlayer.coords = player.coords;
-        });
-
-        socket.on('disconnectPlayer',function(id){
-
-           delete loader.other[id];
-        });
 
     
 }

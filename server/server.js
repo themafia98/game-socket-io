@@ -9,9 +9,10 @@ const http = require('http'),
 
     let players = {};
 
-io.on('connection', function(socket){
+    io.on('connection', function(socket){
 
     console.log("New client has connected with id:",socket.id);
+    
 
     socket.on('messageServer', function(e){
         let username = players[socket.id].name;

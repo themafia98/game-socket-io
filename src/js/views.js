@@ -43,7 +43,7 @@ class MainGameView{
        
             }
         }
-        ctx.drawImage(skin,player.coords.W, player.coords.H);
+        ctx.drawImage(skin,105,254,60,125,player.coords.W, player.coords.H,60,125);
         socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H} });
     }
 
@@ -51,7 +51,7 @@ class MainGameView{
 
         let ctx = this.ctx.getContext('2d');
         for (let id in other_players){
-            ctx.drawImage(skin2,other_players[id].coords.W, other_players[id].coords.H);
+            ctx.drawImage(skin2,105,254,60,125,other_players[id].coords.W, other_players[id].coords.H,60,125);
         }
     }
 
