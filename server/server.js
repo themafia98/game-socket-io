@@ -23,4 +23,8 @@ io.on('connection', function(socket){
         
         socket.emit('changeState', username);
     });
+
+    socket.on('saveCoords',function(data){
+        socket.coords = data;
+    });
   });

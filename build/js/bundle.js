@@ -22303,6 +22303,17 @@ module.exports = yeast;
 
 /***/ }),
 
+/***/ "./src/images/hero1.png":
+/*!******************************!*\
+  !*** ./src/images/hero1.png ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/hero1.png";
+
+/***/ }),
+
 /***/ "./src/images/s1.png":
 /*!***************************!*\
   !*** ./src/images/s1.png ***!
@@ -22340,8 +22351,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_s1_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_images_s1_png__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _images_s2_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images/s2.png */ "./src/images/s2.png");
 /* harmony import */ var _images_s2_png__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_images_s2_png__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _js_main_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/main.js */ "./src/js/main.js");
-/* harmony import */ var _js_modules_socketClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/modules/socketClient */ "./src/js/modules/socketClient.js");
+/* harmony import */ var _images_hero1_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./images/hero1.png */ "./src/images/hero1.png");
+/* harmony import */ var _images_hero1_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_images_hero1_png__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _js_main_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/main.js */ "./src/js/main.js");
+/* harmony import */ var _js_modules_socketClient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/modules/socketClient */ "./src/js/modules/socketClient.js");
 
 
 // STYLE
@@ -22351,11 +22364,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 // JavaScript
 
 
-let socket = Object(_js_modules_socketClient__WEBPACK_IMPORTED_MODULE_4__["default"])();
-Object(_js_main_js__WEBPACK_IMPORTED_MODULE_3__["default"])(socket);
+let socket = Object(_js_modules_socketClient__WEBPACK_IMPORTED_MODULE_5__["default"])();
+Object(_js_main_js__WEBPACK_IMPORTED_MODULE_4__["default"])(socket);
 
 
 /***/ }),
@@ -22382,8 +22396,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = (function (socket) {
   var game = new _model__WEBPACK_IMPORTED_MODULE_0__["Game"](document.getElementById('MMO'));
   var views = new _views__WEBPACK_IMPORTED_MODULE_1__["MainGameView"](game.ctx);
+  var inputDown = null;
   var img = new Image();
+  var img2 = new Image();
   img.src = '../images/s1.png';
+  img2.src = '../images/hero1.png';
   game.setSize();
   game.eventResize(views);
   Object(_modules_states__WEBPACK_IMPORTED_MODULE_2__["default"])('main', 'set');
@@ -22400,7 +22417,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   }
 
-  document.addEventListener('keypress', function (e) {
+  document.addEventListener('keyup', function (e) {
     console.log(socket);
     var target = e.target;
 
@@ -22411,6 +22428,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.log('change');
         socket.emit('messageServer', e.target.value);
       }
+
+      inputDown = '';
+    }
+  }, false);
+  document.addEventListener('keydown', function (e) {
+    var target = e.target;
+
+    switch (e.which) {
+      case 87:
+        inputDown = 'up';
+        break;
+
+      case 65:
+        inputDown = 'left';
+        break;
+
+      case 68:
+        inputDown = 'right';
+        break;
+
+      case 83:
+        inputDown = 'down';
+        break;
     }
   }, false);
   socket.on('chatMessage', function (e) {
@@ -22449,6 +22489,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_2__["default"])('game', 'get')) {
                 views.mainGameScene(img);
+                views.renderHero(img2, inputDown, socket);
               }
 
               requestAnimationFrame(route);
@@ -22641,6 +22682,9 @@ function () {
 
     this.ctx = ctx;
     this.count = 0;
+    this.startW = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2;
+    this.startH = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height / 2;
+    this.speed = 5;
   }
 
   _createClass(MainGameView, [{
@@ -22701,6 +22745,63 @@ function () {
       return mainGameScene;
     }()
   }, {
+    key: "renderHero",
+    value: function () {
+      var _renderHero = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(img, go, socket) {
+        var canvas,
+            ctx,
+            _args2 = arguments;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                canvas = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : this.ctx;
+                ctx = canvas.getContext('2d');
+                _context2.t0 = go;
+                _context2.next = _context2.t0 === 'down' ? 5 : _context2.t0 === 'up' ? 7 : _context2.t0 === 'left' ? 9 : _context2.t0 === 'right' ? 11 : 13;
+                break;
+
+              case 5:
+                this.startH += this.speed;
+                return _context2.abrupt("break", 13);
+
+              case 7:
+                this.startH -= this.speed;
+                return _context2.abrupt("break", 13);
+
+              case 9:
+                this.startW -= this.speed;
+                return _context2.abrupt("break", 13);
+
+              case 11:
+                this.startW += this.speed;
+                return _context2.abrupt("break", 13);
+
+              case 13:
+                ctx.drawImage(img, this.startW, this.startH);
+                socket.emit('saveCoords', {
+                  W: this.startW,
+                  H: this.startH
+                });
+                console.log(socket.coords);
+
+              case 16:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function renderHero(_x2, _x3, _x4) {
+        return _renderHero.apply(this, arguments);
+      }
+
+      return renderHero;
+    }()
+  }, {
     key: "chatBox",
     value: function chatBox() {
       var gameBox = document.querySelector('.game');
@@ -22722,36 +22823,36 @@ function () {
     value: function () {
       var _mainMenu = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
+      regeneratorRuntime.mark(function _callee3() {
         var canvas,
             ctx,
-            _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                canvas = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : this.ctx;
+                canvas = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : this.ctx;
                 ctx = canvas.getContext('2d');
                 ctx.fillStyle = 'black';
                 ctx.fillRect(0, 0, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height);
 
                 if (!(this.count === 0)) {
-                  _context2.next = 9;
+                  _context3.next = 9;
                   break;
                 }
 
                 this.count++;
-                return _context2.abrupt("return", 200);
+                return _context3.abrupt("return", 200);
 
               case 9:
-                return _context2.abrupt("return", 304);
+                return _context3.abrupt("return", 304);
 
               case 10:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function mainMenu() {
@@ -22765,11 +22866,11 @@ function () {
     value: function () {
       var _loginRender = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
+      regeneratorRuntime.mark(function _callee4() {
         var wrapper, inputLogin, inputGo;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 wrapper = document.createElement('div');
                 wrapper.classList.add('loginPanel');
@@ -22784,14 +22885,14 @@ function () {
                 wrapper.appendChild(inputLogin);
                 wrapper.appendChild(inputGo);
                 document.body.append(wrapper);
-                return _context3.abrupt("return", document.querySelector('.loginButton'));
+                return _context4.abrupt("return", document.querySelector('.loginButton'));
 
               case 14:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }));
 
       function loginRender() {

@@ -5,6 +5,9 @@ class MainGameView{
     constructor(ctx){
         this.ctx = ctx;
         this.count = 0;
+        this.startW = config().width/2;
+        this.startH = config().height/2;
+        this.speed = 5;
     }
 
     async mainGameScene(img,canvas = this.ctx){
@@ -29,6 +32,25 @@ class MainGameView{
                 x = -50; y += 192;
             }
         // ctx.fillRect(0,0, canvas.width,canvas.height);
+    }
+
+    async renderHero(img,go,socket,canvas = this.ctx){
+
+        let ctx = canvas.getContext('2d');
+        
+        switch(go){
+            case 'down': this.startH += this.speed; break;
+            case 'up': this.startH -= this.speed; break;
+            case 'left':this.startW -= this.speed; break;
+            case 'right': this.startW += this.speed; break;
+            default:{
+       
+            }
+        }
+ 
+        ctx.drawImage(img,this.startW, this.startH);
+        socket.emit('saveCoords',{W: this.startW, H: this.startH});
+        console.log(socket.coords);
     }
 
     chatBox(){
@@ -84,6 +106,8 @@ class MainGameView{
         return document.querySelector('.loginButton');
 
     }
+
+
 
     removeLogin(){
         return document.querySelector('.loginPanel').remove();
