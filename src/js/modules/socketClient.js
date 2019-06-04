@@ -11,7 +11,6 @@ socket.on('connection',function(socket){
 });
 
 socket.on('reconnect_attempt', () => {
-  debugger;
   socket.io.opts.transports = ['polling', 'websocket'];
 });
 

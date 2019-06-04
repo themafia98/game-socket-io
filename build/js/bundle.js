@@ -20995,7 +20995,6 @@ function SocketIOClient(views, loader, route) {
     console.log('Listen socket io :' + socket.connection);
   });
   socket.on('reconnect_attempt', function () {
-    debugger;
     socket.io.opts.transports = ['polling', 'websocket'];
   });
   socket.on('error', function () {
@@ -21113,6 +21112,7 @@ function () {
     _classCallCheck(this, MainGameView);
 
     this.ctx = ctx;
+    this.isThree3D = true;
     this.scene = null;
     this.settings = {
       spriteMenLeft: [105, 254],
@@ -21274,33 +21274,28 @@ function () {
       var _this = this;
 
       var canvas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.ctx;
-      // let ctx = canvas.getContext('2d');
-      // ctx.save();
-      // ctx.fillStyle = '#f3e5ab';
-      // ctx.fillRect(0,0,config().width,config().height);
-      // ctx.fillStyle = 'green';
-      // ctx.font = '50px serif';
-      // ctx.translate(-120,0);
-      // ctx.shadowColor = 'lightgreen';
-      // ctx.shadowOffsetX = 1;
-      // ctx.shadowOffsetY = 8;
-      // ctx.shadowBlur = 5;
-      // ctx.fillText('Social game',config().width/2,80);
-      // ctx.restore();
-      // ctx.save();
-      document.querySelector('.game').classList.toggle('gameMain');
-      console.log('mainMenu');
+      document.querySelector('.game').classList.add('gameMain');
+      var ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.fillStyle = 'tomato';
+      ctx.font = '80px serif';
+      ctx.translate(-180, 0);
+      ctx.shadowColor = 'red';
+      ctx.shadowOffsetX = 3;
+      ctx.shadowOffsetY = 6;
+      ctx.shadowBlur = 5;
+      ctx.fillText('Social game', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2, 80);
+      ctx.restore();
+      ctx.save();
       this.scene = new THREE.Scene();
-      {
-        var color = 'red';
-        var density = 0.14;
-        this.scene.fog = new THREE.FogExp2(color, density);
-      }
-      var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000); // let cav = document.getElementById('MMO');
+      var color = 'red';
+      var density = 0.14;
+      this.scene.fog = new THREE.FogExp2(color, density);
+      var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 1000); // let cav = document.getElementById('MMO');
 
       var renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
+      this.isThree3D ? document.body.appendChild(renderer.domElement) : '';
       var geometry = new THREE.BoxGeometry(2, 1, 2);
       var material = new THREE.MeshBasicMaterial({
         color: 'lightgreen'
@@ -21317,6 +21312,7 @@ function () {
       };
 
       animate();
+      this.isThree3D = false;
     }
   }, {
     key: "loginRender",
