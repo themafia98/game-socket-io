@@ -5,10 +5,6 @@ export default function SocketIOClient(views,loader,route){
 
 const socket = io('http://localhost:5000/');
 
-socket.on('connection',function(socket){
-
-    console.log('Listen socket io :' + socket.connection);
-});
 
 socket.on('reconnect_attempt', () => {
   socket.io.opts.transports = ['polling', 'websocket'];
@@ -16,6 +12,10 @@ socket.on('reconnect_attempt', () => {
 
   socket.on('error', function() {
     console.log('there was an error');
+  });
+
+  socket.on('connectPlayer', function(user){
+    views.connectionInfo(user);
   });
 
   socket.on('chatMessage',function(e,username = 'test'){
@@ -33,6 +33,8 @@ socket.on('reconnect_attempt', () => {
 
         console.log('Hello,' + player.name);
         states('game','set');
+        document.querySelectorAll('canvas')[1].remove();
+        cancelAnimationFrame(views.cbAnimate);
             views.removeLogin();
             views.chatBox();
             // route.call(this,null,loader,views,socket);
@@ -74,7 +76,7 @@ socket.on('reconnect_attempt', () => {
     });
 
     socket.on('disconnectPlayer',function(id){
-
+       views.disconnectInfo(loader.other[id]);
        delete loader.other[id];
     });
 

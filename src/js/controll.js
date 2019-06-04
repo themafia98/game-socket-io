@@ -30,10 +30,8 @@ export default function controll(views,loader,route){
 
         if (e.target.classList[0] === 'loginButton'){
 
-            document.querySelector('.game').classList.toggle('gameMain');
-            let canvas = document.querySelectorAll('canvas');
-            canvas[1].remove();
-
+            e.target.disabled = true;
+            
             let username = document.querySelector('.loginMain').value;
             let worldNumber = [...document.querySelectorAll('[name="channels"]')];
             worldNumber = worldNumber.find(btn => btn.checked === true);

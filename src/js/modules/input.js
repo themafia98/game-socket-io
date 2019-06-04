@@ -1,4 +1,4 @@
-export default function input(player,go,settings){
+export default function input(player,go,settings,camera){
 
         switch(go){
         case 'down': {
@@ -14,13 +14,13 @@ export default function input(player,go,settings){
         case 'left': {
             player.coords.W -= player.speed;
             player.position = 'left';
-            player.currentSprite = settings.spriteMenLeft;
+            player.currentSprite = settings.sprite.spriteMenLeft;
             break;
         }
         case 'right': {
             player.coords.W += player.speed;
             player.position = 'right';
-            player.currentSprite = settings.spriteMenRight;
+            player.currentSprite = settings.sprite.spriteMenRight;
             break;
         }
     }

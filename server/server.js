@@ -22,14 +22,12 @@ const http = require('http'),
         socket.player = data.player;
         socket.player.id = socket.id;
 
-        console.log(data);
-
         players[socket.id] = data.player;
         players[socket.id].world = data.worldNumber;
         console.log('Saved! user world:' + players[socket.id].world);
         socket.join(`${data.worldNumber}`, () => {
             console.log(Object.keys(socket.rooms));
-
+            io.to(`${data.worldNumber}`).emit('connectPlayer', players[socket.id]);
             io.to(`${data.worldNumber}`).emit('update', players);
 
           }).emit('changeState', data.player);

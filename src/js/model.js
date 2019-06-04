@@ -1,23 +1,36 @@
 import config from './modules/config';
 
 class Game{
-    constructor(ctx){
+    constructor(ctx,ctxBuffer){
         this.ctx = ctx;
+        this.bufferCtx = ctxBuffer;
         this.view = null;
 
     }
 
     setSize(){
-        this.ctx.setAttribute('width',config().width);
-        this.ctx.setAttribute('height',config().height);
+        let width = config().width;
+        let height = config().height;
+        this.ctx.setAttribute('width',width);
+        this.ctx.setAttribute('height',height);
+
+        this.bufferCtx.setAttribute('width',width);
+        this.bufferCtx.setAttribute('height',height);
     }
     eventResize(view,ctx = this.ctx){
 
         this.view = view;
         window.addEventListener('resize',(e) => {
 
-            this.ctx.setAttribute('width',config().width);
-            this.ctx.setAttribute('height',config().height);
+            let width = config().width;
+            let height = config().height;
+
+            this.ctx.setAttribute('width',width);
+            this.ctx.setAttribute('height',height);
+
+            this.bufferCtx.setAttribute('width',width);
+            this.bufferCtx.setAttribute('height',height);
+
             view.mainMenu();
         },false);
     }

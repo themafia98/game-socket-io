@@ -30,16 +30,16 @@ body{
 }
 
 .chatBox{
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
-    top: 100%;
+    top: 80%;
     left: 1%;
-    transform: translateY(-105%);
+    transform: translateY(-50%);
     width: 500px;
     height: 300px;
-    background: rgb(44, 41, 1);
-    opacity: 0.8;
+    background: #2c2901;
+    opacity: .8;
 
     .chatBox__window {
         margin-top: 5px;
@@ -64,6 +64,22 @@ body{
         font-weight: bold;
         font-size: 20px;
         color: rgb(0, 15, 230);
+        opacity: 1;
+        margin: 2px;
+    }
+
+    .message_disconnect {
+        font-weight: bold;
+        font-size: 20px;
+        color: red;
+        opacity: 1;
+        margin: 2px;
+    }
+
+    .message_connection{
+        font-weight: bold;
+        font-size: 20px;
+        color: blue;
         opacity: 1;
         margin: 2px;
     }

@@ -20593,9 +20593,7 @@ function controll(views, loader, route) {
 
   document.addEventListener('click', function (e) {
     if (e.target.classList[0] === 'loginButton') {
-      document.querySelector('.game').classList.toggle('gameMain');
-      var canvas = document.querySelectorAll('canvas');
-      canvas[1].remove();
+      e.target.disabled = true;
       var username = document.querySelector('.loginMain').value;
 
       var worldNumber = _toConsumableArray(document.querySelectorAll('[name="channels"]'));
@@ -20740,9 +20738,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 function main() {
-  var game = new _model__WEBPACK_IMPORTED_MODULE_0__["Game"](document.getElementById('MMO'));
+  var game = new _model__WEBPACK_IMPORTED_MODULE_0__["Game"](document.getElementById('MMO'), document.createElement('canvas'));
   var loader = new _loader__WEBPACK_IMPORTED_MODULE_4__["default"]();
-  var views = new _views__WEBPACK_IMPORTED_MODULE_1__["MainGameView"](game.ctx);
+  var views = new _views__WEBPACK_IMPORTED_MODULE_1__["MainGameView"](game.ctx, game.bufferCtx);
+  var camera = new _views__WEBPACK_IMPORTED_MODULE_1__["Camera"]();
   var img = new Image();
   var hero = new Image();
   img.src = '../images/s1.png';
@@ -20770,17 +20769,15 @@ function main() {
     _route = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(time) {
-      var answer;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              // if(!loader.player) return requestAnimationFrame(route);
               if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_2__["default"])('game', 'get')) {
-                answer = isEmpty(loader.other);
-                views.mainGameScene(loader.texture[0]);
-                views.renderHero(skin, loader.player, window.getInput(), loader.getSocket());
-                if (!answer) views.renderEnemy(skin, loader.other, loader.player);
+                views.mapRender(loader.texture[0], camera);
+                views.renderHero(skin, loader.player, window.getInput(), loader.getSocket(), camera);
+                if (!isEmpty(loader.other)) views.renderOtherPlayers(skin, loader.other, loader.player);
+                views.renderSnapshot();
               }
 
               requestAnimationFrame(route);
@@ -20801,8 +20798,7 @@ function main() {
     }
 
     return true;
-  } // let loop = requestAnimationFrame(route);
-
+  }
 }
 
 ;
@@ -20833,18 +20829,23 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Game =
 /*#__PURE__*/
 function () {
-  function Game(ctx) {
+  function Game(ctx, ctxBuffer) {
     _classCallCheck(this, Game);
 
     this.ctx = ctx;
+    this.bufferCtx = ctxBuffer;
     this.view = null;
   }
 
   _createClass(Game, [{
     key: "setSize",
     value: function setSize() {
-      this.ctx.setAttribute('width', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width);
-      this.ctx.setAttribute('height', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height);
+      var width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
+      var height = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height;
+      this.ctx.setAttribute('width', width);
+      this.ctx.setAttribute('height', height);
+      this.bufferCtx.setAttribute('width', width);
+      this.bufferCtx.setAttribute('height', height);
     }
   }, {
     key: "eventResize",
@@ -20854,9 +20855,16 @@ function () {
       var ctx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.ctx;
       this.view = view;
       window.addEventListener('resize', function (e) {
-        _this.ctx.setAttribute('width', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width);
+        var width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
+        var height = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height;
 
-        _this.ctx.setAttribute('height', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height);
+        _this.ctx.setAttribute('width', width);
+
+        _this.ctx.setAttribute('height', height);
+
+        _this.bufferCtx.setAttribute('width', width);
+
+        _this.bufferCtx.setAttribute('height', height);
 
         view.mainMenu();
       }, false);
@@ -20938,7 +20946,7 @@ function config() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return input; });
-function input(player, go, settings) {
+function input(player, go, settings, camera) {
   switch (go) {
     case 'down':
       {
@@ -20958,7 +20966,7 @@ function input(player, go, settings) {
       {
         player.coords.W -= player.speed;
         player.position = 'left';
-        player.currentSprite = settings.spriteMenLeft;
+        player.currentSprite = settings.sprite.spriteMenLeft;
         break;
       }
 
@@ -20966,7 +20974,7 @@ function input(player, go, settings) {
       {
         player.coords.W += player.speed;
         player.position = 'right';
-        player.currentSprite = settings.spriteMenRight;
+        player.currentSprite = settings.sprite.spriteMenRight;
         break;
       }
   }
@@ -20991,14 +20999,14 @@ __webpack_require__.r(__webpack_exports__);
 
 function SocketIOClient(views, loader, route) {
   var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_0___default()('http://localhost:5000/');
-  socket.on('connection', function (socket) {
-    console.log('Listen socket io :' + socket.connection);
-  });
   socket.on('reconnect_attempt', function () {
     socket.io.opts.transports = ['polling', 'websocket'];
   });
   socket.on('error', function () {
     console.log('there was an error');
+  });
+  socket.on('connectPlayer', function (user) {
+    views.connectionInfo(user);
   });
   socket.on('chatMessage', function (e) {
     var username = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'test';
@@ -21013,6 +21021,8 @@ function SocketIOClient(views, loader, route) {
   socket.on('changeState', function (player) {
     console.log('Hello,' + player.name);
     Object(_states__WEBPACK_IMPORTED_MODULE_1__["default"])('game', 'set');
+    document.querySelectorAll('canvas')[1].remove();
+    cancelAnimationFrame(views.cbAnimate);
     views.removeLogin();
     views.chatBox(); // route.call(this,null,loader,views,socket);
 
@@ -21046,6 +21056,7 @@ function SocketIOClient(views, loader, route) {
     currentPlayer.coords = player.coords;
   });
   socket.on('disconnectPlayer', function (id) {
+    views.disconnectInfo(loader.other[id]);
     delete loader.other[id];
   });
   return socket;
@@ -21081,12 +21092,13 @@ function states() {
 /*!*************************!*\
   !*** ./src/js/views.js ***!
   \*************************/
-/*! exports provided: MainGameView */
+/*! exports provided: MainGameView, Camera */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainGameView", function() { return MainGameView; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Camera", function() { return Camera; });
 /* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/config */ "./src/js/modules/config.js");
 /* harmony import */ var _modules_input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/input */ "./src/js/modules/input.js");
 /* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
@@ -21108,45 +21120,75 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var MainGameView =
 /*#__PURE__*/
 function () {
-  function MainGameView(ctx) {
+  function MainGameView(ctx, bufferCtx) {
     _classCallCheck(this, MainGameView);
 
     this.ctx = ctx;
     this.isThree3D = true;
     this.scene = null;
+    this.cbAnimate = null;
+    this.bufferCanvas = bufferCtx;
+    this.bufferCtx = this.bufferCanvas.getContext('2d');
+    this.canvas = document.getElementById('MMO');
+    this.ctx = this.canvas.getContext('2d');
     this.settings = {
-      spriteMenLeft: [105, 254],
-      spriteMenRight: [19, 254]
+      sprite: {
+        spriteMenLeft: [105, 254],
+        spriteMenRight: [19, 254]
+      },
+      texture: {
+        const: [-50, 192],
+        coords: [-50, 0]
+      }
     };
   }
 
   _createClass(MainGameView, [{
-    key: "mainGameScene",
+    key: "renderSnapshot",
     value: function () {
-      var _mainGameScene = _asyncToGenerator(
+      var _renderSnapshot = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(img) {
-        var canvas,
-            ctx,
-            x,
-            y,
-            width,
-            height,
-            countY,
-            countX,
-            j,
-            i,
-            _args = arguments;
+      regeneratorRuntime.mark(function _callee() {
+        var canvas, ctx;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                canvas = _args.length > 1 && _args[1] !== undefined ? _args[1] : this.ctx;
-                ctx = canvas.getContext('2d');
+                canvas = this.canvas;
+                ctx = this.ctx;
+                ctx.drawImage(this.bufferCanvas, 0, 0);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function renderSnapshot() {
+        return _renderSnapshot.apply(this, arguments);
+      }
+
+      return renderSnapshot;
+    }()
+  }, {
+    key: "mapRender",
+    value: function () {
+      var _mapRender = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(img, camera) {
+        var canvas, ctx, x, y, width, height, countY, countX, j, i;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                canvas = this.bufferCanvas;
+                ctx = this.bufferCtx;
                 ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
                 ctx.fillStyle = 'black';
-                x = -50;
-                y = 0;
+                x = this.settings.texture.coords[0];
+                y = this.settings.texture.coords[1];
                 width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
                 height = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height;
                 countY = Math.floor(height / 192);
@@ -21158,42 +21200,42 @@ function () {
                     x += 182;
                   }
 
-                  x = -50;
-                  y += 192;
+                  x = this.settings.texture.const[0];
+                  y += this.settings.texture.const[1];
                 }
 
               case 11:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function mainGameScene(_x) {
-        return _mainGameScene.apply(this, arguments);
+      function mapRender(_x, _x2) {
+        return _mapRender.apply(this, arguments);
       }
 
-      return mainGameScene;
+      return mapRender;
     }()
   }, {
     key: "renderHero",
     value: function () {
       var _renderHero = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(skin, player, go, socket) {
+      regeneratorRuntime.mark(function _callee3(skin, player, go, socket, camera) {
         var canvas, ctx;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                canvas = this.ctx;
-                ctx = canvas.getContext('2d');
-                Object(_modules_input__WEBPACK_IMPORTED_MODULE_1__["default"])(player, go, this.settings);
+                canvas = this.bufferCanvas;
+                ctx = this.bufferCtx;
+                Object(_modules_input__WEBPACK_IMPORTED_MODULE_1__["default"])(player, go, this.settings, camera);
                 ctx.fillStyle = 'red';
                 ctx.font = '20px serif';
-                ctx.fillText(player.name, player.coords.W, player.coords.H - 10);
-                ctx.drawImage(skin, player.currentSprite[0], player.currentSprite[1], 60, 125, player.coords.W, player.coords.H, 60, 125);
+                ctx.fillText(player.name, -camera.coords[0] + player.coords.W, -camera.coords[0] + player.coords.H - 10);
+                ctx.drawImage(skin, player.currentSprite[0], player.currentSprite[1], 60, 125, -camera.coords[0] + player.coords.W, -camera.coords[0] + player.coords.H, 60, 125);
                 socket.emit('saveChanges', {
                   id: player.id,
                   coords: {
@@ -21205,30 +21247,31 @@ function () {
 
               case 8:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function renderHero(_x2, _x3, _x4, _x5) {
+      function renderHero(_x3, _x4, _x5, _x6, _x7) {
         return _renderHero.apply(this, arguments);
       }
 
       return renderHero;
     }()
   }, {
-    key: "renderEnemy",
+    key: "renderOtherPlayers",
     value: function () {
-      var _renderEnemy = _asyncToGenerator(
+      var _renderOtherPlayers = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(skin2, other_players, player) {
-        var ctx, id;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      regeneratorRuntime.mark(function _callee4(skin2, other_players, player) {
+        var canvas, ctx, id;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                ctx = this.ctx.getContext('2d');
+                canvas = this.bufferCanvas;
+                ctx = this.bufferCtx;
 
                 for (id in other_players) {
                   if (other_players[id].world == player.world) {
@@ -21239,19 +21282,19 @@ function () {
                   }
                 }
 
-              case 2:
+              case 3:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function renderEnemy(_x6, _x7, _x8) {
-        return _renderEnemy.apply(this, arguments);
+      function renderOtherPlayers(_x8, _x9, _x10) {
+        return _renderOtherPlayers.apply(this, arguments);
       }
 
-      return renderEnemy;
+      return renderOtherPlayers;
     }()
   }, {
     key: "chatBox",
@@ -21273,9 +21316,8 @@ function () {
     value: function mainMenu() {
       var _this = this;
 
-      var canvas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.ctx;
       document.querySelector('.game').classList.add('gameMain');
-      var ctx = canvas.getContext('2d');
+      var ctx = this.ctx;
       ctx.save();
       ctx.fillStyle = 'tomato';
       ctx.font = '80px serif';
@@ -21302,18 +21344,82 @@ function () {
       });
       var cube = new THREE.Mesh(geometry, material);
       this.scene.add(cube);
-      camera.position.z = 5;
+      camera.position.z = 6;
 
-      var animate = function animate() {
-        requestAnimationFrame(animate);
+      this.cbAnimate = function () {
+        requestAnimationFrame(_this.cbAnimate);
         cube.rotation.x += 0.01;
         cube.rotation.y += 0.01;
         renderer.render(_this.scene, camera);
       };
 
-      animate();
+      this.cbAnimate();
       this.isThree3D = false;
     }
+  }, {
+    key: "disconnectInfo",
+    value: function () {
+      var _disconnectInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5(user) {
+        var chatList, message;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                chatList = document.querySelector('.chatBox__window');
+                message = document.createElement('p');
+                message.classList.add('message_disconnect');
+                message.innerHTML = "".concat(user.name, " disconnect from world ").concat(user.world);
+                chatList.appendChild(message);
+                chatList.scrollTop = chatList.scrollHeight;
+
+              case 6:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      function disconnectInfo(_x11) {
+        return _disconnectInfo.apply(this, arguments);
+      }
+
+      return disconnectInfo;
+    }()
+  }, {
+    key: "connectionInfo",
+    value: function () {
+      var _connectionInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee6(user) {
+        var chatList, message;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                chatList = document.querySelector('.chatBox__window');
+                message = document.createElement('p');
+                message.classList.add('message_connection');
+                message.innerHTML = "".concat(user.name, " connection in world ").concat(user.world);
+                chatList.appendChild(message);
+                chatList.scrollTop = chatList.scrollHeight;
+
+              case 6:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }));
+
+      function connectionInfo(_x12) {
+        return _connectionInfo.apply(this, arguments);
+      }
+
+      return connectionInfo;
+    }()
   }, {
     key: "loginRender",
     value: function loginRender() {
@@ -21363,6 +21469,46 @@ function () {
   }]);
 
   return MainGameView;
+}();
+
+var Camera =
+/*#__PURE__*/
+function () {
+  function Camera() {
+    _classCallCheck(this, Camera);
+
+    this.coords = [0, 0];
+    this.viewPort = [0, 0];
+    this.sub = null;
+  }
+
+  _createClass(Camera, [{
+    key: "move",
+    value: function move() {
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      this.coords[0] += x;
+      this.coords[1] += y;
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      console.log('update camera');
+    }
+  }, {
+    key: "follow",
+    value: function follow() {
+      var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var viewX = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var viewY = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      console.log('follow camera');
+      this.viewPort[0] = viewX;
+      this.viewPort[1] = viewY;
+      this.sub = item;
+    }
+  }]);
+
+  return Camera;
 }();
 
 

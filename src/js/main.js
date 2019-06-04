@@ -1,5 +1,5 @@
 import {Game} from './model';
-import {MainGameView} from './views';
+import {MainGameView, Camera} from './views';
 import states from './modules/states';
 import controll from './controll';
 import Loader from './loader';
@@ -7,9 +7,10 @@ import Loader from './loader';
 
     function main(){
 
-        const game = new Game(document.getElementById('MMO'));
+        const game = new Game(document.getElementById('MMO'), document.createElement('canvas'));
         const loader = new Loader();
-        const views = new MainGameView(game.ctx);
+        const views = new MainGameView(game.ctx,game.bufferCtx);
+        const camera = new Camera();
 
         let img = new Image();
         let hero = new Image();
@@ -34,25 +35,25 @@ import Loader from './loader';
  
         async function route(time){
 
-            // if(!loader.player) return requestAnimationFrame(route);
-        
             if (states('game','get')){
-                let answer = isEmpty(loader.other);
-        
-                views.mainGameScene(loader.texture[0]);
-                views.renderHero(skin,loader.player,window.getInput(),loader.getSocket());
-                if (!answer) views.renderEnemy(skin,loader.other,loader.player);
+                views.mapRender(loader.texture[0],camera);
+                views.renderHero(skin,loader.player,window.getInput(),
+                                loader.getSocket(),camera);
+
+                if (!isEmpty(loader.other))
+                    views.renderOtherPlayers(skin,loader.other,loader.player);
+                
+                views.renderSnapshot();
             }
             requestAnimationFrame(route);
         }
-        
+
         function isEmpty(obj) {
-            for (var key in obj) {
-              return false;
+            for (let key in obj) {
+                return false;
             }
             return true;
-          }
-    // let loop = requestAnimationFrame(route);
+        }
 };
 
 export {main};
