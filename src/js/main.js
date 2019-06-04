@@ -1,16 +1,23 @@
-import {Game} from './model';
-import {MainGameView, Camera} from './views';
+import {Game, Camera, Map, Audio} from './model';
+import {MainGameView} from './views';
 import states from './modules/states';
 import controll from './controll';
 import Loader from './loader';
+import config from './modules/config';
 
 
     function main(){
 
         const game = new Game(document.getElementById('MMO'), document.createElement('canvas'));
+        const worldMap = new Map();
+        const audio = new Audio(new Audio());
         const loader = new Loader();
         const views = new MainGameView(game.ctx,game.bufferCtx);
         const camera = new Camera();
+
+        audio.init().play();
+
+        worldMap.create(config().map.width,config().map.height);
 
         let img = new Image();
         let hero = new Image();
@@ -20,7 +27,7 @@ import Loader from './loader';
         loader.loadTexture(img);
         loader.loadGamerSkin(hero);
 
-        controll(views,loader,route.bind(this));
+        controll(views, loader, route.bind(this), game);
 
         game.setSize();
         game.eventResize(views);
@@ -37,12 +44,13 @@ import Loader from './loader';
 
             if (states('game','get')){
                 views.mapRender(loader.texture[0],camera);
-                views.renderHero(skin,loader.player,window.getInput(),
+                let input = getInput();
+                input && views.renderCoords(loader.player);
+                views.renderHero(skin,loader.player,input,
                                 loader.getSocket(),camera);
 
                 if (!isEmpty(loader.other))
                     views.renderOtherPlayers(skin,loader.other,loader.player);
-                
                 views.renderSnapshot();
             }
             requestAnimationFrame(route);

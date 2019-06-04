@@ -10,12 +10,14 @@ class MainGameView{
 
         this.cbAnimate = null;
 
+        this.boxCoordsX = null;
+        this.boxCoordsY = null;
+
         this.bufferCanvas = bufferCtx;
         this.bufferCtx = this.bufferCanvas.getContext('2d');
 
         this.canvas = document.getElementById('MMO');
         this.ctx = this.canvas.getContext('2d');
-        
 
         this.settings = {
             sprite:{
@@ -30,14 +32,17 @@ class MainGameView{
         };
     }
 
-
-
     async renderSnapshot(){
 
         let canvas = this.canvas;
         let ctx = this.ctx;
 
         ctx.drawImage(this.bufferCanvas,0,0);
+    }
+
+    async renderCoords(player){
+        this.boxCoordsX.innerHTML = player.coords.x;
+        this.boxCoordsY.innerHTML = player.coords.y;
     }
 
     async mapRender(img,camera){
@@ -61,7 +66,7 @@ class MainGameView{
                 }
                 x = this.settings.texture.const[0];
                 y += this.settings.texture.const[1];
-            }
+        }
     }
 
     async renderHero(skin,player,go,socket,camera){
@@ -73,15 +78,15 @@ class MainGameView{
 
         ctx.fillStyle = 'red';
         ctx.font = '20px serif';
-        
-        ctx.fillText(player.name,-camera.coords[0] + player.coords.W,
-                    -camera.coords[0] +player.coords.H-10);
+
+        ctx.fillText(player.name,-camera.coords[0] + player.viewPort.x,
+                    -camera.coords[1] +player.viewPort.y-10);
 
         ctx.drawImage(skin,player.currentSprite[0],player.currentSprite[1],
-                        60,125,-camera.coords[0] + player.coords.W,
-                        -camera.coords[0] + player.coords.H,60,125);
+                        60,125,-camera.coords[0] + player.viewPort.x,
+                        -camera.coords[1] + player.viewPort.y,60,125);
 
-        socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H},
+        socket.emit('saveChanges',{id: player.id, coords: { x: player.coords.x, y: player.coords.y},
                     player: player });
     }
 
@@ -95,13 +100,39 @@ class MainGameView{
 
             ctx.fillStyle = 'red';
             ctx.font = '20px serif';
-            ctx.fillText(other_players[id].name,other_players[id].coords.W,other_players[id].coords.H-10);
+            ctx.fillText(other_players[id].name,other_players[id].coords.x,other_players[id].coords.y-10);
             ctx.drawImage(skin2,other_players[id].currentSprite[0],other_players[id].currentSprite[1],
-                            60,125,other_players[id].coords.W, other_players[id].coords.H,60,125);
+                            60,125,other_players[id].coords.x, other_players[id].coords.y,60,125);
             }
         }
     }
 
+    currentCoordsBox(player){
+
+        let gameBox = document.querySelector('.game');
+        let box = document.createElement('div');
+        box.classList.add('currentCoordsBox');
+
+        let p = document.createElement('p');
+        p.classList.add('currentCordsBox__coords');
+        
+        let x = document.createElement('span');
+        x.innerHTML = player.coords.worldStart[0];
+        x.classList.add('x_player');
+        let y = document.createElement('span');
+        y.classList.add('y_player');
+        y.innerHTML = player.coords.worldStart[1];
+        p.appendChild(x)
+        p.appendChild(y);
+
+        box.appendChild(p);
+
+        gameBox.appendChild(box);
+
+        this.boxCoordsX = document.querySelector('.x_player');
+        this.boxCoordsY = document.querySelector('.y_player');
+        return this;
+    }
 
     chatBox(){
 
@@ -119,6 +150,7 @@ class MainGameView{
         chat.appendChild(chatWindow);
         chat.appendChild(input);
         gameBox.appendChild(chat);
+        return this;
     }
 
     mainMenu(){
@@ -145,16 +177,15 @@ class MainGameView{
         const density = 0.14;
         this.scene.fog = new THREE.FogExp2(color, density);
 
-        var camera = new THREE.PerspectiveCamera( 30, window.innerWidth/window.innerHeight, 0.5, 1000 );
+        let camera = new THREE.PerspectiveCamera( 30, window.innerWidth/window.innerHeight, 0.5, 1000 );
 
- 
-        var renderer = new THREE.WebGLRenderer();
+        let renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         this.isThree3D ? document.body.appendChild( renderer.domElement ) : '';
 
-        var geometry = new THREE.BoxGeometry( 2, 1, 2 );
-        var material = new THREE.MeshBasicMaterial( { color: 'lightgreen' } );
-        var cube = new THREE.Mesh( geometry, material );
+        let geometry = new THREE.BoxGeometry( 2, 1, 2 );
+        let material = new THREE.MeshBasicMaterial( { color: 'lightgreen' } );
+        let cube = new THREE.Mesh( geometry, material );
         this.scene.add( cube );
 
         camera.position.z = 6;
@@ -228,6 +259,10 @@ class MainGameView{
         inputGo.setAttribute('type','button');
         inputGo.setAttribute('value','Enter');
 
+        let version = document.createElement('p');
+        version.classList.add('version');
+        version.innerHTML = config().version;
+
         wrapper.appendChild(inputLogin);
         wrapper.append(aboutChannel);
         channelWrapper.appendChild(label1);
@@ -238,6 +273,7 @@ class MainGameView{
         wrapper.appendChild(channelWrapper);
 
         wrapper.appendChild(inputGo);
+        wrapper.appendChild(version);
         document.body.append(wrapper);
 
         return document.querySelector('.loginButton');
@@ -245,32 +281,11 @@ class MainGameView{
     }
 
     removeLogin(){
-        return document.querySelector('.loginPanel').remove();
-    }
-}
 
-class Camera {
-
-    constructor(){
-        this.coords = [0,0];
-        this.viewPort = [0,0];
-        this.sub = null;
-    }
-    move(x = 0,y = 0){
-        this.coords[0] += x;
-        this.coords[1] += y;
-    }
-    update(){
-        console.log('update camera');
-
-    }
-    follow(item = null,viewX = 0,viewY = 0){
-        console.log('follow camera');
-        this.viewPort[0] = viewX;
-        this.viewPort[1] = viewY;
-        this.sub = item;
+        document.querySelector('.loginPanel').remove();
+        return this;
     }
 }
 
 
-export { MainGameView, Camera };
+export { MainGameView};

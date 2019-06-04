@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 import states from "./states";
 
-export default function SocketIOClient(views, loader, route) {
+export default function SocketIOClient(views, loader, route, game) {
   const socket = io("http://localhost:5000/");
 
   socket.on("reconnect_attempt", () => {
@@ -33,9 +33,9 @@ export default function SocketIOClient(views, loader, route) {
     states("game", "set");
     document.querySelectorAll("canvas")[1].remove();
     cancelAnimationFrame(views.cbAnimate);
+  
+    game.loadGame(views,loader.player);
 
-    views.removeLogin();
-    views.chatBox();
     requestAnimationFrame(route);
   });
 

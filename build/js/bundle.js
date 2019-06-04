@@ -20560,7 +20560,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
-function controll(views, loader, route) {
+function controll(views, loader, route, game) {
   var inputDown = null;
   document.addEventListener("keydown", function (e) {
     var target = e.target;
@@ -20603,7 +20603,7 @@ function controll(views, loader, route) {
       });
       if (!worldNumber) return;
       worldNumber = worldNumber.dataset.world;
-      var socket = Object(_modules_socketClient__WEBPACK_IMPORTED_MODULE_2__["default"])(views, loader, route);
+      var socket = Object(_modules_socketClient__WEBPACK_IMPORTED_MODULE_2__["default"])(views, loader, route, game);
       socket.on("connect", function () {
         console.log("socket connection, create new player.");
         var skin = loader.getGamerSkin(0);
@@ -20727,6 +20727,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_states__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/states */ "./src/js/modules/states.js");
 /* harmony import */ var _controll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./controll */ "./src/js/controll.js");
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./loader */ "./src/js/loader.js");
+/* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/config */ "./src/js/modules/config.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -20737,18 +20738,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 function main() {
   var game = new _model__WEBPACK_IMPORTED_MODULE_0__["Game"](document.getElementById('MMO'), document.createElement('canvas'));
+  var worldMap = new _model__WEBPACK_IMPORTED_MODULE_0__["Map"]();
+  var audio = new _model__WEBPACK_IMPORTED_MODULE_0__["Audio"](new _model__WEBPACK_IMPORTED_MODULE_0__["Audio"]());
   var loader = new _loader__WEBPACK_IMPORTED_MODULE_4__["default"]();
   var views = new _views__WEBPACK_IMPORTED_MODULE_1__["MainGameView"](game.ctx, game.bufferCtx);
-  var camera = new _views__WEBPACK_IMPORTED_MODULE_1__["Camera"]();
+  var camera = new _model__WEBPACK_IMPORTED_MODULE_0__["Camera"]();
+  audio.init().play();
+  worldMap.create(Object(_modules_config__WEBPACK_IMPORTED_MODULE_5__["default"])().map.width, Object(_modules_config__WEBPACK_IMPORTED_MODULE_5__["default"])().map.height);
   var img = new Image();
   var hero = new Image();
   img.src = '../images/s1.png';
   hero.src = '../images/hero1.png';
   loader.loadTexture(img);
   loader.loadGamerSkin(hero);
-  Object(_controll__WEBPACK_IMPORTED_MODULE_3__["default"])(views, loader, route.bind(this));
+  Object(_controll__WEBPACK_IMPORTED_MODULE_3__["default"])(views, loader, route.bind(this), game);
   game.setSize();
   game.eventResize(views);
   Object(_modules_states__WEBPACK_IMPORTED_MODULE_2__["default"])('main', 'set');
@@ -20769,13 +20775,16 @@ function main() {
     _route = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(time) {
+      var input;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_2__["default"])('game', 'get')) {
                 views.mapRender(loader.texture[0], camera);
-                views.renderHero(skin, loader.player, window.getInput(), loader.getSocket(), camera);
+                input = getInput();
+                input && views.renderCoords(loader.player);
+                views.renderHero(skin, loader.player, input, loader.getSocket(), camera);
                 if (!isEmpty(loader.other)) views.renderOtherPlayers(skin, loader.other, loader.player);
                 views.renderSnapshot();
               }
@@ -20810,13 +20819,16 @@ function main() {
 /*!*************************!*\
   !*** ./src/js/model.js ***!
   \*************************/
-/*! exports provided: Game, Player */
+/*! exports provided: Game, Player, Map, Camera, Audio */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Game", function() { return Game; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Player", function() { return Player; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Map", function() { return Map; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Camera", function() { return Camera; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Audio", function() { return Audio; });
 /* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/config */ "./src/js/modules/config.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20838,6 +20850,14 @@ function () {
   }
 
   _createClass(Game, [{
+    key: "loadGame",
+    value: function loadGame(view, player) {
+      // set coords
+      player.coords.x = player.coords.worldStart[0];
+      player.coords.y = player.coords.worldStart[1];
+      view.removeLogin().currentCoordsBox(player).chatBox();
+    }
+  }, {
     key: "setSize",
     value: function setSize() {
       var width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
@@ -20890,8 +20910,13 @@ function () {
     this.startW = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2;
     this.startH = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height / 2;
     this.coords = {
-      W: this.startW,
-      H: this.startH
+      x: 0,
+      y: 0,
+      worldStart: [Math.floor(Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().map.width / 3 * Math.random()), Math.floor(Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().map.height / 3 * Math.random())]
+    };
+    this.viewPort = {
+      x: this.startW,
+      y: this.startH
     };
     this.currentInputDown = "";
   }
@@ -20907,6 +20932,110 @@ function () {
   }]);
 
   return Player;
+}();
+
+var Map =
+/*#__PURE__*/
+function () {
+  function Map() {
+    _classCallCheck(this, Map);
+
+    this.size = [0, 0];
+    this.worldMap = false;
+  }
+
+  _createClass(Map, [{
+    key: "create",
+    value: function create(sizeX, sizeY) {
+      this.size = [sizeX, sizeY];
+      this.worldMap = true;
+      console.log('world map create');
+    }
+  }]);
+
+  return Map;
+}();
+
+var Camera =
+/*#__PURE__*/
+function () {
+  function Camera() {
+    _classCallCheck(this, Camera);
+
+    this.coords = [0, 0];
+    this.viewPort = [0, 0];
+    this.sub = null;
+  }
+
+  _createClass(Camera, [{
+    key: "move",
+    value: function move() {
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      this.coords[0] += x;
+      this.coords[1] += y;
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      console.log('update camera');
+    }
+  }, {
+    key: "follow",
+    value: function follow() {
+      var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var viewX = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var viewY = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      console.log('follow camera');
+      this.viewPort[0] = viewX;
+      this.viewPort[1] = viewY;
+      this.sub = item;
+    }
+  }]);
+
+  return Camera;
+}();
+
+var Audio =
+/*#__PURE__*/
+function () {
+  function Audio(buffer) {
+    _classCallCheck(this, Audio);
+
+    this.context = new (window.AudioContext || window.webkitAudioContext)();
+    this.oscillator = null;
+    this.gainNode = null;
+    this.source = null;
+    this.buffer = buffer;
+  }
+
+  _createClass(Audio, [{
+    key: "play",
+    value: function play() {
+      this.source.start(this.context.currentTime);
+      return this;
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 0.5);
+      this.source.stop(this.context.currentTime + 0.5);
+      return this;
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'sine';
+      this.gainNode = this.context.createGain();
+      this.source = this.context.createBufferSource();
+      this.source.buffer = this.buffer;
+      this.source.connect(this.gainNode);
+      this.gainNode.connect(this.context.destination);
+      return this;
+    }
+  }]);
+
+  return Audio;
 }();
 
 
@@ -20930,7 +21059,18 @@ function config() {
     name: 'MMO',
     width: width,
     height: height,
-    version: '0.5.1'
+    version: '0.7.1',
+    map: {
+      width: 5000,
+      height: 5000
+    },
+    loop: {
+      FPS: 30,
+      INTERVAL: 1000 / 30,
+      // miliseconds
+      STEP: 1000 / 30 / 1000 // seconds
+
+    }
   };
 }
 
@@ -20950,21 +21090,24 @@ function input(player, go, settings, camera) {
   switch (go) {
     case 'down':
       {
-        player.coords.H += player.speed;
+        camera.move(0, -5);
+        player.coords.y += player.speed;
         player.position = 'down';
         break;
       }
 
     case 'up':
       {
-        player.coords.H -= player.speed;
+        camera.move(0, 5);
+        player.coords.y -= player.speed;
         player.position = 'up';
         break;
       }
 
     case 'left':
       {
-        player.coords.W -= player.speed;
+        camera.move(5, 0);
+        player.coords.x -= player.speed;
         player.position = 'left';
         player.currentSprite = settings.sprite.spriteMenLeft;
         break;
@@ -20972,7 +21115,8 @@ function input(player, go, settings, camera) {
 
     case 'right':
       {
-        player.coords.W += player.speed;
+        camera.move(-5, 0);
+        player.coords.x += player.speed;
         player.position = 'right';
         player.currentSprite = settings.sprite.spriteMenRight;
         break;
@@ -20997,7 +21141,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _states__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./states */ "./src/js/modules/states.js");
 
 
-function SocketIOClient(views, loader, route) {
+function SocketIOClient(views, loader, route, game) {
   var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_0___default()("http://localhost:5000/");
   socket.on("reconnect_attempt", function () {
     socket.io.opts.transports = ["polling", "websocket"];
@@ -21022,8 +21166,7 @@ function SocketIOClient(views, loader, route) {
     Object(_states__WEBPACK_IMPORTED_MODULE_1__["default"])("game", "set");
     document.querySelectorAll("canvas")[1].remove();
     cancelAnimationFrame(views.cbAnimate);
-    views.removeLogin();
-    views.chatBox();
+    game.loadGame(views, loader.player);
     requestAnimationFrame(route);
   });
   socket.on("update", function (players) {
@@ -21090,13 +21233,12 @@ function states() {
 /*!*************************!*\
   !*** ./src/js/views.js ***!
   \*************************/
-/*! exports provided: MainGameView, Camera */
+/*! exports provided: MainGameView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainGameView", function() { return MainGameView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Camera", function() { return Camera; });
 /* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/config */ "./src/js/modules/config.js");
 /* harmony import */ var _modules_input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/input */ "./src/js/modules/input.js");
 /* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
@@ -21125,6 +21267,8 @@ function () {
     this.isThree3D = true;
     this.scene = null;
     this.cbAnimate = null;
+    this.boxCoordsX = null;
+    this.boxCoordsY = null;
     this.bufferCanvas = bufferCtx;
     this.bufferCtx = this.bufferCanvas.getContext('2d');
     this.canvas = document.getElementById('MMO');
@@ -21171,15 +21315,42 @@ function () {
       return renderSnapshot;
     }()
   }, {
+    key: "renderCoords",
+    value: function () {
+      var _renderCoords = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(player) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.boxCoordsX.innerHTML = player.coords.x;
+                this.boxCoordsY.innerHTML = player.coords.y;
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function renderCoords(_x) {
+        return _renderCoords.apply(this, arguments);
+      }
+
+      return renderCoords;
+    }()
+  }, {
     key: "mapRender",
     value: function () {
       var _mapRender = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(img, camera) {
+      regeneratorRuntime.mark(function _callee3(img, camera) {
         var canvas, ctx, x, y, width, height, countY, countX, j, i;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 canvas = this.bufferCanvas;
                 ctx = this.bufferCtx;
@@ -21204,13 +21375,13 @@ function () {
 
               case 11:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function mapRender(_x, _x2) {
+      function mapRender(_x2, _x3) {
         return _mapRender.apply(this, arguments);
       }
 
@@ -21221,37 +21392,37 @@ function () {
     value: function () {
       var _renderHero = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(skin, player, go, socket, camera) {
+      regeneratorRuntime.mark(function _callee4(skin, player, go, socket, camera) {
         var canvas, ctx;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 canvas = this.bufferCanvas;
                 ctx = this.bufferCtx;
                 Object(_modules_input__WEBPACK_IMPORTED_MODULE_1__["default"])(player, go, this.settings, camera);
                 ctx.fillStyle = 'red';
                 ctx.font = '20px serif';
-                ctx.fillText(player.name, -camera.coords[0] + player.coords.W, -camera.coords[0] + player.coords.H - 10);
-                ctx.drawImage(skin, player.currentSprite[0], player.currentSprite[1], 60, 125, -camera.coords[0] + player.coords.W, -camera.coords[0] + player.coords.H, 60, 125);
+                ctx.fillText(player.name, -camera.coords[0] + player.viewPort.x, -camera.coords[1] + player.viewPort.y - 10);
+                ctx.drawImage(skin, player.currentSprite[0], player.currentSprite[1], 60, 125, -camera.coords[0] + player.viewPort.x, -camera.coords[1] + player.viewPort.y, 60, 125);
                 socket.emit('saveChanges', {
                   id: player.id,
                   coords: {
-                    W: player.coords.W,
-                    H: player.coords.H
+                    x: player.coords.x,
+                    y: player.coords.y
                   },
                   player: player
                 });
 
               case 8:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function renderHero(_x3, _x4, _x5, _x6, _x7) {
+      function renderHero(_x4, _x5, _x6, _x7, _x8) {
         return _renderHero.apply(this, arguments);
       }
 
@@ -21262,11 +21433,11 @@ function () {
     value: function () {
       var _renderOtherPlayers = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(skin2, other_players, player) {
+      regeneratorRuntime.mark(function _callee5(skin2, other_players, player) {
         var canvas, ctx, id;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 canvas = this.bufferCanvas;
                 ctx = this.bufferCtx;
@@ -21275,25 +21446,47 @@ function () {
                   if (other_players[id].world == player.world) {
                     ctx.fillStyle = 'red';
                     ctx.font = '20px serif';
-                    ctx.fillText(other_players[id].name, other_players[id].coords.W, other_players[id].coords.H - 10);
-                    ctx.drawImage(skin2, other_players[id].currentSprite[0], other_players[id].currentSprite[1], 60, 125, other_players[id].coords.W, other_players[id].coords.H, 60, 125);
+                    ctx.fillText(other_players[id].name, other_players[id].coords.x, other_players[id].coords.y - 10);
+                    ctx.drawImage(skin2, other_players[id].currentSprite[0], other_players[id].currentSprite[1], 60, 125, other_players[id].coords.x, other_players[id].coords.y, 60, 125);
                   }
                 }
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
-      function renderOtherPlayers(_x8, _x9, _x10) {
+      function renderOtherPlayers(_x9, _x10, _x11) {
         return _renderOtherPlayers.apply(this, arguments);
       }
 
       return renderOtherPlayers;
     }()
+  }, {
+    key: "currentCoordsBox",
+    value: function currentCoordsBox(player) {
+      var gameBox = document.querySelector('.game');
+      var box = document.createElement('div');
+      box.classList.add('currentCoordsBox');
+      var p = document.createElement('p');
+      p.classList.add('currentCordsBox__coords');
+      var x = document.createElement('span');
+      x.innerHTML = player.coords.worldStart[0];
+      x.classList.add('x_player');
+      var y = document.createElement('span');
+      y.classList.add('y_player');
+      y.innerHTML = player.coords.worldStart[1];
+      p.appendChild(x);
+      p.appendChild(y);
+      box.appendChild(p);
+      gameBox.appendChild(box);
+      this.boxCoordsX = document.querySelector('.x_player');
+      this.boxCoordsY = document.querySelector('.y_player');
+      return this;
+    }
   }, {
     key: "chatBox",
     value: function chatBox() {
@@ -21308,6 +21501,7 @@ function () {
       chat.appendChild(chatWindow);
       chat.appendChild(input);
       gameBox.appendChild(chat);
+      return this;
     }
   }, {
     key: "mainMenu",
@@ -21360,38 +21554,6 @@ function () {
     value: function () {
       var _disconnectInfo = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(user) {
-        var chatList, message;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                chatList = document.querySelector('.chatBox__window');
-                message = document.createElement('p');
-                message.classList.add('message_disconnect');
-                message.innerHTML = "".concat(user.name, " disconnect from world ").concat(user.world);
-                chatList.appendChild(message);
-                chatList.scrollTop = chatList.scrollHeight;
-
-              case 6:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }));
-
-      function disconnectInfo(_x11) {
-        return _disconnectInfo.apply(this, arguments);
-      }
-
-      return disconnectInfo;
-    }()
-  }, {
-    key: "connectionInfo",
-    value: function () {
-      var _connectionInfo = _asyncToGenerator(
-      /*#__PURE__*/
       regeneratorRuntime.mark(function _callee6(user) {
         var chatList, message;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -21400,8 +21562,8 @@ function () {
               case 0:
                 chatList = document.querySelector('.chatBox__window');
                 message = document.createElement('p');
-                message.classList.add('message_connection');
-                message.innerHTML = "".concat(user.name, " connection in world ").concat(user.world);
+                message.classList.add('message_disconnect');
+                message.innerHTML = "".concat(user.name, " disconnect from world ").concat(user.world);
                 chatList.appendChild(message);
                 chatList.scrollTop = chatList.scrollHeight;
 
@@ -21413,7 +21575,39 @@ function () {
         }, _callee6);
       }));
 
-      function connectionInfo(_x12) {
+      function disconnectInfo(_x12) {
+        return _disconnectInfo.apply(this, arguments);
+      }
+
+      return disconnectInfo;
+    }()
+  }, {
+    key: "connectionInfo",
+    value: function () {
+      var _connectionInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7(user) {
+        var chatList, message;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                chatList = document.querySelector('.chatBox__window');
+                message = document.createElement('p');
+                message.classList.add('message_connection');
+                message.innerHTML = "".concat(user.name, " connection in world ").concat(user.world);
+                chatList.appendChild(message);
+                chatList.scrollTop = chatList.scrollHeight;
+
+              case 6:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }));
+
+      function connectionInfo(_x13) {
         return _connectionInfo.apply(this, arguments);
       }
 
@@ -21449,6 +21643,9 @@ function () {
       inputGo.classList.add('loginButton');
       inputGo.setAttribute('type', 'button');
       inputGo.setAttribute('value', 'Enter');
+      var version = document.createElement('p');
+      version.classList.add('version');
+      version.innerHTML = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().version;
       wrapper.appendChild(inputLogin);
       wrapper.append(aboutChannel);
       channelWrapper.appendChild(label1);
@@ -21457,57 +21654,19 @@ function () {
       channelWrapper.appendChild(channel2);
       wrapper.appendChild(channelWrapper);
       wrapper.appendChild(inputGo);
+      wrapper.appendChild(version);
       document.body.append(wrapper);
       return document.querySelector('.loginButton');
     }
   }, {
     key: "removeLogin",
     value: function removeLogin() {
-      return document.querySelector('.loginPanel').remove();
+      document.querySelector('.loginPanel').remove();
+      return this;
     }
   }]);
 
   return MainGameView;
-}();
-
-var Camera =
-/*#__PURE__*/
-function () {
-  function Camera() {
-    _classCallCheck(this, Camera);
-
-    this.coords = [0, 0];
-    this.viewPort = [0, 0];
-    this.sub = null;
-  }
-
-  _createClass(Camera, [{
-    key: "move",
-    value: function move() {
-      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      this.coords[0] += x;
-      this.coords[1] += y;
-    }
-  }, {
-    key: "update",
-    value: function update() {
-      console.log('update camera');
-    }
-  }, {
-    key: "follow",
-    value: function follow() {
-      var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      var viewX = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var viewY = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      console.log('follow camera');
-      this.viewPort[0] = viewX;
-      this.viewPort[1] = viewY;
-      this.sub = item;
-    }
-  }]);
-
-  return Camera;
 }();
 
 

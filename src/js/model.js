@@ -7,6 +7,17 @@ class Game {
         this.view = null;
     }
 
+    loadGame(view,player){
+
+        // set coords
+        player.coords.x = player.coords.worldStart[0];
+        player.coords.y = player.coords.worldStart[1];
+
+        view.removeLogin()
+            .currentCoordsBox(player)
+            .chatBox();
+    }
+
     setSize() {
         let width = config().width;
         let height = config().height;
@@ -47,11 +58,18 @@ class Player {
 
         this.startW = config().width / 2;
         this.startH = config().height / 2;
+        
 
         this.coords = {
-            W: this.startW,
-            H: this.startH
+            x: 0,
+            y: 0,
+            worldStart: [Math.floor(config().map.width/3 * Math.random()),
+                        Math.floor(config().map.height/3 * Math.random())]
         };
+        this.viewPort = {
+            x: this.startW,
+            y: this.startH
+        }
         this.currentInputDown = "";
     }
     get currentInput() {
@@ -63,4 +81,75 @@ class Player {
     }
 }
 
-export { Game, Player };
+class Map{
+
+    constructor(){
+        this.size = [0,0];
+        this.worldMap = false;
+    }
+    create(sizeX,sizeY){
+        this.size = [sizeX,sizeY];
+        this.worldMap = true;
+        console.log('world map create');
+    }
+}
+
+
+class Camera {
+
+    constructor(){
+        this.coords = [0,0];
+        this.viewPort = [0,0];
+        this.sub = null;
+    }
+    move(x = 0,y = 0){
+        this.coords[0] += x;
+        this.coords[1] += y;
+    }
+    update(){
+        console.log('update camera');
+
+    }
+    follow(item = null,viewX = 0,viewY = 0){
+        console.log('follow camera');
+        this.viewPort[0] = viewX;
+        this.viewPort[1] = viewY;
+        this.sub = item;
+    }
+}
+
+class Audio{
+
+    constructor(buffer){
+        this.context = new (window.AudioContext || window.webkitAudioContext)();
+        this.oscillator = null;
+        this.gainNode = null;
+        this.source = null;
+        this.buffer = buffer;
+
+    }
+
+    play(){
+        this.source.start(this.context.currentTime);
+
+        return this;
+    }
+
+    stop(){
+        this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 0.5);
+        this.source.stop(this.context.currentTime + 0.5);
+        return this;
+    }
+
+    init(type = 'sine'){
+
+        this.gainNode = this.context.createGain();
+        this.source = this.context.createBufferSource();
+        this.source.buffer = this.buffer;
+        this.source.connect(this.gainNode);
+        this.gainNode.connect(this.context.destination);
+        return this;
+    }
+}
+
+export { Game, Player,Map, Camera, Audio};

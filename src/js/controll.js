@@ -2,7 +2,7 @@ import { Player } from "./model";
 import states from "./modules/states";
 import socketIO from "./modules/socketClient";
 
-export default function controll(views, loader, route){
+export default function controll(views, loader, route, game){
     let inputDown = null;
 
     document.addEventListener("keydown", e => {
@@ -41,7 +41,7 @@ export default function controll(views, loader, route){
             worldNumber = worldNumber.find(btn => btn.checked === true);
             if (!worldNumber) return;
             worldNumber = worldNumber.dataset.world;
-            let socket = socketIO(views, loader, route);
+            let socket = socketIO(views, loader, route, game);
 
             socket.on("connect", function() {
                 console.log("socket connection, create new player.");

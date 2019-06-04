@@ -107,3 +107,33 @@ body{
 .gameMain {
     position: absolute;
 }
+
+.currentCoordsBox{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    top: 0;
+    left: 1%;
+    width: 10%;
+    height: 30px;
+    background: darkcyan;
+    opacity: .9;
+
+    .currentCordsBox__coords{
+        font-weight: bold;
+        color: cornsilk;
+        text-align: center;
+        width: 100%;
+    }
+
+    .x_player:after{
+        content: ':';
+    }
+}
+
+.version{
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+}
