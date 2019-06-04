@@ -1,11 +1,16 @@
 import config from "./modules/config";
+import input from './modules/input';
 import 'babel-polyfill';
 
 class MainGameView{
     constructor(ctx){
         this.ctx = ctx;
-        this.count = 0;
-        this.speed = 5;
+        this.scene = null;
+
+        this.settings = {
+            spriteMenLeft: [105,254],
+            spriteMenRight: [19,254]
+        };
     }
 
     async mainGameScene(img,canvas = this.ctx){
@@ -31,33 +36,33 @@ class MainGameView{
             }
     }
 
-    async renderHero(skin,player,go,socket,canvas = this.ctx){
+    async renderHero(skin,player,go,socket){
 
+        let canvas = this.ctx;
         let ctx = canvas.getContext('2d');
-        switch(go){
-            case 'down': player.coords.H += this.speed; break;
-            case 'up': player.coords.H -= this.speed; break;
-            case 'left':player.coords.W -= this.speed; break;
-            case 'right': player.coords.W += this.speed; break;
-            default:{
-       
-            }
-        }
+
+        input(player,go,this.settings);
+
         ctx.fillStyle = 'red';
         ctx.font = '20px serif';
         ctx.fillText(player.name,player.coords.W,player.coords.H-10);
-        ctx.drawImage(skin,105,254,60,125,player.coords.W, player.coords.H,60,125);
-        socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H} });
+        ctx.drawImage(skin,player.currentSprite[0],player.currentSprite[1],
+                        60,125,player.coords.W, player.coords.H,60,125);
+        socket.emit('saveChanges',{id: player.id, coords: { W: player.coords.W, H: player.coords.H}, player: player });
     }
 
-    async renderEnemy(skin2,other_players){
+    async renderEnemy(skin2,other_players,player){
 
         let ctx = this.ctx.getContext('2d');
         for (let id in other_players){
+            if (other_players[id].world == player.world){
+
             ctx.fillStyle = 'red';
             ctx.font = '20px serif';
             ctx.fillText(other_players[id].name,other_players[id].coords.W,other_players[id].coords.H-10);
-            ctx.drawImage(skin2,105,254,60,125,other_players[id].coords.W, other_players[id].coords.H,60,125);
+            ctx.drawImage(skin2,other_players[id].currentSprite[0],other_players[id].currentSprite[1],
+                            60,125,other_players[id].coords.W, other_players[id].coords.H,60,125);
+            }
         }
     }
 
@@ -81,21 +86,54 @@ class MainGameView{
     }
 
     mainMenu(canvas = this.ctx){
-        let ctx = canvas.getContext('2d');
-        ctx.save();
-        ctx.fillStyle = '#f3e5ab';
-        ctx.fillRect(0,0,config().width,config().height);
-        ctx.fillStyle = 'green';
-        ctx.font = '50px serif';
-        ctx.translate(-120,0);
-        ctx.shadowColor = 'lightgreen';
-        ctx.shadowOffsetX = 1;
-        ctx.shadowOffsetY = 8;
-        ctx.shadowBlur = 5;
-        ctx.fillText('Social game',config().width/2,80);
-        ctx.restore();
-        ctx.save();
-    }
+        // let ctx = canvas.getContext('2d');
+        // ctx.save();
+        // ctx.fillStyle = '#f3e5ab';
+        // ctx.fillRect(0,0,config().width,config().height);
+        // ctx.fillStyle = 'green';
+        // ctx.font = '50px serif';
+        // ctx.translate(-120,0);
+        // ctx.shadowColor = 'lightgreen';
+        // ctx.shadowOffsetX = 1;
+        // ctx.shadowOffsetY = 8;
+        // ctx.shadowBlur = 5;
+        // ctx.fillText('Social game',config().width/2,80);
+        // ctx.restore();
+        // ctx.save();
+
+        document.querySelector('.game').classList.toggle('gameMain');
+        console.log('mainMenu');
+        this.scene = new THREE.Scene();
+        {
+            const color = 'red';
+            const density = 0.14;
+            this.scene.fog = new THREE.FogExp2(color, density);
+        }
+        var camera = new THREE.PerspectiveCamera( 30, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+        // let cav = document.getElementById('MMO');
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        var geometry = new THREE.BoxGeometry( 2, 1, 2 );
+        var material = new THREE.MeshBasicMaterial( { color: 'lightgreen' } );
+        var cube = new THREE.Mesh( geometry, material );
+        this.scene.add( cube );
+
+        camera.position.z = 5;
+
+        var animate =  () => {
+            requestAnimationFrame( animate );
+
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+
+            renderer.render( this.scene, camera );
+        };
+
+        animate();
+}
 
    loginRender(){
 

@@ -10,6 +10,11 @@ socket.on('connection',function(socket){
     console.log('Listen socket io :' + socket.connection);
 });
 
+socket.on('reconnect_attempt', () => {
+  debugger;
+  socket.io.opts.transports = ['polling', 'websocket'];
+});
+
   socket.on('error', function() {
     console.log('there was an error');
   });
@@ -40,6 +45,7 @@ socket.on('connection',function(socket){
     socket.on('update',function(players){
 
         let found = {};
+        loader.player.world = players[socket.id].world;
 
         for (let id in players){
 

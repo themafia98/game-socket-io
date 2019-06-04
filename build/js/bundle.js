@@ -20593,6 +20593,9 @@ function controll(views, loader, route) {
 
   document.addEventListener('click', function (e) {
     if (e.target.classList[0] === 'loginButton') {
+      document.querySelector('.game').classList.toggle('gameMain');
+      var canvas = document.querySelectorAll('canvas');
+      canvas[1].remove();
       var username = document.querySelector('.loginMain').value;
 
       var worldNumber = _toConsumableArray(document.querySelectorAll('[name="channels"]'));
@@ -20624,7 +20627,10 @@ function controll(views, loader, route) {
       var input = document.querySelector('.chatBox__input');
 
       if (e.which == 13 && target.classList[0] === 'chatBox__input') {
-        if (input.value) loader.getSocket().emit('messageServer', e.target.value);
+        if (input.value) loader.getSocket().emit('messageServer', {
+          msg: e.target.value,
+          world: loader.player.world
+        });
         input.value = '';
       }
 
@@ -20774,7 +20780,7 @@ function main() {
                 answer = isEmpty(loader.other);
                 views.mainGameScene(loader.texture[0]);
                 views.renderHero(skin, loader.player, window.getInput(), loader.getSocket());
-                if (!answer) views.renderEnemy(skin, loader.other, loader.getSocket());
+                if (!answer) views.renderEnemy(skin, loader.other, loader.player);
               }
 
               requestAnimationFrame(route);
@@ -20868,6 +20874,11 @@ function () {
 
     this.name = name;
     this.skin = skin;
+    this.speed = 5;
+    this.world = '1'; //default
+
+    this.position = 'right';
+    this.currentSprite = [105, 254];
     this.startW = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2;
     this.startH = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height / 2;
     this.coords = {
@@ -20911,8 +20922,54 @@ function config() {
     name: 'MMO',
     width: width,
     height: height,
-    version: '0.0.1'
+    version: '0.5.1'
   };
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/input.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/input.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return input; });
+function input(player, go, settings) {
+  switch (go) {
+    case 'down':
+      {
+        player.coords.H += player.speed;
+        player.position = 'down';
+        break;
+      }
+
+    case 'up':
+      {
+        player.coords.H -= player.speed;
+        player.position = 'up';
+        break;
+      }
+
+    case 'left':
+      {
+        player.coords.W -= player.speed;
+        player.position = 'left';
+        player.currentSprite = settings.spriteMenLeft;
+        break;
+      }
+
+    case 'right':
+      {
+        player.coords.W += player.speed;
+        player.position = 'right';
+        player.currentSprite = settings.spriteMenRight;
+        break;
+      }
+  }
 }
 
 /***/ }),
@@ -20937,6 +20994,10 @@ function SocketIOClient(views, loader, route) {
   socket.on('connection', function (socket) {
     console.log('Listen socket io :' + socket.connection);
   });
+  socket.on('reconnect_attempt', function () {
+    debugger;
+    socket.io.opts.transports = ['polling', 'websocket'];
+  });
   socket.on('error', function () {
     console.log('there was an error');
   });
@@ -20960,6 +21021,7 @@ function SocketIOClient(views, loader, route) {
   });
   socket.on('update', function (players) {
     var found = {};
+    loader.player.world = players[socket.id].world;
 
     for (var id in players) {
       if (loader.other[id] == undefined && id != socket.id) {
@@ -21027,8 +21089,9 @@ function states() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainGameView", function() { return MainGameView; });
 /* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/config */ "./src/js/modules/config.js");
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_polyfill__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _modules_input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/input */ "./src/js/modules/input.js");
+/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
+/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(babel_polyfill__WEBPACK_IMPORTED_MODULE_2__);
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -21042,6 +21105,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
 var MainGameView =
 /*#__PURE__*/
 function () {
@@ -21049,8 +21113,11 @@ function () {
     _classCallCheck(this, MainGameView);
 
     this.ctx = ctx;
-    this.count = 0;
-    this.speed = 5;
+    this.scene = null;
+    this.settings = {
+      spriteMenLeft: [105, 254],
+      spriteMenRight: [19, 254]
+    };
   }
 
   _createClass(MainGameView, [{
@@ -21115,49 +21182,28 @@ function () {
       var _renderHero = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(skin, player, go, socket) {
-        var canvas,
-            ctx,
-            _args2 = arguments;
+        var canvas, ctx;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                canvas = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : this.ctx;
+                canvas = this.ctx;
                 ctx = canvas.getContext('2d');
-                _context2.t0 = go;
-                _context2.next = _context2.t0 === 'down' ? 5 : _context2.t0 === 'up' ? 7 : _context2.t0 === 'left' ? 9 : _context2.t0 === 'right' ? 11 : 13;
-                break;
-
-              case 5:
-                player.coords.H += this.speed;
-                return _context2.abrupt("break", 13);
-
-              case 7:
-                player.coords.H -= this.speed;
-                return _context2.abrupt("break", 13);
-
-              case 9:
-                player.coords.W -= this.speed;
-                return _context2.abrupt("break", 13);
-
-              case 11:
-                player.coords.W += this.speed;
-                return _context2.abrupt("break", 13);
-
-              case 13:
+                Object(_modules_input__WEBPACK_IMPORTED_MODULE_1__["default"])(player, go, this.settings);
                 ctx.fillStyle = 'red';
                 ctx.font = '20px serif';
                 ctx.fillText(player.name, player.coords.W, player.coords.H - 10);
-                ctx.drawImage(skin, 105, 254, 60, 125, player.coords.W, player.coords.H, 60, 125);
+                ctx.drawImage(skin, player.currentSprite[0], player.currentSprite[1], 60, 125, player.coords.W, player.coords.H, 60, 125);
                 socket.emit('saveChanges', {
                   id: player.id,
                   coords: {
                     W: player.coords.W,
                     H: player.coords.H
-                  }
+                  },
+                  player: player
                 });
 
-              case 18:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -21176,7 +21222,7 @@ function () {
     value: function () {
       var _renderEnemy = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(skin2, other_players) {
+      regeneratorRuntime.mark(function _callee3(skin2, other_players, player) {
         var ctx, id;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
@@ -21185,10 +21231,12 @@ function () {
                 ctx = this.ctx.getContext('2d');
 
                 for (id in other_players) {
-                  ctx.fillStyle = 'red';
-                  ctx.font = '20px serif';
-                  ctx.fillText(other_players[id].name, other_players[id].coords.W, other_players[id].coords.H - 10);
-                  ctx.drawImage(skin2, 105, 254, 60, 125, other_players[id].coords.W, other_players[id].coords.H, 60, 125);
+                  if (other_players[id].world == player.world) {
+                    ctx.fillStyle = 'red';
+                    ctx.font = '20px serif';
+                    ctx.fillText(other_players[id].name, other_players[id].coords.W, other_players[id].coords.H - 10);
+                    ctx.drawImage(skin2, other_players[id].currentSprite[0], other_players[id].currentSprite[1], 60, 125, other_players[id].coords.W, other_players[id].coords.H, 60, 125);
+                  }
                 }
 
               case 2:
@@ -21199,7 +21247,7 @@ function () {
         }, _callee3, this);
       }));
 
-      function renderEnemy(_x6, _x7) {
+      function renderEnemy(_x6, _x7, _x8) {
         return _renderEnemy.apply(this, arguments);
       }
 
@@ -21223,21 +21271,52 @@ function () {
   }, {
     key: "mainMenu",
     value: function mainMenu() {
+      var _this = this;
+
       var canvas = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.ctx;
-      var ctx = canvas.getContext('2d');
-      ctx.save();
-      ctx.fillStyle = '#f3e5ab';
-      ctx.fillRect(0, 0, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height);
-      ctx.fillStyle = 'green';
-      ctx.font = '50px serif';
-      ctx.translate(-120, 0);
-      ctx.shadowColor = 'lightgreen';
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 8;
-      ctx.shadowBlur = 5;
-      ctx.fillText('Social game', Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2, 80);
-      ctx.restore();
-      ctx.save();
+      // let ctx = canvas.getContext('2d');
+      // ctx.save();
+      // ctx.fillStyle = '#f3e5ab';
+      // ctx.fillRect(0,0,config().width,config().height);
+      // ctx.fillStyle = 'green';
+      // ctx.font = '50px serif';
+      // ctx.translate(-120,0);
+      // ctx.shadowColor = 'lightgreen';
+      // ctx.shadowOffsetX = 1;
+      // ctx.shadowOffsetY = 8;
+      // ctx.shadowBlur = 5;
+      // ctx.fillText('Social game',config().width/2,80);
+      // ctx.restore();
+      // ctx.save();
+      document.querySelector('.game').classList.toggle('gameMain');
+      console.log('mainMenu');
+      this.scene = new THREE.Scene();
+      {
+        var color = 'red';
+        var density = 0.14;
+        this.scene.fog = new THREE.FogExp2(color, density);
+      }
+      var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000); // let cav = document.getElementById('MMO');
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      var geometry = new THREE.BoxGeometry(2, 1, 2);
+      var material = new THREE.MeshBasicMaterial({
+        color: 'lightgreen'
+      });
+      var cube = new THREE.Mesh(geometry, material);
+      this.scene.add(cube);
+      camera.position.z = 5;
+
+      var animate = function animate() {
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        renderer.render(_this.scene, camera);
+      };
+
+      animate();
     }
   }, {
     key: "loginRender",

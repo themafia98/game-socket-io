@@ -5,6 +5,6 @@ export default function config(width = screen.width,height = screen.height){
         name: 'MMO',
         width: width,
         height: height,
-        version: '0.0.1',
+        version: '0.5.1',
     }
 }

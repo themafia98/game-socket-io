@@ -30,6 +30,10 @@ export default function controll(views,loader,route){
 
         if (e.target.classList[0] === 'loginButton'){
 
+            document.querySelector('.game').classList.toggle('gameMain');
+            let canvas = document.querySelectorAll('canvas');
+            canvas[1].remove();
+
             let username = document.querySelector('.loginMain').value;
             let worldNumber = [...document.querySelectorAll('[name="channels"]')];
             worldNumber = worldNumber.find(btn => btn.checked === true);
@@ -60,7 +64,7 @@ export default function controll(views,loader,route){
             let input = document.querySelector('.chatBox__input');
             if (e.which == 13 && target.classList[0] === 'chatBox__input'){
                 if (input.value)
-                    loader.getSocket().emit('messageServer', e.target.value);
+                    loader.getSocket().emit('messageServer', {msg: e.target.value, world: loader.player.world});
                 input.value = '';
             }
 

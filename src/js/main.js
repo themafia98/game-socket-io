@@ -41,7 +41,7 @@ import Loader from './loader';
         
                 views.mainGameScene(loader.texture[0]);
                 views.renderHero(skin,loader.player,window.getInput(),loader.getSocket());
-                if (!answer) views.renderEnemy(skin,loader.other,loader.getSocket());
+                if (!answer) views.renderEnemy(skin,loader.other,loader.player);
             }
             requestAnimationFrame(route);
         }

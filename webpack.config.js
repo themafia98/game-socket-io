@@ -150,6 +150,10 @@ if (!prod) {
         }]),
 
         new CopyWebpackPlugin([{
+            from: './src/fonts/',
+            to: './fonts'
+        }]),
+        new CopyWebpackPlugin([{
             from: './src/style/lib/',
             to: './style/lib'
         }]),
