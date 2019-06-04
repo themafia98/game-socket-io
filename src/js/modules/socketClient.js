@@ -1,84 +1,77 @@
-import io from 'socket.io-client';
-import states from './states';
+import io from "socket.io-client";
+import states from "./states";
 
-export default function SocketIOClient(views,loader,route){
+export default function SocketIOClient(views, loader, route) {
+  const socket = io("http://localhost:5000/");
 
-const socket = io('http://localhost:5000/');
-
-
-socket.on('reconnect_attempt', () => {
-  socket.io.opts.transports = ['polling', 'websocket'];
-});
-
-  socket.on('error', function() {
-    console.log('there was an error');
+  socket.on("reconnect_attempt", () => {
+    socket.io.opts.transports = ["polling", "websocket"];
   });
 
-  socket.on('connectPlayer', function(user){
+  socket.on("error", function() {
+    console.log("there was an error");
+  });
+
+  socket.on("connectPlayer", function(user) {
     views.connectionInfo(user);
   });
 
-  socket.on('chatMessage',function(e,username = 'test'){
-    let chatList = document.querySelector('.chatBox__window');
-    if (chatList.children.length > 30)
-        chatList.firstChild.remove();
-    let message = document.createElement('p');
-    message.classList.add('message');
-    message.innerHTML = username + ': ' + e;
+  socket.on("chatMessage", function(e, username = "test") {
+    let chatList = document.querySelector(".chatBox__window");
+
+    if (chatList.children.length > 30) chatList.firstChild.remove();
+
+    let message = document.createElement("p");
+    message.classList.add("message");
+    message.innerHTML = username + ": " + e;
     chatList.appendChild(message);
+
     chatList.scrollTop = chatList.scrollHeight;
-});
+  });
 
-    socket.on('changeState',function(player){
+  socket.on("changeState", function(player) {
+    states("game", "set");
+    document.querySelectorAll("canvas")[1].remove();
+    cancelAnimationFrame(views.cbAnimate);
 
-        console.log('Hello,' + player.name);
-        states('game','set');
-        document.querySelectorAll('canvas')[1].remove();
-        cancelAnimationFrame(views.cbAnimate);
-            views.removeLogin();
-            views.chatBox();
-            // route.call(this,null,loader,views,socket);
-            requestAnimationFrame(route);
-    });
+    views.removeLogin();
+    views.chatBox();
+    requestAnimationFrame(route);
+  });
 
-  
+  socket.on("update", function(players) {
+    let found = {};
+    loader.player.world = players[socket.id].world;
 
-    socket.on('update',function(players){
+    for (let id in players) {
+      if (loader.other[id] == undefined && id != socket.id) {
+        loader.other[id] = players[id];
+        console.log("Create new player");
+      }
 
-        let found = {};
-        loader.player.world = players[socket.id].world;
+      found[id] = true;
 
-        for (let id in players){
+      if (id != socket.id) {
+        loader.other[id].coords = players[id].coords;
+      }
+    }
 
-            if (loader.other[id] == undefined && id != socket.id){
-                loader.other[id] = players[id];
-                console.log('Create new player');
-            }
+    for (let id in loader.other) {
+      if (!found[id]) {
+        delete loader.other[id];
+      }
+    }
+  });
 
-            found[id] = true;
+  socket.on("saveChangesClient", function(player) {
+    let currentPlayer = loader.getPlayer();
+    currentPlayer.coords = player.coords;
+  });
 
-            if (id != socket.id){
-                loader.other[id].coords = players[id].coords;
-            }
-        }
-
-        for (let id in loader.other){
-          if(!found[id]){
-            delete loader.other[id];
-          }
-        }
-    });
-
-    socket.on('saveChangesClient',function(player){
-
-        let currentPlayer = loader.getPlayer();
-        currentPlayer.coords = player.coords;
-    });
-
-    socket.on('disconnectPlayer',function(id){
-       views.disconnectInfo(loader.other[id]);
-       delete loader.other[id];
-    });
+  socket.on("disconnectPlayer", function(id) {
+    views.disconnectInfo(loader.other[id]);
+    delete loader.other[id];
+  });
 
   return socket;
 }

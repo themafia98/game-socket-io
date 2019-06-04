@@ -126,6 +126,8 @@ class MainGameView{
         document.querySelector('.game').classList.add('gameMain');
         let ctx = this.ctx;
         ctx.save();
+        ctx.clearRect(0,0,config().width,config().height);
+        this.scene ? this.scene.remove.apply(this.scene, this.scene.children) : null;
         ctx.fillStyle = 'tomato';
         ctx.font = '80px serif';
         ctx.translate(-180,0);
@@ -145,7 +147,7 @@ class MainGameView{
 
         var camera = new THREE.PerspectiveCamera( 30, window.innerWidth/window.innerHeight, 0.5, 1000 );
 
-        // let cav = document.getElementById('MMO');
+ 
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         this.isThree3D ? document.body.appendChild( renderer.domElement ) : '';

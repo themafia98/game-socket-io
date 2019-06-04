@@ -20562,26 +20562,26 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function controll(views, loader, route) {
   var inputDown = null;
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener("keydown", function (e) {
     var target = e.target;
-    if (target.classList[0] === 'chatBox__input') return;
+    if (target.classList[0] === "chatBox__input") return;
 
-    if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_1__["default"])('game', 'get')) {
+    if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_1__["default"])("game", "get")) {
       switch (e.which) {
         case 87:
-          inputDown = 'up';
+          inputDown = "up";
           break;
 
         case 65:
-          inputDown = 'left';
+          inputDown = "left";
           break;
 
         case 68:
-          inputDown = 'right';
+          inputDown = "right";
           break;
 
         case 83:
-          inputDown = 'down';
+          inputDown = "down";
           break;
       }
     }
@@ -20591,10 +20591,10 @@ function controll(views, loader, route) {
     return inputDown;
   };
 
-  document.addEventListener('click', function (e) {
-    if (e.target.classList[0] === 'loginButton') {
+  document.addEventListener("click", function (e) {
+    if (e.target.classList[0] === "loginButton") {
       e.target.disabled = true;
-      var username = document.querySelector('.loginMain').value;
+      var username = document.querySelector(".loginMain").value;
 
       var worldNumber = _toConsumableArray(document.querySelectorAll('[name="channels"]'));
 
@@ -20604,35 +20604,35 @@ function controll(views, loader, route) {
       if (!worldNumber) return;
       worldNumber = worldNumber.dataset.world;
       var socket = Object(_modules_socketClient__WEBPACK_IMPORTED_MODULE_2__["default"])(views, loader, route);
-      socket.on('connect', function () {
-        console.log('socket connection, create new player.');
+      socket.on("connect", function () {
+        console.log("socket connection, create new player.");
         var skin = loader.getGamerSkin(0);
         var player = new _model__WEBPACK_IMPORTED_MODULE_0__["Player"](username, skin);
         player.id = socket.id;
         loader.loadPlayer(player);
         loader.saveSocket(socket);
-        socket.emit('save', {
+        socket.emit("save", {
           player: player,
           worldNumber: worldNumber
         });
       });
     }
   }, false);
-  document.addEventListener('keyup', function (e) {
+  document.addEventListener("keyup", function (e) {
     var target = e.target;
 
-    if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_1__["default"])('game', 'get')) {
-      var input = document.querySelector('.chatBox__input');
+    if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_1__["default"])("game", "get")) {
+      var input = document.querySelector(".chatBox__input");
 
-      if (e.which == 13 && target.classList[0] === 'chatBox__input') {
-        if (input.value) loader.getSocket().emit('messageServer', {
+      if (e.which == 13 && target.classList[0] === "chatBox__input") {
+        if (input.value) loader.getSocket().emit("messageServer", {
           msg: e.target.value,
           world: loader.player.world
         });
-        input.value = '';
+        input.value = "";
       }
 
-      inputDown = '';
+      inputDown = "";
     }
   }, false);
 }
@@ -20842,10 +20842,10 @@ function () {
     value: function setSize() {
       var width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
       var height = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height;
-      this.ctx.setAttribute('width', width);
-      this.ctx.setAttribute('height', height);
-      this.bufferCtx.setAttribute('width', width);
-      this.bufferCtx.setAttribute('height', height);
+      this.ctx.setAttribute("width", width);
+      this.ctx.setAttribute("height", height);
+      this.bufferCtx.setAttribute("width", width);
+      this.bufferCtx.setAttribute("height", height);
     }
   }, {
     key: "eventResize",
@@ -20854,17 +20854,17 @@ function () {
 
       var ctx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.ctx;
       this.view = view;
-      window.addEventListener('resize', function (e) {
+      window.addEventListener("resize", function (e) {
         var width = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width;
         var height = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height;
 
-        _this.ctx.setAttribute('width', width);
+        _this.ctx.setAttribute("width", width);
 
-        _this.ctx.setAttribute('height', height);
+        _this.ctx.setAttribute("height", height);
 
-        _this.bufferCtx.setAttribute('width', width);
+        _this.bufferCtx.setAttribute("width", width);
 
-        _this.bufferCtx.setAttribute('height', height);
+        _this.bufferCtx.setAttribute("height", height);
 
         view.mainMenu();
       }, false);
@@ -20883,9 +20883,9 @@ function () {
     this.name = name;
     this.skin = skin;
     this.speed = 5;
-    this.world = '1'; //default
+    this.world = "1"; //default
 
-    this.position = 'right';
+    this.position = "right";
     this.currentSprite = [105, 254];
     this.startW = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2;
     this.startH = Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height / 2;
@@ -20893,7 +20893,7 @@ function () {
       W: this.startW,
       H: this.startH
     };
-    this.currentInputDown = '';
+    this.currentInputDown = "";
   }
 
   _createClass(Player, [{
@@ -20998,44 +20998,42 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function SocketIOClient(views, loader, route) {
-  var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_0___default()('http://localhost:5000/');
-  socket.on('reconnect_attempt', function () {
-    socket.io.opts.transports = ['polling', 'websocket'];
+  var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_0___default()("http://localhost:5000/");
+  socket.on("reconnect_attempt", function () {
+    socket.io.opts.transports = ["polling", "websocket"];
   });
-  socket.on('error', function () {
-    console.log('there was an error');
+  socket.on("error", function () {
+    console.log("there was an error");
   });
-  socket.on('connectPlayer', function (user) {
+  socket.on("connectPlayer", function (user) {
     views.connectionInfo(user);
   });
-  socket.on('chatMessage', function (e) {
-    var username = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'test';
-    var chatList = document.querySelector('.chatBox__window');
+  socket.on("chatMessage", function (e) {
+    var username = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "test";
+    var chatList = document.querySelector(".chatBox__window");
     if (chatList.children.length > 30) chatList.firstChild.remove();
-    var message = document.createElement('p');
-    message.classList.add('message');
-    message.innerHTML = username + ': ' + e;
+    var message = document.createElement("p");
+    message.classList.add("message");
+    message.innerHTML = username + ": " + e;
     chatList.appendChild(message);
     chatList.scrollTop = chatList.scrollHeight;
   });
-  socket.on('changeState', function (player) {
-    console.log('Hello,' + player.name);
-    Object(_states__WEBPACK_IMPORTED_MODULE_1__["default"])('game', 'set');
-    document.querySelectorAll('canvas')[1].remove();
+  socket.on("changeState", function (player) {
+    Object(_states__WEBPACK_IMPORTED_MODULE_1__["default"])("game", "set");
+    document.querySelectorAll("canvas")[1].remove();
     cancelAnimationFrame(views.cbAnimate);
     views.removeLogin();
-    views.chatBox(); // route.call(this,null,loader,views,socket);
-
+    views.chatBox();
     requestAnimationFrame(route);
   });
-  socket.on('update', function (players) {
+  socket.on("update", function (players) {
     var found = {};
     loader.player.world = players[socket.id].world;
 
     for (var id in players) {
       if (loader.other[id] == undefined && id != socket.id) {
         loader.other[id] = players[id];
-        console.log('Create new player');
+        console.log("Create new player");
       }
 
       found[id] = true;
@@ -21051,11 +21049,11 @@ function SocketIOClient(views, loader, route) {
       }
     }
   });
-  socket.on('saveChangesClient', function (player) {
+  socket.on("saveChangesClient", function (player) {
     var currentPlayer = loader.getPlayer();
     currentPlayer.coords = player.coords;
   });
-  socket.on('disconnectPlayer', function (id) {
+  socket.on("disconnectPlayer", function (id) {
     views.disconnectInfo(loader.other[id]);
     delete loader.other[id];
   });
@@ -21319,6 +21317,8 @@ function () {
       document.querySelector('.game').classList.add('gameMain');
       var ctx = this.ctx;
       ctx.save();
+      ctx.clearRect(0, 0, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width, Object(_modules_config__WEBPACK_IMPORTED_MODULE_0__["default"])().height);
+      this.scene ? this.scene.remove.apply(this.scene, this.scene.children) : null;
       ctx.fillStyle = 'tomato';
       ctx.font = '80px serif';
       ctx.translate(-180, 0);
@@ -21333,8 +21333,7 @@ function () {
       var color = 'red';
       var density = 0.14;
       this.scene.fog = new THREE.FogExp2(color, density);
-      var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 1000); // let cav = document.getElementById('MMO');
-
+      var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 1000);
       var renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       this.isThree3D ? document.body.appendChild(renderer.domElement) : '';
