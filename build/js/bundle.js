@@ -21710,7 +21710,7 @@ function () {
                 ctx.shadowOffsetX = 3;
                 ctx.shadowOffsetY = 6;
                 ctx.shadowBlur = 5;
-                ctx.fillText('Social game', Object(_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2, 80);
+                ctx.fillText('Social game', Object(_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 1.4, 80);
                 ctx.restore();
                 ctx.save();
                 this.scene = new THREE.Scene();

@@ -189,7 +189,7 @@ class MainGameView{
         ctx.shadowOffsetX = 3;
         ctx.shadowOffsetY = 6;
         ctx.shadowBlur = 5;
-        ctx.fillText('Social game',config().width/2,80);
+        ctx.fillText('Social game',config().width/1.4,80);
         ctx.restore();
         ctx.save();
 
