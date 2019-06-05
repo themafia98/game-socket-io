@@ -7,7 +7,7 @@ export default function config(width = screen.width,height = screen.height){
         name: 'MMO',
         width: width-minus,
         height: height-minus,
-        version: '0.7.1',
+        version: '1.1.1',
         map: {
             width: 3200,
             height: 3200,
