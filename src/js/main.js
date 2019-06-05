@@ -1,23 +1,24 @@
-import {Game, Camera, Map, Audio} from './model';
-import {MainGameView} from './views';
+import Game from './modules/game';
+// import Audio from './modules/audio';
+import Camera from './modules/camera';
+import {MainGameView} from './modules/views';
 import states from './modules/states';
-import controll from './controll';
-import Loader from './loader';
+import controll from './modules/controll';
+import Loader from './modules/loader';
 import config from './modules/config';
+import Tile from './modules/map';
+
+const map = require('../../map.json');
 
 
-    function main(){
+ export default function main(){
 
         const game = new Game(document.getElementById('MMO'), document.createElement('canvas'));
-        const worldMap = new Map();
-        const audio = new Audio(new Audio());
+        // const audio = new Audio();
+        const tile = new Tile(3200);
         const loader = new Loader();
         const views = new MainGameView(game.ctx,game.bufferCtx);
         const camera = new Camera();
-
-        audio.init().play();
-
-        worldMap.create(config().map.width,config().map.height);
 
         let img = new Image();
         let hero = new Image();
@@ -27,7 +28,12 @@ import config from './modules/config';
         loader.loadTexture(img);
         loader.loadGamerSkin(hero);
 
-        controll(views, loader, route.bind(this), game);
+        img.onload = () => {
+
+            loader.loadTexture(tile.createMap('map',map,img));
+        };
+
+        controll(views, loader, route.bind(this), game, camera);
 
         game.setSize();
         game.eventResize(views);
@@ -39,21 +45,24 @@ import config from './modules/config';
 
         let skin = loader.getGamerSkin(0);
         let skin2 = loader.getGamerSkin(0);
- 
-        async function route(time){
+        let count = 1;
+        function route(time){
 
             if (states('game','get')){
-                views.mapRender(loader.texture[0],camera);
+
                 let input = getInput();
+                    camera.update();
+                    views.mapRender(loader.texture[1],camera);
                 input && views.renderCoords(loader.player);
                 views.renderHero(skin,loader.player,input,
                                 loader.getSocket(),camera);
 
                 if (!isEmpty(loader.other))
-                    views.renderOtherPlayers(skin,loader.other,loader.player);
+                    views.renderOtherPlayers(skin,loader.other,loader.player,camera);
                 views.renderSnapshot();
+
+                requestAnimationFrame(route);
             }
-            requestAnimationFrame(route);
         }
 
         function isEmpty(obj) {
@@ -64,7 +73,6 @@ import config from './modules/config';
         }
 };
 
-export {main};
 
 
 

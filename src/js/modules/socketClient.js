@@ -31,7 +31,11 @@ export default function SocketIOClient(views, loader, route, game) {
 
   socket.on("changeState", function(player) {
     states("game", "set");
-    document.querySelectorAll("canvas")[1].remove();
+    let windowGame = document.querySelector('.game');
+    let cav = document.querySelectorAll("canvas");
+    windowGame.classList.toggle('gameMain');
+    windowGame.style.maxWidth = `${cav[0].width}px`;
+    cav[1].remove();
     cancelAnimationFrame(views.cbAnimate);
   
     game.loadGame(views,loader.player);
@@ -52,7 +56,8 @@ export default function SocketIOClient(views, loader, route, game) {
       found[id] = true;
 
       if (id != socket.id) {
-        loader.other[id].coords = players[id].coords;
+        loader.other[id].coords._x = players[id].coords.x;
+        loader.other[id].coords._y = players[id].coords.y;
       }
     }
 

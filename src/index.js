@@ -8,6 +8,6 @@ import './images/s2.png';
 import './images/hero1.png';
 
 // JavaScript
-import {main} from './js/main.js';
-import controll from './js/controll';
+import 'babel-polyfill';
+import main from './js/main.js';
 main();

@@ -1,6 +1,5 @@
-import config from "./modules/config";
-import input from './modules/input';
-import 'babel-polyfill';
+import config from "./config";
+import input from './input';
 
 class MainGameView{
     constructor(ctx,bufferCtx){
@@ -27,17 +26,15 @@ class MainGameView{
 
             texture:{
                 const: [-50,192],
-                coords: [-50,0],
+                coords: [500,500],
             },
         };
     }
 
-    async renderSnapshot(){
-
+    renderSnapshot(){
         let canvas = this.canvas;
-        let ctx = this.ctx;
-
-        ctx.drawImage(this.bufferCanvas,0,0);
+        this.ctx.clearRect(0,0,canvas.width,canvas.height);
+        this.ctx.drawImage(this.bufferCanvas,0,0);
     }
 
     async renderCoords(player){
@@ -45,69 +42,94 @@ class MainGameView{
         this.boxCoordsY.innerHTML = player.coords.y;
     }
 
-    async mapRender(img,camera){
+    async mapRender(map,camera){
 
         let canvas = this.bufferCanvas;
         let ctx = this.bufferCtx;
-        ctx.clearRect(0,0,this.ctx.width,this.ctx.height);
-        ctx.fillStyle = 'black';
-            let x = this.settings.texture.coords[0];
-            let y = this.settings.texture.coords[1];
-            let width = config().width;
-            let height = config().height;
 
-            let countY = Math.floor(height/192);
-            let countX = Math.floor(width/192);
+            let x = camera.viewPort[0];
+            let y = camera.viewPort[1];
+            
+            let viewWidth = canvas.width;
+            let viewHeight = canvas.height;
 
-            for (let j = 0; j < countY; j++){
-                for (let i = 0; i < countX+3; i++){
-                    ctx.drawImage(img,-5,195,192,192, x, y,192,192);
-                    x += 182;
-                }
-                x = this.settings.texture.const[0];
-                y += this.settings.texture.const[1];
-        }
+            // let canvasCoords = camera.convert();
+
+
+            // if cropped image is smaller than canvas we need to change the source dimensions
+            if(map.imageWidth.width - x < viewWidth){
+                viewWidth = map.width - x;
+
+            }
+            if(map.imageWidth.height - y < viewHeight){
+                viewHeight = map.imageWidth.height - y;
+      
+            }
+
+                        // match destination with source to not scale the image
+            let dWidth = viewWidth;
+            let dHeight = viewHeight;  
+        
+            ctx.drawImage(map.imageWidth.images, x, y, viewWidth, viewHeight, 0, 0, dWidth, dHeight);	
     }
 
-    async renderHero(skin,player,go,socket,camera){
+    renderHero(skin,player,go,socket,camera){
 
         let canvas = this.bufferCanvas;
         let ctx = this.bufferCtx;
+     
 
         input(player,go,this.settings,camera);
 
         ctx.fillStyle = 'red';
         ctx.font = '20px serif';
 
-        ctx.fillText(player.name,-camera.coords[0] + player.viewPort.x,
-                    -camera.coords[1] +player.viewPort.y-10);
+        ctx.fillText(player.name,player.coords.x - camera.viewPort[0],player.coords.y - camera.viewPort[1]);
+
 
         ctx.drawImage(skin,player.currentSprite[0],player.currentSprite[1],
-                        60,125,-camera.coords[0] + player.viewPort.x,
-                        -camera.coords[1] + player.viewPort.y,60,125);
+                        60,125,player.coords.x - camera.viewPort[0],player.coords.y - camera.viewPort[1],60,125);
 
         socket.emit('saveChanges',{id: player.id, coords: { x: player.coords.x, y: player.coords.y},
                     player: player });
     }
 
-    async renderOtherPlayers(skin2,other_players,player){
+    async renderOtherPlayers(skin2,other_players,player,camera){
 
         let canvas = this.bufferCanvas;
         let ctx = this.bufferCtx;
+ 
 
         for (let id in other_players){
             if (other_players[id].world == player.world){
-
+                if (other_players[id].coords._x != NaN){
+                // let canvasCoords = camera.convert(other_players[id]);
+                    let __x = other_players[id].coords._x * 0.16;
+                    let __y = other_players[id].coords._y * 0.16;
+                other_players[id].coords.x =  __x;
+                other_players[id].coords.y = __y;
+                console.log(other_players[id].coords.x);
             ctx.fillStyle = 'red';
             ctx.font = '20px serif';
-            ctx.fillText(other_players[id].name,other_players[id].coords.x,other_players[id].coords.y-10);
+
+            console.log('x:' + other_players[id].coords.x + ' y:' + other_players[id].coords.y);
+
+            let xx = camera.viewPort[0] - config().width/2;
+            let yy = camera.viewPort[1] - config().height/2;
+
+            let x = other_players[id].coords.x;
+            let y = other_players[id].coords.y;
+
+            ctx.fillText(other_players[id].name,x,y);
             ctx.drawImage(skin2,other_players[id].currentSprite[0],other_players[id].currentSprite[1],
-                            60,125,other_players[id].coords.x, other_players[id].coords.y,60,125);
+                            60,125,x,y,60,125);
             }
         }
+        }
+  
     }
 
-    currentCoordsBox(player){
+    async currentCoordsBox(player){
 
         let gameBox = document.querySelector('.game');
         let box = document.createElement('div');
@@ -153,7 +175,7 @@ class MainGameView{
         return this;
     }
 
-    mainMenu(){
+    async mainMenu(){
 
         document.querySelector('.game').classList.add('gameMain');
         let ctx = this.ctx;

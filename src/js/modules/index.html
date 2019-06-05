@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <canvas id="screem" width="640" height="640" />
+        <script>
+        
+/**
+ * 2D JS Game - Elven Scout
+ * 
+ * By WebGirl Kristina, https://www.youtube.com/channel/UCrRfSdwA7b2Ex0MB6q9hKEQ
+ * Follow me on Instagram: @webgirlkristina
+ * MIT Licensed
+ */
+
+	function Scene(screen, controls) {
+		this.canvas = screen.canvas;
+		this.ctx = this.canvas.getContext('2d');
+		this.controls = controls;
+		this.imgs = screen.imgs;
+
+	}
+
+
+	function Lib(screen, controls) {
+		Scene.apply(this, arguments);
+		this.assets = [
+			{name: 'orc', path: 'assets/orc.png'},
+			{name: 'player', path: 'assets/player.png'},
+			{name: 'sceleton', path: 'assets/sceleton.png'},
+			{name: 'bg', path: 'assets/tiles.png'},
+			{name: 'title', path: 'assets/title.jpg'}
+		];
+
+		this.total = this.assets.length;
+		this.loaded = 0;
+		this.status = "loading";
+
+
+		this.loaded_at = 0;
+
+		var self = this;
+		for(var i=0; i < this.total; i++) {
+			var img = new Image();
+			img.onload = function() {
+				self.loaded++;
+			};
+			img.src = self.assets[i].path;
+			screen.imgs[self.assets[i].name] = img;
+
+		}
+
+	}
+
+	Lib.prototype = Object.create(Scene.prototype);
+	Lib.prototype.constructor = Lib;
+
+	Lib.prototype.render = function (time) {
+		if(this.status == "loading") {
+			if(this.loaded == this.total) {
+				this.status = "loaded";
+				this.loaded_at = time;
+			}
+			this.ctx.fillStyle = '#000000';
+			this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height );
+			this.ctx.fillStyle = '#ffffff';
+			this.ctx.font="22px Georgia";
+			this.ctx.fillText("Loading " + this.loaded + '/' + this.total,50,70);
+			return "lib";
+		}
+
+		if(this.status == "loaded") {
+			if((time - this.loaded_at) > 1000) {
+				return "menu";
+			} else {
+				return "lib";
+			}
+		}
+
+	}
+
+
+
+	function Win(screen, controls) {
+		Scene.apply(this, arguments);
+	}
+
+	Win.prototype = Object.create(Scene.prototype);
+	Win.prototype.constructor = Win;
+
+
+	Win.prototype.render = function (time) {
+		this.ctx.fillStyle = '#000000';
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height );
+		this.ctx.fillStyle = '#ffffff';
+		this.ctx.font="22px Georgia";
+		this.ctx.fillText("You won!",50,70);
+		return "win";
+	};
+
+	function Menu(screen, controls) {
+		Scene.apply(this, arguments);
+	}
+
+	Menu.prototype = Object.create(Scene.prototype);
+	Menu.prototype.constructor = Menu;
+
+
+	Menu.prototype.render = function (time) {
+
+	this.ctx.drawImage(this.imgs['title'],
+				0,0,640,640,
+				0,0,640,640);
+
+			this.ctx.fillStyle = '#FFFFFF';
+			this.ctx.font="22px Arial";
+			this.ctx.fillText("Нажмите пробел",250,500);
+		if(this.controls.states['fire']) {
+			return "game";
+		} else {
+			return "menu";
+		}
+	};
+
+
+	function Game(screen, controls) {
+		Scene.apply(this, arguments);
+
+		this.camera = new Camera(0,0,this);
+		this.player = new Player(100,-64,this);
+		this.monster = new Player(896,128,this);
+		this.monster.type = "monster";
+		this.monster.status = "walking";
+		this.sounds = {};
+		this.sounds['arrow'] = new Sound('assets/arrow.wav');
+		this.sounds['sword'] = new Sound('assets/sword.wav');
+
+		this.map = [
+			         [3 ,20,22,3 ,3 ,3 ,3 ,1 ,1 ,3 ,3 ,14,3 ,0 ,3 ,3 ,0 ,3 ,15,3],
+					 [3 ,20,22,3 ,3 ,0 ,1 ,17,19,1 ,3 ,14,17,18,18,18,18,19,15,3],
+					 [3 ,20,22,3 ,3 ,0 ,0 ,20,22,0 ,3 ,14,23,24,24,24,24,25,15,3],
+					 [3 ,20,22,3 ,0 ,0 ,1 ,23,25,1 ,3 ,8 ,6 ,6 ,6 ,6 ,16,6 ,7 ,3],
+					 [3 ,20,22,0 ,0 ,3 ,3 ,1 ,1 ,3 ,3 ,13,5 ,5 ,5 ,5 ,16,5 ,9 ,3],
+					 [3 ,20,22,3 ,3 ,3 ,3 ,3 ,3 ,3 ,3 ,12,10,10,10,10,16,10,11,3],
+					 [3 ,20,22,3 ,3 ,2 ,0 ,2 ,0 ,3 ,3 ,0 ,2 ,0 ,4 ,0 ,0 ,0 ,2 ,3],
+					 [3 ,20,28,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,0 ,3],
+					 [3 ,23,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,25,3 ,3],
+					 [3 ,2 ,3 ,3 ,3 ,3 ,3 ,3 ,2 ,3 ,3 ,3 ,3 ,3 ,3 ,3 ,0 ,3 ,3 ,3],
+					 [3 ,0 ,0 ,0 ,0 ,0 ,0 ,3 ,0 ,3 ,17,18,18,19,0 ,0 ,2 ,0 ,0 ,1],
+					 [3 ,3 ,3 ,3 ,3 ,3 ,3 ,3 ,0 ,3 ,20,26,27,22,2 ,3 ,0 ,0 ,1 ,3],
+					 [3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,20,28,29,22,0 ,0 ,3 ,0 ,0 ,3],
+					 [3 ,1 ,1 ,0 ,1 ,1 ,1 ,1 ,1 ,1 ,23,24,24,25,0 ,2 ,0 ,0 ,4 ,3],
+					 [3 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,3 ,0 ,0 ,0 ,1 ,0 ,3],
+					 [3 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,0 ,1 ,0 ,0 ,0 ,0 ,0 ,3 ,0 ,0 ,0 ,1],
+					 [3 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1 ,2 ,2 ,0 ,1 ,0 ,0 ,0 ,2 ,0 ,1],
+					 [3 ,1 ,1 ,1 ,1 ,0 ,1 ,1 ,1 ,1 ,0 ,1 ,17,18,18,18,18,18,18,18],
+					 [3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1 ,23,24,24,24,24,24,24,24],
+					 [3 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1],
+		];
+
+		this.tiles = [
+			{j:0,i:0,walk: true},  //0 - grass
+			{j:1,i:0,walk: false}, //1 - stone
+			{j:2,i:0,walk: true},  //2 - plant
+			{j:3,i:0,walk: false}, //3 - tree
+			{j:4,i:0,walk: true},  //4 - flowers
+			{j:5,i:0,walk: false}, //5 - wall
+			{j:6,i:0,walk: false}, //6 - top wall
+			{j:7,i:0,walk: false}, //7 - top wall with r end
+			{j:8,i:0,walk: false}, //8 - top wall with l end
+			{j:9,i:0,walk: false}, //9 - wall with r end
+			{j:5,i:1,walk: false}, //10 - bottom-wall
+			{j:6,i:1,walk: false}, //11 - bottom-wall with r-end
+			{j:7,i:1,walk: false}, //12 - bottom-wall with l-end
+			{j:8,i:1,walk: false}, //13 - wall with l end
+			{j:9,i:1,walk: true}, //14 - top-grass with l-end
+			{j:9,i:2,walk: true}, //15 - top-grass with r-end
+			{j:8,i:2,walk: true}, //16 - stairs
+			{j:0,i:1,walk: true}, //17 - sand in grass b-r
+			{j:1,i:1,walk: true}, //18 - sand in grass b
+			{j:2,i:1,walk: true}, //19 - sand in grass b-l
+			{j:0,i:2,walk: true}, //20 - sand in grass r
+			{j:1,i:2,walk: true}, //21 - sand
+			{j:2,i:2,walk: true}, //22 - sand in grass l
+			{j:0,i:3,walk: true}, //23 - sand in grass u-r
+			{j:1,i:3,walk: true}, //24 - sand in grass u
+			{j:2,i:3,walk: true}, //25 - sand in grass u-l
+			{j:3,i:1,walk: true}, //26 - gras in sand b-r
+			{j:4,i:1,walk: true}, //27 - gras in sand b-l
+			{j:3,i:2,walk: true}, //28 - gras in sand u-r
+			{j:4,i:2,walk: true}, //29 - gras in sand u-l
+		];
+
+
+		this.arrows = [];
+
+	}
+
+	Game.prototype = Object.create(Scene.prototype);
+	Game.prototype.constructor = Game;
+
+	Game.prototype.render_bg = function (time) {
+		var start_col = Math.floor(this.camera.x / 64);
+		var start_row = Math.floor(this.camera.y / 64);
+
+		for(var i = start_row; i < (start_row + 11); i++) {
+			for(var j = start_col; j < (start_col + 11); j++) {
+				if(( j < 20) && (i < 20)) {
+					var tile = this.tiles[this.map[i][j]];
+              		this.ctx.drawImage(this.imgs['bg'],
+                    	tile.j*64,tile.i*64,64,64,
+                          	(j*64)-this.camera.x,(i*64) - this.camera.y ,64,64);
+              	}
+			}
+		}
+
+	};
+
+
+	Game.prototype.render_sprites = function (time) {
+
+
+		this.player.update(time);
+		this.monster.update(time);
+		this.camera.update(time);
+
+
+		//render monster
+ 	 this.ctx.drawImage(this.imgs['orc'],
+ 									 this.monster.j*64,this.monster.i*64,64,64,
+ 												 ( this.monster.x )-this.camera.x,(this.monster.y) - this.camera.y ,64,64);
+
+		//render player
+		this.ctx.drawImage(this.imgs['player'],
+                    this.player.j*64,this.player.i*64,64,64,
+                          ( this.player.x )-this.camera.x,(this.player.y) - this.camera.y ,64,64);
+
+
+
+		//render arows
+		for(var  i=this.arrows.length;i>0;i--) {
+				 if ( this.arrows[i-1].active === false) this.arrows.splice(i-1, 1);
+		}
+
+		for(var  i=0;i<this.arrows.length;i++) {
+			this.arrows[i].update(time);
+			this.ctx.drawImage(this.imgs['player'],
+	                    this.arrows[i].j*64,this.arrows[i].i*64,64,64,
+	                          ( this.arrows[i].x )-this.camera.x,(this.arrows[i].y) - this.camera.y ,64,64);
+
+		}
+
+
+	};
+
+
+
+	Game.prototype.render = function (time) {
+		this.ctx.fillStyle = '#ffffff';
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height );
+
+		this.render_bg(time);
+		this.render_sprites(time);
+
+		if((this.monster.dead) &&
+		   (this.player.x > 1152) &&
+			 (this.player.y > 1100)) {
+				 	return "win";
+			 } else {
+					return "game";
+			 }
+	};
+
+
+
+	function Camera(x,y,scene) {
+		this.x = x;
+		this.y = y;
+		this.w = 640;
+		this.h = 640;
+		this.scene = scene;
+	}
+
+	Camera.prototype.update = function (time) {
+		if((this.scene.player.x - this.x) < 200) {
+			this.x = this.scene.player.x  - 200;
+		}
+
+		if((this.scene.player.x - this.x) > 440) {
+			this.x = this.scene.player.x  - 440;
+		}
+
+		if(this.x < 0) this.x = 0;
+		if(this.x > 640) this.x = 640;
+
+
+		if((this.scene.player.y - this.y) < 200) {
+			this.y = this.scene.player.y  - 200;
+		}
+
+		if((this.scene.player.y - this.y) > 440) {
+			this.y = this.scene.player.y  - 440;
+		}
+
+		if(this.x < 0) this.x = 0;
+		if(this.x > 640) this.x = 640;
+
+		if(this.y < 0) this.y = 0;
+		if(this.y > 640) this.y = 640;
+
+	};
+
+
+function Arrow(x,y,direction,scene) {
+	this.active = true;
+	this.x = x;
+	this.y = y;
+	this.scene = scene;
+	this.speed = 10;
+	this.direction = direction;
+	this.sprites = {
+		right: [10,0],
+		left: [9,0],
+		up: [11,0],
+		down: [12,0]
+	};
+	this.j = this.sprites[direction][0];
+	this.i = this.sprites[direction][1];
+}
+
+Arrow.prototype.update = function (time) {
+		this.move();
+};
+
+Arrow.prototype.move = function () {
+	var new_x = this.x;
+	var new_y = this.y;
+	if(this.direction == "right" ) new_x += this.speed;
+	if(this.direction == "left" ) new_x -= this.speed;
+	if(this.direction == "up" ) new_y -= this.speed;
+	if(this.direction == "down" ) new_y += this.speed;
+
+
+	if(this.is_hit(new_x,new_y)) {
+		this.active = false;
+		return true;
+	} else {
+		this.x = new_x;
+		this.y = new_y;
+	}
+}
+
+Arrow.prototype.is_hit = function (x,y) {
+var pos_x = x;
+var pos_y = y;
+if(this.direction == "right" ) {pos_x += 64; pos_y += 32; };
+if(this.direction == "left" ) {pos_y += 32; };
+if(this.direction == "up" ) {pos_x += 32;  };
+if(this.direction == "down" ) {pos_x += 32; pos_y += 64; };
+
+if((pos_x < 0) || (pos_x > 1280) || (pos_y < 0) || (pos_y > 1280)) {
+	return true;
+}
+
+var j = Math.floor(pos_x / 64);
+var i = Math.floor(pos_y / 64);
+
+if((pos_x > this.scene.monster.x) &&
+   (pos_x < (this.scene.monster.x + 64)) &&
+	 (pos_y > this.scene.monster.y) &&
+	(pos_y < (this.scene.monster.y + 64))) {
+		this.scene.monster.set_action("down","dead");
+		return true;
+	}
+	return	!this.scene.tiles[this.scene.map[i…
+        
+        </script>
+</body>
+</html>

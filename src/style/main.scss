@@ -2,7 +2,15 @@ body{
     overflow: hidden;
     width: 100%;
     height: 100%;
+    background: dimgrey;
 }
+
+.game {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+}
+
 
 .loginPanel{
     position: fixed;
@@ -30,13 +38,12 @@ body{
 }
 
 .chatBox{
-    position: fixed;
+    position: absolute;
     display: flex;
     justify-content: center;
-    top: 80%;
+    top: 100%;
     left: 1%;
-    transform: translateY(-50%);
-    width: 500px;
+    width: 97%;
     height: 300px;
     background: #2c2901;
     opacity: .8;
@@ -53,7 +60,7 @@ body{
     }
 
     .chatBox__input {
-        width: 70%;
+        width: 200px;
         height: 20px;
         align-self: flex-end;
         margin-bottom: 5px;
@@ -62,15 +69,15 @@ body{
 
     .message {
         font-weight: bold;
-        font-size: 20px;
-        color: rgb(0, 15, 230);
+        font-size: 22px;
+        color: rgb(88, 255, 130);
         opacity: 1;
         margin: 2px;
     }
 
     .message_disconnect {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 22px;
         color: red;
         opacity: 1;
         margin: 2px;
@@ -78,7 +85,7 @@ body{
 
     .message_connection{
         font-weight: bold;
-        font-size: 20px;
+        font-size: 22px;
         color: blue;
         opacity: 1;
         margin: 2px;
@@ -92,6 +99,10 @@ body{
     }
     .chatBox{
         display: none;
+    }
+
+    div.currentCoordsBox{
+        width: 100%;
     }
 }
 

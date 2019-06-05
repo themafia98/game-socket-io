@@ -1,8 +1,9 @@
-import { Player } from "./model";
-import states from "./modules/states";
-import socketIO from "./modules/socketClient";
+import Player from "./player";
+import states from "./states";
+import socketIO from "./socketClient";
+import config from './config';
 
-export default function controll(views, loader, route, game){
+export default function controll(views, loader, route, game, camera){
     let inputDown = null;
 
     document.addEventListener("keydown", e => {
@@ -36,6 +37,7 @@ export default function controll(views, loader, route, game){
         if (e.target.classList[0] === "loginButton"){
             e.target.disabled = true;
 
+            let configs = config();
             let username = document.querySelector(".loginMain").value;
             let worldNumber = [...document.querySelectorAll('[name="channels"]')];
             worldNumber = worldNumber.find(btn => btn.checked === true);
@@ -51,6 +53,8 @@ export default function controll(views, loader, route, game){
 
                 loader.loadPlayer(player);
                 loader.saveSocket(socket);
+                camera.follow(loader.player,configs.width/2,configs.height/2);
+
                 socket.emit("save",{
                     player: player,
                     worldNumber: worldNumber
