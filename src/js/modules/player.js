@@ -14,7 +14,6 @@ export default class Player {
 
         this.startW = config().width / 2;
         this.startH = config().height / 2;
-        
 
         this.coords = {
             x: 0,
@@ -33,5 +32,10 @@ export default class Player {
 
     set currentInput(position) {
         this.currentInputDown = position;
+    }
+
+    update(camera){
+        this.viewPort.x = camera.viewPort[0];
+        this.viewPort.y = camera.viewPort[1];
     }
 }

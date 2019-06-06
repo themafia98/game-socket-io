@@ -1,5 +1,7 @@
 import config from "./config";
 import input from './input';
+let Vector = require('./Vector');
+
 
 class MainGameView{
     constructor(ctx,bufferCtx){
@@ -15,8 +17,16 @@ class MainGameView{
         this.bufferCanvas = bufferCtx;
         this.bufferCtx = this.bufferCanvas.getContext('2d');
 
+        this.bufferOther = document.createElement('canvas');
+        this.bufferOtherCtx = this.bufferOther.getContext('2d');
+
+        this.bufferOther.width = config().map.width;
+        this.bufferOther.height = config().map.height;
+
         this.canvas = document.getElementById('MMO');
         this.ctx = this.canvas.getContext('2d');
+
+        this.saveViewPort = {x: 0, y: 0};
 
         this.settings = {
             sprite:{
@@ -31,10 +41,27 @@ class MainGameView{
         };
     }
 
-    renderSnapshot(){
+    toWorld(position,viewPort = this.saveViewPort) {
+        this.saveViewPort = position ? position : Vector.zero();
+        return position.add(position, viewPort);
+      }
+
+      toCanvas(position,viewPort = this.saveViewPort) {
+        this.saveViewPort = position ? position : Vector.zero();
+        return Vector.sub(position, viewPort);
+      }
+
+      
+
+    renderSnapshot(people){
         let canvas = this.canvas;
         this.ctx.clearRect(0,0,canvas.width,canvas.height);
         this.ctx.drawImage(this.bufferCanvas,0,0);
+
+        // if (people){
+
+        //     this.ctx.drawImage(people,0,0);
+        // }
     }
 
     async renderCoords(player){
@@ -94,39 +121,45 @@ class MainGameView{
                     player: player });
     }
 
-    async renderOtherPlayers(skin2,other_players,player,camera){
+    renderOtherPlayers(skin2,other_players,player,camera){
+
+        // let canvas = this.bufferOther;
+        // let ctx = this.bufferOtherCtx;
+        // console.log(canvas.width);
+        // console.log(canvas.height);
 
         let canvas = this.bufferCanvas;
         let ctx = this.bufferCtx;
- 
 
         for (let id in other_players){
             if (other_players[id].world == player.world){
                 if (other_players[id].coords._x != NaN){
                 // let canvasCoords = camera.convert(other_players[id]);
-                    let __x = other_players[id].coords._x * 0.16;
-                    let __y = other_players[id].coords._y * 0.16;
+                    let __x = other_players[id].coords._x;
+                    let __y = other_players[id].coords._y;
                 other_players[id].coords.x =  __x;
                 other_players[id].coords.y = __y;
                 console.log(other_players[id].coords.x);
             ctx.fillStyle = 'red';
             ctx.font = '20px serif';
 
-            console.log('x:' + other_players[id].coords.x + ' y:' + other_players[id].coords.y);
-
-            let xx = camera.viewPort[0] - config().width/2;
-            let yy = camera.viewPort[1] - config().height/2;
-
             let x = other_players[id].coords.x;
             let y = other_players[id].coords.y;
 
-            ctx.fillText(other_players[id].name,x,y);
+            this.saveViewPort = { x: camera.viewPort[0], y: camera.viewPort[1] };
+            let coords = this.toCanvas(other_players[id].coords);
+    
+
+            ctx.fillText(other_players[id].name,coords.x,coords.y);
             ctx.drawImage(skin2,other_players[id].currentSprite[0],other_players[id].currentSprite[1],
-                            60,125,x,y,60,125);
+                            60,125,coords.x,coords.y,60,125);
             }
         }
-        }
-  
+    }
+    let othersPlayers = new Image();
+    othersPlayers.src = canvas.toDataURL('image/png');
+
+    return othersPlayers;
     }
 
     async currentCoordsBox(player){

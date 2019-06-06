@@ -46,20 +46,23 @@ const map = require('../../map.json');
         let skin = loader.getGamerSkin(0);
         let skin2 = loader.getGamerSkin(0);
         let count = 1;
+        let people = null;
         function route(time){
 
             if (states('game','get')){
 
                 let input = getInput();
                     camera.update();
+                    loader.player.update(camera);
                     views.mapRender(loader.texture[1],camera);
                 input && views.renderCoords(loader.player);
                 views.renderHero(skin,loader.player,input,
                                 loader.getSocket(),camera);
 
-                if (!isEmpty(loader.other))
-                    views.renderOtherPlayers(skin,loader.other,loader.player,camera);
-                views.renderSnapshot();
+                if (!isEmpty(loader.other)){
+                people = views.renderOtherPlayers(skin,loader.other,loader.player,camera);
+                }
+                views.renderSnapshot(people);
 
                 requestAnimationFrame(route);
             }

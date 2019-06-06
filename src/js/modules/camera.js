@@ -1,5 +1,6 @@
 import config from "./config";
 import ViewPort from './viewPort';
+let Vector = require('./Vector');
 
 export default class Camera {
 
@@ -12,26 +13,13 @@ export default class Camera {
         this.viewportRect = new ViewPort(this.viewPort[0],this.viewPort[1],this.cavView[0],this.cavView[1]);
     }
 
+    toWorld(position,viewPort) {
+        return position.add(position, viewPort);
+      }
 
-    // convert(sub = this.sub){
-
-    //     let xDeadZone = config().map.width/2;
-    //     let yDeadZone = config().map.height/2;
-
-
-	// 				// moves camera on horizontal axis based on followed object position
-    //                 if(sub.coords.x - this.xView  + xDeadZone > config().width)
-    //                 this.xView = sub.coords.x - (config().width - xDeadZone)
-    //                 else if(sub.coords.x  - xDeadZone < 0)
-    //                     this.xView = sub.coords.x  - this.xDeadZone;
-                        
-    //                     if(sub.coords.y - this.yView + yDeadZone > config().height)
-	// 					this.yView = sub.coords.y - (config().height - yDeadZone);
-	// 				else if(sub.coords.y - yDeadZone < this.yView)
-	// 					this.yView = sub.coords.y - yDeadZone;
-
-    //     return [this.xView,this.yView];
-    // }
+      toCanvas(position,viewPort) {
+        return Vector.sub(position, viewPort);
+      }
 
     update(sub = this.sub){
 
