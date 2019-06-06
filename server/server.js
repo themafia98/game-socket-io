@@ -1,12 +1,12 @@
 const http = require('http'),
-  io = require('socket.io')(),
-  port = 5000 || process.env.PORT;
-
+  io = require('socket.io')();
 
 io.origins('*:*');
-io.listen(port, function () {
-  console.log('Server listening on port: ' + port);
-});
+
+process.env.NODE_ENV = process.env.PORT ? 'production': 'development';
+
+let port = process.env.PORT || 5000;
+io.listen(port);
 
 let players = {};
 

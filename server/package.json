@@ -1,12 +1,11 @@
 {
   "name": "game-socket-io",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/themafia98/game-socket-io.git",
   "author": "Pavel Petrovich <gaara33377@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "clear": "del-cli build",
     "server": "node server.js"
   },
   "devDependencies": {

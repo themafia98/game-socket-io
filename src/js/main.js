@@ -1,13 +1,10 @@
 import Game from './modules/game';
 // import Audio from './modules/audio';
 import Camera from './modules/camera';
-import {
-    MainGameView
-} from './modules/views';
+import { MainGameView} from './modules/views';
 import states from './modules/states';
 import controll from './modules/controll';
 import Loader from './modules/loader';
-import config from './modules/config';
 import Tile from './modules/map';
 
 const map = require('../../map.json');
