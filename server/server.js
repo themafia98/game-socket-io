@@ -1,4 +1,5 @@
 const http = require('http'),
+  logger = require('./logger'),
   io = require('socket.io')();
 
 io.origins('*:*');
@@ -9,6 +10,7 @@ let port = process.env.PORT || 5000;
 io.listen(port);
 
 let players = {};
+
 
 io.on('connection', function (socket) {
 
@@ -22,16 +24,15 @@ io.on('connection', function (socket) {
   socket.on('save', (data) => {
 
     if (typeof data === 'object' && data.hasOwnProperty('player')) {
-    console.log(`${data.player.name} connect!`);
+    logger.info(`${data.player.name} connect!`);
     socket.player = data.player;
     socket.player.id = socket.id;
 
-    console.log(players[socket.id]);
     players[socket.id] = data.player;
     players[socket.id].world = data.worldNumber;
-    console.log('Saved! user world:' + players[socket.id].world);
+    logger.info('Saved! user world:' + players[socket.id].world);
     socket.join(`${data.worldNumber}`, () => {
-      console.log(Object.keys(socket.rooms));
+
       io.to(`${data.worldNumber}`).emit('connectPlayer', players[socket.id]);
       io.to(`${data.worldNumber}`).emit('update', players);
 
@@ -47,7 +48,7 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
 
-    console.log('user leave game');
+    logger.info(`User ${players[socket.id].name} leave game`);
     let world = players[socket.id].world;
     delete players[socket.id];
     socket.leave(socket.rooms);

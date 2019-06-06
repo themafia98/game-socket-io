@@ -7,7 +7,7 @@ export default function config(width = screen.width,height = screen.height){
         name: 'MMO',
         width: width-minus,
         height: height-minus,
-        version: '1.1.1',
+        version: '1.2.2',
         map: {
             width: 3200,
             height: 3200,
@@ -18,10 +18,5 @@ export default function config(width = screen.width,height = screen.height){
             VERTICAL: 'vertical',
             HORIZONTAL: 'horizontal',
         },
-        loop: {
-            FPS: 30,
-            INTERVAL: 1000/30, // miliseconds
-            STEP: (1000/30)/1000 // seconds
-        }
-    }
-}
+    };
+};

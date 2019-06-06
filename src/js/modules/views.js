@@ -128,7 +128,7 @@ class MainGameView {
     });
   }
 
-  renderOtherPlayers(loader, camera) {
+   renderOtherPlayers(loader, camera) {
     let player = loader.getPlayer();
     let other_players = loader.other;
     let canvas = this.buffer.mainBuffer;

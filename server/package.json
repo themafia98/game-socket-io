@@ -9,10 +9,12 @@
     "server": "node server.js"
   },
   "devDependencies": {
+    "winston": "^3.2.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "socket.io": "^2.2.0",
-    "victor": "^1.1.0"
+    "victor": "^1.1.0",
+    "winston": "^3.2.1"
   }
 }

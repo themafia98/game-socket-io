@@ -46,11 +46,19 @@ export default function main() {
     let socket = null;
     let PushInput = null;
 
-    async function route(time) {
+    let end, fpsInterval, delta, start;
+    ({end, fpsInterval, delta, start} = {end:0, fpsInterval: 0, delta: 0, start: 0});
 
-        let start = Date.now();
+    console.log(end);
 
-        if (states('game', 'get')) {
+    async function route(fps) {
+
+        fpsInterval = 1000 / fps;
+        start = Date.now();
+
+        delta = start - end;
+
+        if (steel > fpsInterval && states('game', 'get')) {
 
             socket = loader.getSocket();
             PushInput = getInput();
@@ -58,7 +66,11 @@ export default function main() {
             loader.player.update(camera);
             views.render(PushInput, loader, camera);
 
+            end = start - (delta % fpsInterval);
             requestAnimationFrame(route);
         }
     }
 };
+
+
+
