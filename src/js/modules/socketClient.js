@@ -2,7 +2,10 @@ import io from "socket.io-client";
 import states from "./states";
 
 export default function SocketIOClient(views, loader, route, game) {
-  const socket = io("http://localhost:5000/");
+  let socket = null;
+  if (process.env.NODE_ENV === 'production')
+  socket = io("https://socket-io-server-game.herokuapp.com/");
+  else socket = io("http://localhost:5000/");
 
   socket.on("reconnect_attempt", () => {
     socket.io.opts.transports = ["polling", "websocket"];

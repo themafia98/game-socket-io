@@ -47,7 +47,7 @@ export default function controll(views, loader, route, game, camera){
 
             socket.on("connect", function() {
                 console.log("socket connection, create new player.");
-                let skin = loader.getGamerSkin(0);
+                let skin = {ID: 0, skin: loader.getGamerSkin(0)};
                 let player = new Player(username, skin);
                 player.id = socket.id;
 

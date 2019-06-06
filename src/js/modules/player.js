@@ -6,6 +6,7 @@ export default class Player {
         this.name = name;
         this.skin = skin;
         this.speed = 5;
+        // this.socket = socket;
 
         this.world = "1"; //default
 
@@ -18,7 +19,7 @@ export default class Player {
         this.coords = {
             x: 0,
             y: 0,
-            worldStart: [0,0]
+            worldStart: [150, 150]
         };
         this.viewPort = {
             x: this.startW,
@@ -34,8 +35,8 @@ export default class Player {
         this.currentInputDown = position;
     }
 
-    update(camera){
-        this.viewPort.x = camera.viewPort[0];
-        this.viewPort.y = camera.viewPort[1];
+    update(camera) {
+        this.viewPort.x = camera.viewPort.x;
+        this.viewPort.y = camera.viewPort.y;
     }
 }
