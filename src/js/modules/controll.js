@@ -3,7 +3,7 @@ import states from "./states";
 import socketIO from "./socketClient";
 import config from './config';
 
-export default function controll(views, loader, route, game, camera){
+export default function controll(views, loader, route, game, camera, sprite){
     let inputDown = null;
 
     document.addEventListener("keydown", e => {
@@ -12,21 +12,10 @@ export default function controll(views, loader, route, game, camera){
         if (target.classList[0] === "chatBox__input") return;
 
         if (states("game", "get")){
-            switch (e.which) {
-            case 87:
-                inputDown = "up";
-                break;
-            case 65:
-                inputDown = "left";
-                break;
-            case 68:
-                inputDown = "right";
-                break;
-            case 83:
-                inputDown = "down";
-                break;
-            }
-        }
+ 
+        loader.player.input = e.which;
+        // socket.emit('saveChanges', {player:  loader.player, input: e.which});
+    }
     },false);
 
     window.getInput = function(){
@@ -53,6 +42,7 @@ export default function controll(views, loader, route, game, camera){
 
                 loader.loadPlayer(player);
                 loader.saveSocket(socket);
+                loader.player.sprite = sprite;
                 camera.follow(loader.player,configs.width/2,configs.height/2);
 
                 socket.emit("save",{
@@ -76,7 +66,7 @@ export default function controll(views, loader, route, game, camera){
                     });
                 input.value = "";
             }
-            inputDown = "";
+            loader.player.input = '';
         }
     },false);
 }

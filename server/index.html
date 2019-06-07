@@ -30,8 +30,13 @@
 
 let btn = document.querySelector('.btn');
 btn.onclick = (e) => {
+    let req = null;
+    let mode =  'production';
+    if (mode === 'production')
+    req = "https://socket-io-server-game.herokuapp.com";
+    else req = "http://localhost:5000";
 
-    fetch('http://localhost:5000/statistic')
+    fetch(req + '/statistic')
     .then(res => res.text())
     .then(res => {
         let box = document.querySelector('.statisticBox');

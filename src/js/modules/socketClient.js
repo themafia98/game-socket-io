@@ -61,6 +61,10 @@ export default function SocketIOClient(views, loader, route, game) {
       if (id != socket.id) {
         loader.other[id].coords._x = players[id].coords.x;
         loader.other[id].coords._y = players[id].coords.y;
+      } else if (id === socket.id){
+        loader.player.position = players[id].position;
+        loader.player.coords.x = players[id].coords.x;
+        loader.player.coords.y = players[id].coords.y;
       }
     }
 

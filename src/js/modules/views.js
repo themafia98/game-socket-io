@@ -44,14 +44,13 @@ class MainGameView {
     mainBuff.clearRect(0,0,this.buffer.mainBuffer.width,this.buffer.mainBuffer.height);
   }
 
-  render(PushInput, loader, camera, delta) {
+  render(loader, camera, delta) {
     this.mapRender(loader.texture[1], camera);
-    PushInput && this.renderCoords(loader.getPlayer());
-
-    this.renderHero(loader, PushInput, camera, delta);
+    this.renderCoords(loader.player);
+    this.renderHero(loader, camera, delta);
 
     // if (!isEmpty(loader.other))
-    //   // this.renderOtherPlayers(loader, camera, delta);
+    //   this.renderOtherPlayers(loader, camera, delta);
 
     this.renderSnapshot();
   }
@@ -99,14 +98,12 @@ class MainGameView {
     );
   }
 
-  renderHero(loader, PushInput, camera , delta) {
+  async renderHero(loader, camera , delta) {
 
     let player = loader.getPlayer();
     let socket = loader.getSocket();
     let canvas = this.buffer.mainBuffer;
     let ctx = canvas.getContext('2d');
-
-    PushInput ? input(player, PushInput, this.settings, camera) : null;
 
     ctx.fillStyle = "red";
     ctx.textAlign = 'center';
@@ -120,7 +117,7 @@ class MainGameView {
 
     let skinID = player.skin.ID;
     let currentSprite = loader.getGamerSkin(skinID);
-    PushInput ? currentSprite.updateSprite(delta, player.position) : null;
+    currentSprite.updateSprite(delta, player.position, loader);
     let sprite = currentSprite.settings;
 
     ctx.drawImage(sprite.canvasSprite,
@@ -131,14 +128,7 @@ class MainGameView {
         sprite.width,sprite.height
     );
 
-    socket.emit("saveChanges", {
-        id: player.id,
-        coords: {
-            x: player.coords.x,
-            y: player.coords.y
-        },
-        player: player
-    });
+    socket.emit("saveChanges", {player});
   }
 
   async renderOtherPlayers(loader, camera, delta) {
@@ -167,15 +157,14 @@ class MainGameView {
 
         let skinID = other_players[id].skin.ID;
         let currentSprite = loader.getGamerSkin(skinID);
-        let sprite = currentSprite.settings;
-        currentSprite.updateOtherSprite(delta, other_players[id].position, sprite);
+        currentSprite.updateOtherSprite(other_players[id].time, other_players[id].position, loader.player.spirte, delta);
 
-        ctx.fillText(other_players[id].name, coords.x, coords.y);
-        ctx.drawImage(sprite.canvasSprite,
+        ctx.fillText(other_players[id].name, other_players[id].coords.x, other_players[id].coords.y);
+        ctx.drawImage(loader.player.spirte.canvasSprite,
             0,0,
-            sprite.width,sprite.height,
-            coords.x,coords.y,
-            sprite.width,sprite.height
+            loader.player.spirte.width,loader.player.spirte.height,
+            other_players[id].coords.x,other_players[id].coords.y,
+            loader.player.spirte.width,loader.player.spirte.height
         );
         }
     }

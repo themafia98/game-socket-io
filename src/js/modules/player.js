@@ -7,6 +7,9 @@ export default class Player {
         this.name = name;
         this.skin = skin;
         this.speed = 5;
+        this.input = null;
+
+        this.sprite = {};
         // this.socket = socket;
 
         this.world = "1"; //default

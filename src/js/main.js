@@ -32,6 +32,7 @@ export default function main() {
         sprite.settings.canvasSprite.height = hero2.height;
         sprite.drawDefaultSprite();
         loader.loadGamerSkin(sprite);
+        controll(views, loader, route.bind(this), game,camera, sprite);
         // let img = new Image();
         // let src = sprite.settings.canvasSprite.toDataURL('image/png');
         // img.src = src;
@@ -53,7 +54,7 @@ export default function main() {
         e.stopPropagation();
     };
 
-    controll(views, loader, route.bind(this), game, camera);
+ 
 
     game.setSize();
     game.eventResize(views);
@@ -70,23 +71,20 @@ export default function main() {
     let end, fpsInterval, delta, start;
     ({end, fpsInterval, delta, start} = {end:0, fpsInterval: 0, delta: 0, start: 0});
 
-    console.log(end);
 
     async function route(fps) {
 
         fpsInterval = 1000 / fps;
         start = Date.now();
-        console.log(delta);
         delta = start - end;
 
         if (delta > fpsInterval) {
 
             socket = loader.getSocket();
-            PushInput = getInput();
             camera.update();
             loader.player.update(camera);
             views.clear();
-            views.render(PushInput, loader, camera, fps);
+            views.render(loader, camera, fps);
 
             end = start - (delta % fpsInterval);
             requestAnimationFrame(route);

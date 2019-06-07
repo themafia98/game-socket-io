@@ -1,4 +1,5 @@
 const app = require('http').createServer(handler),
+config = require('./config'),
 http = require('http'),
   fs = require('fs'),
   logger = require('./logger'),
@@ -42,13 +43,8 @@ function handler(req,res) {
 };
 
 
-app.on('req', function(req, res) {
-
-  console.log('hello bro');
-
-});
-
 logger.info(`Server listen on ${port} `);
+
 
 io.on('connection', function (socket) {
 
@@ -60,7 +56,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('save', (data) => {
-
+    console.log(data.worldNumber);
     if (typeof data === 'object' && data.hasOwnProperty('player')) {
     logger.info(`${data.player.name} connect!`);
     socket.player = data.player;
@@ -80,12 +76,59 @@ io.on('connection', function (socket) {
 
   socket.on('saveChanges', function (data) {
 
-    players[data.id].coords = data.coords;
-    io.to(data.player.world).emit('update', players);
+    // if (data.hasOwnProperty('input')){
+  
+    console.log(data.player);
+    switch(data.player.input){
+      case 83: {
+        data.player.coords.y += data.player.speed;
+        data.player.position = 'down';
+          break;
+      }
+      case 87: {
+        data.player.coords.y -= data.player.speed;
+        data.player.position = 'up';
+          break;
+      }
+      case 65: {
+        data.player.coords.x -= data.player.speed;
+        data.player.position = 'left';
+          break;
+      }
+      case 68: {
+        data.player.coords.x += data.player.speed;
+        data.player.position = 'right';
+          break;
+      }
+  // }
+  // data = data.player;
+  }
+
+
+    if(data.player.coords.x - 100 < 0){
+      data.player.coords.x = 100;
+  }
+  if(data.player.coords.y - 150 < 0){
+    data.player.coords.y = 150;
+  }
+
+
+  let limit = config().map.limit;
+
+  if(data.player.coords.x > limit[0]){
+    data.player.coords.x = limit[0]-5;
+  }
+  if(data.player.coords.y > limit[1]){
+    data.player.coords.y = limit[1]-5;
+  }
+
+  players[socket.id] = data.player;
+
+    io.to(players[socket.id].world).emit('update', players);
   });
 
-  socket.on('disconnect', function () {
-
+  socket.on('disconnect', function (string) {
+    console.log(string);
     logger.info(`User ${players[socket.id].name} leave game`);
     let world = players[socket.id].world;
     delete players[socket.id];

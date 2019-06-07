@@ -1,3 +1,5 @@
+import Loader from "./loader";
+
 export default class Sprite {
 
     constructor(props = {}){
@@ -17,7 +19,60 @@ export default class Sprite {
         }
     }
 
-    updateSprite(fps, pos){
+    updateOtherSprite(time, position, sprite, fps){
+        if (sprite.AXIS === 'x'){
+ 
+            if(time == 0) {
+                time = fps;
+                return;
+            }
+
+            if (fps - time > sprite.speed) {
+                time += sprite.speed;
+            let ctx = sprite.canvasSprite.getContext('2d');
+
+            let x = 0;
+            let y = 0;
+
+            if (pos == 'up')
+                x = 264 + sprite.framePosition;
+
+
+            if (pos == 'down')
+                x = 0 + sprite.framePosition;
+    
+            if (pos == 'left')
+                y = 75 + sprite.framePosition;
+
+                if (pos == 'right'){
+                y = 75 + sprite.framePosition;
+                x = 77;
+                }
+       
+            ctx.clearRect(0,0,sprite.canvasSprite.width,sprite.canvasSprite.height);
+
+            ctx.drawImage(
+                sprite.imagesPerson,
+                x,y,
+                sprite.width,sprite.height,
+                0,0,
+                sprite.width,sprite.height
+            );
+
+            if (this.settings.countFrame > this.settings.frame) {
+                this.settings.framePosition = 0;
+                this.settings.frame = 0;
+                this.settings.countFrame = 0;
+            }
+            else {
+                this.settings.framePosition += this.settings.width;
+                this.settings.countFrame++;
+            }
+        }
+        }
+    }
+
+    updateSprite(fps, pos, loader){
 
         if (this.settings.AXIS === 'x'){
  
@@ -68,6 +123,7 @@ export default class Sprite {
                 this.settings.countFrame++;
             }
         }
+        loader.player.spirte = this.settings;
         }
     }
 
