@@ -2,18 +2,18 @@
 
 export default class Map{
 
-    constructor(props){
 
-        this.imageWidth = props;
-        this.images = {};
+    constructor(props){
+        this.images = typeof props === 'object' ? props : {};
+        this.imageWidth = typeof props === 'object' ? props.width : props;
     }
 
     getSourceX(index){
-        return (--index * 64) % 3200;
+        return ((--index * 64) % this.imageWidth) + 1;
     }
 
     getSourceY(index){
-        return Math.trunc((--index * 64) / 3200) * 64;
+        return Math.trunc((--index * 64) / this.imageWidth) * 64;
     }
 
     createMap(name,map,tileset){
@@ -29,14 +29,14 @@ export default class Map{
                 col = 0;
                 layer.data.forEach(index =>{
                     if(index > 0){
-                        ctx.drawImage(this.images.map,
+                        ctx.drawImage(this.images[name],
                                     this.getSourceX(index), this.getSourceY(index),
                                     map.tilewidth,map.tileheight,
                                     col * map.tilewidth, row * map.tileheight,
                                     map.tilewidth,map.tileheight);
                     }
                     col++;
-                    if(col > (map.width -1)){
+                    if(col > (map.width - 1)){
                         col = 0;
                         row++;
                     }
@@ -44,7 +44,7 @@ export default class Map{
             }
         });
 
-        this.images = mapImg;
+        this.images[name] = mapImg;
         return new Map({
             name: name,
             sourceX:0,

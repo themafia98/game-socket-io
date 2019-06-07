@@ -1,5 +1,5 @@
 import Game from './modules/game';
-// import Audio from './modules/audio';
+import Sprite from './modules/sprite';
 import Camera from './modules/camera';
 import { MainGameView} from './modules/views';
 import states from './modules/states';
@@ -7,29 +7,43 @@ import controll from './modules/controll';
 import Loader from './modules/loader';
 import Tile from './modules/map';
 
-const map = require('../../mapnext.json');
+const map = require('../../map.json');
 
 
 export default function main() {
 
     const game = new Game(document.getElementById('MMO'), document.createElement('canvas'));
     // const audio = new Audio();
+    const spriteMaker = new Sprite();
     const tile = new Tile(3200);
     const loader = new Loader();
     const views = new MainGameView(game.ctx, game.bufferCtx);
     const camera = new Camera();
 
+
+    let sprite = null;
+    let hero2 = new Image();
+    hero2.src = './images/hero2.png';
+
+    hero2.onload = (e) => {
+
+        sprite = spriteMaker.create(hero2, 4, true, 'x');
+        e.stopPropagation();
+    }
+
+
     let img = new Image();
     let hero = new Image();
-    img.src = '../images/Dungeon_Tileset.png';
+    img.src = '../images/floor.png';
     hero.src = '../images/hero1.png';
 
     loader.loadTexture(img);
     loader.loadGamerSkin(hero);
 
-    img.onload = () => {
+    img.onload = (e) => {
 
         loader.loadTexture(tile.createMap('map', map, img));
+        e.stopPropagation();
     };
 
     controll(views, loader, route.bind(this), game, camera);
@@ -58,7 +72,7 @@ export default function main() {
 
         delta = start - end;
 
-        if (delta > fpsInterval && states('game', 'get')) {
+        if (delta > fpsInterval) {
 
             socket = loader.getSocket();
             PushInput = getInput();

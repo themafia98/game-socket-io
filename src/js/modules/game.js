@@ -12,7 +12,7 @@ export default class Game {
         // set coords
         player.coords.x = player.coords.worldStart[0];
         player.coords.y = player.coords.worldStart[1];
-
+        
         view.removeLogin()
             .chatBox()
             .currentCoordsBox(player);

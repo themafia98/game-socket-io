@@ -86,14 +86,14 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./mapnext.json":
-/*!**********************!*\
-  !*** ./mapnext.json ***!
-  \**********************/
+/***/ "./map.json":
+/*!******************!*\
+  !*** ./map.json ***!
+  \******************/
 /*! exports provided: height, infinite, layers, nextlayerid, nextobjectid, orientation, renderorder, tiledversion, tileheight, tilesets, tilewidth, type, version, width, default */
 /***/ (function(module) {
 
-module.exports = {"height":50,"infinite":false,"layers":[{"data":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"height":50,"id":1,"name":"Слой тайлов 1","opacity":1,"type":"tilelayer","visible":true,"width":50,"x":0,"y":0}],"nextlayerid":2,"nextobjectid":1,"orientation":"orthogonal","renderorder":"left-up","tiledversion":"1.2.3","tileheight":64,"tilesets":[{"columns":1,"firstgid":1,"image":"../../texture/Tiles/Dungeon Floor Updated/Dungeon_Floor_1.png","imageheight":64,"imagewidth":64,"margin":0,"name":"Dungeon_Floor_1","spacing":0,"tilecount":1,"tileheight":64,"tilewidth":64}],"tilewidth":64,"type":"map","version":1.2,"width":50};
+module.exports = {"height":50,"infinite":false,"layers":[{"data":[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,3,3,3,3,3,3,3,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,3,3,3,3,3,3,3,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,3,3,3,3,3,3,3,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],"height":50,"id":1,"name":"Слой тайлов 1","opacity":1,"type":"tilelayer","visible":true,"width":50,"x":0,"y":0}],"nextlayerid":2,"nextobjectid":1,"orientation":"orthogonal","renderorder":"left-up","tiledversion":"1.2.3","tileheight":64,"tilesets":[{"firstgid":1,"source":"../floor.tsx"}],"tilewidth":64,"type":"map","version":1.2,"width":50};
 
 /***/ }),
 
@@ -20641,21 +20641,54 @@ module.exports = yeast;
 
 /***/ }),
 
-/***/ "./src/images/Dungeon_Tileset.png":
-/*!****************************************!*\
-  !*** ./src/images/Dungeon_Tileset.png ***!
-  \****************************************/
+/***/ "./src/images/animShot/fire.png":
+/*!**************************************!*\
+  !*** ./src/images/animShot/fire.png ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "images/Dungeon_Tileset.png";
+module.exports = __webpack_require__.p + "images/fire.png";
 
 /***/ }),
 
-/***/ "./src/images/hero1.png":
-/*!******************************!*\
-  !*** ./src/images/hero1.png ***!
-  \******************************/
+/***/ "./src/images/animShot/ice.png":
+/*!*************************************!*\
+  !*** ./src/images/animShot/ice.png ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/ice.png";
+
+/***/ }),
+
+/***/ "./src/images/animTexture/torch.png":
+/*!******************************************!*\
+  !*** ./src/images/animTexture/torch.png ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/torch.png";
+
+/***/ }),
+
+/***/ "./src/images/bg/floor.png":
+/*!*********************************!*\
+  !*** ./src/images/bg/floor.png ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/floor.png";
+
+/***/ }),
+
+/***/ "./src/images/spriteHero/hero1.png":
+/*!*****************************************!*\
+  !*** ./src/images/spriteHero/hero1.png ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20663,14 +20696,25 @@ module.exports = __webpack_require__.p + "images/hero1.png";
 
 /***/ }),
 
-/***/ "./src/images/s2.png":
-/*!***************************!*\
-  !*** ./src/images/s2.png ***!
-  \***************************/
+/***/ "./src/images/spriteHero/hero2.png":
+/*!*****************************************!*\
+  !*** ./src/images/spriteHero/hero2.png ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "images/s2.png";
+module.exports = __webpack_require__.p + "images/hero2.png";
+
+/***/ }),
+
+/***/ "./src/images/static/column.png":
+/*!**************************************!*\
+  !*** ./src/images/static/column.png ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "images/column.png";
 
 /***/ }),
 
@@ -20685,15 +20729,23 @@ module.exports = __webpack_require__.p + "images/s2.png";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style/main.scss */ "./src/style/main.scss");
 /* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_main_scss__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _images_Dungeon_Tileset_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./images/Dungeon_Tileset.png */ "./src/images/Dungeon_Tileset.png");
-/* harmony import */ var _images_Dungeon_Tileset_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_images_Dungeon_Tileset_png__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _images_s2_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images/s2.png */ "./src/images/s2.png");
-/* harmony import */ var _images_s2_png__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_images_s2_png__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _images_hero1_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./images/hero1.png */ "./src/images/hero1.png");
-/* harmony import */ var _images_hero1_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_images_hero1_png__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(babel_polyfill__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _js_main_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/main.js */ "./src/js/main.js");
+/* harmony import */ var _images_bg_floor_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./images/bg/floor.png */ "./src/images/bg/floor.png");
+/* harmony import */ var _images_bg_floor_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_images_bg_floor_png__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _images_spriteHero_hero1_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./images/spriteHero/hero1.png */ "./src/images/spriteHero/hero1.png");
+/* harmony import */ var _images_spriteHero_hero1_png__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_images_spriteHero_hero1_png__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _images_animTexture_torch_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./images/animTexture/torch.png */ "./src/images/animTexture/torch.png");
+/* harmony import */ var _images_animTexture_torch_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_images_animTexture_torch_png__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _images_animShot_fire_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./images/animShot/fire.png */ "./src/images/animShot/fire.png");
+/* harmony import */ var _images_animShot_fire_png__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_images_animShot_fire_png__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _images_animShot_ice_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/animShot/ice.png */ "./src/images/animShot/ice.png");
+/* harmony import */ var _images_animShot_ice_png__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_images_animShot_ice_png__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _images_static_column_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./images/static/column.png */ "./src/images/static/column.png");
+/* harmony import */ var _images_static_column_png__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_images_static_column_png__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _images_spriteHero_hero2_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./images/spriteHero/hero2.png */ "./src/images/spriteHero/hero2.png");
+/* harmony import */ var _images_spriteHero_hero2_png__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_images_spriteHero_hero2_png__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
+/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(babel_polyfill__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _js_main_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/main.js */ "./src/js/main.js");
 
 // STYLE
 
@@ -20703,10 +20755,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 // JavaScript
 
 
-Object(_js_main_js__WEBPACK_IMPORTED_MODULE_5__["default"])();
+Object(_js_main_js__WEBPACK_IMPORTED_MODULE_9__["default"])();
 
 
 /***/ }),
@@ -20722,17 +20777,17 @@ Object(_js_main_js__WEBPACK_IMPORTED_MODULE_5__["default"])();
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return main; });
 /* harmony import */ var _modules_game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/game */ "./src/js/modules/game.js");
-/* harmony import */ var _modules_camera__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/camera */ "./src/js/modules/camera.js");
-/* harmony import */ var _modules_views__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/views */ "./src/js/modules/views.js");
-/* harmony import */ var _modules_states__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/states */ "./src/js/modules/states.js");
-/* harmony import */ var _modules_controll__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/controll */ "./src/js/modules/controll.js");
-/* harmony import */ var _modules_loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/loader */ "./src/js/modules/loader.js");
-/* harmony import */ var _modules_map__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/map */ "./src/js/modules/map.js");
+/* harmony import */ var _modules_sprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sprite */ "./src/js/modules/sprite.js");
+/* harmony import */ var _modules_camera__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/camera */ "./src/js/modules/camera.js");
+/* harmony import */ var _modules_views__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/views */ "./src/js/modules/views.js");
+/* harmony import */ var _modules_states__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/states */ "./src/js/modules/states.js");
+/* harmony import */ var _modules_controll__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/controll */ "./src/js/modules/controll.js");
+/* harmony import */ var _modules_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/loader */ "./src/js/modules/loader.js");
+/* harmony import */ var _modules_map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/map */ "./src/js/modules/map.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
- // import Audio from './modules/audio';
 
 
 
@@ -20741,32 +20796,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var map = __webpack_require__(/*! ../../mapnext.json */ "./mapnext.json");
+
+var map = __webpack_require__(/*! ../../map.json */ "./map.json");
 
 function main() {
   var game = new _modules_game__WEBPACK_IMPORTED_MODULE_0__["default"](document.getElementById('MMO'), document.createElement('canvas')); // const audio = new Audio();
 
-  var tile = new _modules_map__WEBPACK_IMPORTED_MODULE_6__["default"](3200);
-  var loader = new _modules_loader__WEBPACK_IMPORTED_MODULE_5__["default"]();
-  var views = new _modules_views__WEBPACK_IMPORTED_MODULE_2__["MainGameView"](game.ctx, game.bufferCtx);
-  var camera = new _modules_camera__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  var spriteMaker = new _modules_sprite__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  var tile = new _modules_map__WEBPACK_IMPORTED_MODULE_7__["default"](3200);
+  var loader = new _modules_loader__WEBPACK_IMPORTED_MODULE_6__["default"]();
+  var views = new _modules_views__WEBPACK_IMPORTED_MODULE_3__["MainGameView"](game.ctx, game.bufferCtx);
+  var camera = new _modules_camera__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  var sprite = null;
+  var hero2 = new Image();
+  hero2.src = './images/hero2.png';
+
+  hero2.onload = function (e) {
+    sprite = spriteMaker.create(hero2, 4, true, 'x');
+    e.stopPropagation();
+  };
+
   var img = new Image();
   var hero = new Image();
-  img.src = '../images/Dungeon_Tileset.png';
+  img.src = '../images/floor.png';
   hero.src = '../images/hero1.png';
   loader.loadTexture(img);
   loader.loadGamerSkin(hero);
 
-  img.onload = function () {
+  img.onload = function (e) {
     loader.loadTexture(tile.createMap('map', map, img));
+    e.stopPropagation();
   };
 
-  Object(_modules_controll__WEBPACK_IMPORTED_MODULE_4__["default"])(views, loader, route.bind(this), game, camera);
+  Object(_modules_controll__WEBPACK_IMPORTED_MODULE_5__["default"])(views, loader, route.bind(this), game, camera);
   game.setSize();
   game.eventResize(views);
-  Object(_modules_states__WEBPACK_IMPORTED_MODULE_3__["default"])('main', 'set');
+  Object(_modules_states__WEBPACK_IMPORTED_MODULE_4__["default"])('main', 'set');
 
-  if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_3__["default"])('main', 'get')) {
+  if (Object(_modules_states__WEBPACK_IMPORTED_MODULE_4__["default"])('main', 'get')) {
     views.mainMenu();
     views.loginRender();
   }
@@ -20802,7 +20869,7 @@ function main() {
               start = Date.now();
               delta = start - end;
 
-              if (delta > fpsInterval && Object(_modules_states__WEBPACK_IMPORTED_MODULE_3__["default"])('game', 'get')) {
+              if (delta > fpsInterval) {
                 socket = loader.getSocket();
                 PushInput = getInput();
                 camera.update();
@@ -21202,16 +21269,16 @@ __webpack_require__.r(__webpack_exports__);
 function config() {
   var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : screen.width;
   var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : screen.height;
-  var minus = !(screen.width < 450) ? ~~(30 * width / 100) : 0;
+  var minus = !(screen.width < 450) ? ~~(20 * width / 100) : 0;
   return {
     name: 'MMO',
-    width: width - minus,
+    width: width,
     height: height - minus,
     version: '1.2.2',
     map: {
       width: 3200,
       height: 3200,
-      limit: [3200 - 750, 3200 - 450]
+      limit: [3100, 3050]
     },
     AXIS: {
       BOTH: 'both',
@@ -21564,6 +21631,8 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Map; });
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -21576,19 +21645,19 @@ function () {
   function Map(props) {
     _classCallCheck(this, Map);
 
-    this.imageWidth = props;
-    this.images = {};
+    this.images = _typeof(props) === 'object' ? props : {};
+    this.imageWidth = _typeof(props) === 'object' ? props.width : props;
   }
 
   _createClass(Map, [{
     key: "getSourceX",
     value: function getSourceX(index) {
-      return --index * 64 % 3200;
+      return --index * 64 % this.imageWidth + 1;
     }
   }, {
     key: "getSourceY",
     value: function getSourceY(index) {
-      return Math.trunc(--index * 64 / 3200) * 64;
+      return Math.trunc(--index * 64 / this.imageWidth) * 64;
     }
   }, {
     key: "createMap",
@@ -21607,7 +21676,7 @@ function () {
           col = 0;
           layer.data.forEach(function (index) {
             if (index > 0) {
-              ctx.drawImage(_this.images.map, _this.getSourceX(index), _this.getSourceY(index), map.tilewidth, map.tileheight, col * map.tilewidth, row * map.tileheight, map.tilewidth, map.tileheight);
+              ctx.drawImage(_this.images[name], _this.getSourceX(index), _this.getSourceY(index), map.tilewidth, map.tileheight, col * map.tilewidth, row * map.tileheight, map.tilewidth, map.tileheight);
             }
 
             col++;
@@ -21619,7 +21688,7 @@ function () {
           });
         }
       });
-      this.images = mapImg;
+      this.images[name] = mapImg;
       return new Map({
         name: name,
         sourceX: 0,
@@ -21663,6 +21732,7 @@ function () {
   function Player(name, skin) {
     _classCallCheck(this, Player);
 
+    var self = this;
     this.name = name;
     this.skin = skin;
     this.speed = 5; // this.socket = socket;
@@ -21676,7 +21746,7 @@ function () {
     this.coords = {
       x: 0,
       y: 0,
-      worldStart: [150, 150]
+      worldStart: [50 + Math.trunc(self.startW * Math.random()), 50 + Math.trunc(self.startH * Math.random())]
     };
     this.viewPort = {
       x: this.startW,
@@ -21749,8 +21819,8 @@ function SocketIOClient(views, loader, route, game) {
     Object(_states__WEBPACK_IMPORTED_MODULE_1__["default"])("game", "set");
     var windowGame = document.querySelector('.game');
     var cav = document.querySelectorAll("canvas");
-    windowGame.classList.toggle('gameMain');
-    windowGame.style.maxWidth = "".concat(cav[0].width, "px");
+    windowGame.classList.toggle('gameMain'); // windowGame.style.maxWidth = `${cav[0].width}px`;
+
     cav[1].remove();
     cancelAnimationFrame(views.cbAnimate);
     game.loadGame(views, loader.player);
@@ -21790,6 +21860,67 @@ function SocketIOClient(views, loader, route, game) {
   });
   return socket;
 }
+
+/***/ }),
+
+/***/ "./src/js/modules/sprite.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/sprite.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sprite; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Sprite =
+/*#__PURE__*/
+function () {
+  function Sprite() {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Sprite);
+
+    this.settings = props;
+  }
+
+  _createClass(Sprite, [{
+    key: "updateSprite",
+    value: function updateSprite() {
+      if (this.sprite.AXIS === 'x') {
+        this.ctx.clearRect(0, 0, this.canvasSprite.width, this.canvasSprite.height);
+        this.ctx.drawImage(this.sprite.img, 0, 0, this.sprite.spriteWidth, this.spriteHeight);
+      }
+
+      return this.canvasSprite;
+    }
+  }, {
+    key: "create",
+    value: function create(img, frame, again, axis) {
+      var spriteWidth = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 64;
+      var spriteHeight = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 64;
+      return new Sprite({
+        img: img,
+        width: spriteWidth,
+        height: spriteHeight,
+        frame: frame,
+        again: again,
+        AXIS: axis,
+        canvasSprite: document.createElement('canvas')
+      });
+    }
+  }]);
+
+  return Sprite;
+}();
+
+
 
 /***/ }),
 
@@ -21999,32 +22130,33 @@ function () {
       var _mapRender = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(map, camera) {
-        var canvas, ctx, x, y, viewWidth, viewHeight, dWidth, dHeight;
+        var canvas, ctx, currentMap, x, y, viewWidth, viewHeight, dWidth, dHeight;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 canvas = this.buffer.mainBuffer;
                 ctx = canvas.getContext('2d');
+                currentMap = map.images;
                 x = camera.viewPort.x;
                 y = camera.viewPort.y;
                 viewWidth = canvas.width;
                 viewHeight = canvas.height; // if cropped image is smaller than canvas we need to change the source dimensions
 
-                if (map.imageWidth.width - x < viewWidth) {
-                  viewWidth = map.width - x;
+                if (currentMap.width - x < viewWidth) {
+                  viewWidth = currentMap.width - x;
                 }
 
-                if (map.imageWidth.height - y < viewHeight) {
-                  viewHeight = map.imageWidth.height - y;
+                if (currentMap.height - y < viewHeight) {
+                  viewHeight = currentMap.height - y;
                 } // match destination with source to not scale the image
 
 
                 dWidth = viewWidth;
                 dHeight = viewHeight;
-                ctx.drawImage(map.imageWidth.images, x, y, viewWidth, viewHeight, 0, 0, dWidth, dHeight);
+                ctx.drawImage(currentMap.images, x, y, viewWidth, viewHeight, 0, 0, dWidth, dHeight);
 
-              case 11:
+              case 12:
               case "end":
                 return _context2.stop();
             }
@@ -22063,43 +22195,65 @@ function () {
     }
   }, {
     key: "renderOtherPlayers",
-    value: function renderOtherPlayers(loader, camera) {
-      var player = loader.getPlayer();
-      var other_players = loader.other;
-      var canvas = this.buffer.mainBuffer;
-      var ctx = canvas.getContext('2d');
+    value: function () {
+      var _renderOtherPlayers = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(loader, camera) {
+        var player, other_players, canvas, ctx, id, x, y, coords, skinID, getSkin, othersPlayers;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                player = loader.getPlayer();
+                other_players = loader.other;
+                canvas = this.buffer.mainBuffer;
+                ctx = canvas.getContext('2d');
 
-      for (var id in other_players) {
-        if (other_players[id].world == player.world) {
-          other_players[id].coords.x = other_players[id].coords._x;
-          other_players[id].coords.y = other_players[id].coords._y;
-          ctx.fillStyle = "red";
-          ctx.font = "20px serif";
-          var x = other_players[id].coords.x;
-          var y = other_players[id].coords.y;
-          camera.setCoordsFromViewPort(camera.viewPort.x, camera.viewPort.y);
-          var coords = camera.toCanvas(other_players[id].coords);
-          var skinID = other_players[id].skin.ID;
-          var getSkin = loader.getGamerSkin(skinID);
-          ctx.fillText(other_players[id].name, coords.x, coords.y);
-          ctx.drawImage(getSkin, other_players[id].currentSprite[0], other_players[id].currentSprite[1], 60, 125, coords.x, coords.y, 60, 125);
-        }
+                for (id in other_players) {
+                  if (other_players[id].world == player.world) {
+                    other_players[id].coords.x = other_players[id].coords._x;
+                    other_players[id].coords.y = other_players[id].coords._y;
+                    ctx.fillStyle = "red";
+                    ctx.font = "20px serif";
+                    x = other_players[id].coords.x;
+                    y = other_players[id].coords.y;
+                    camera.setCoordsFromViewPort(camera.viewPort.x, camera.viewPort.y);
+                    coords = camera.toCanvas(other_players[id].coords);
+                    skinID = other_players[id].skin.ID;
+                    getSkin = loader.getGamerSkin(skinID);
+                    ctx.fillText(other_players[id].name, coords.x, coords.y);
+                    ctx.drawImage(getSkin, other_players[id].currentSprite[0], other_players[id].currentSprite[1], 60, 125, coords.x, coords.y, 60, 125);
+                  }
+                }
+
+                othersPlayers = new Image();
+                othersPlayers.src = canvas.toDataURL("image/png");
+                return _context3.abrupt("return", othersPlayers);
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function renderOtherPlayers(_x4, _x5) {
+        return _renderOtherPlayers.apply(this, arguments);
       }
 
-      var othersPlayers = new Image();
-      othersPlayers.src = canvas.toDataURL("image/png");
-      return othersPlayers;
-    }
+      return renderOtherPlayers;
+    }()
   }, {
     key: "currentCoordsBox",
     value: function () {
       var _currentCoordsBox = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(player) {
+      regeneratorRuntime.mark(function _callee4(player) {
         var gameBox, box, p, x, y;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 gameBox = document.querySelector(".game");
                 box = document.createElement("div");
@@ -22118,17 +22272,17 @@ function () {
                 gameBox.appendChild(box);
                 this.boxShowCoords.boxCoordsX = document.querySelector(".x_player");
                 this.boxShowCoords.boxCoordsY = document.querySelector(".y_player");
-                return _context3.abrupt("return", this);
+                return _context4.abrupt("return", this);
 
               case 18:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function currentCoordsBox(_x4) {
+      function currentCoordsBox(_x6) {
         return _currentCoordsBox.apply(this, arguments);
       }
 
@@ -22155,13 +22309,13 @@ function () {
     value: function () {
       var _mainMenu = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
+      regeneratorRuntime.mark(function _callee5() {
         var _this = this;
 
-        var ctx, color, density, camera, renderer, geometry, material, cube;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        var ctx, color, camera, renderer, colorRed, colorGreen, material, geometry, nmax, n, circle;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 document.querySelector(".game").classList.add("gameMain");
                 ctx = this.ctx;
@@ -22170,46 +22324,55 @@ function () {
                 this.scene ? this.scene.remove.apply(this.scene, this.scene.children) : null;
                 ctx.fillStyle = "tomato";
                 ctx.font = "80px serif";
-                ctx.translate(-180, 0);
+                ctx.textAlign = "center";
                 ctx.shadowColor = "red";
                 ctx.shadowOffsetX = 3;
                 ctx.shadowOffsetY = 6;
                 ctx.shadowBlur = 5;
-                ctx.fillText("Social game", Object(_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 1.4, 80);
+                ctx.fillText("Social game", Object(_config__WEBPACK_IMPORTED_MODULE_0__["default"])().width / 2, 80);
                 ctx.restore();
                 ctx.save();
                 this.scene = new THREE.Scene();
                 color = "red";
-                density = 0.14;
-                this.scene.fog = new THREE.FogExp2(color, density);
-                camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.5, 1000);
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
                 renderer = new THREE.WebGLRenderer();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 this.isThree3D ? document.body.appendChild(renderer.domElement) : "";
-                geometry = new THREE.BoxGeometry(2, 1, 2);
+                colorRed = new THREE.Color(0.9, 0.0, 0.0);
+                colorGreen = new THREE.Color(0.0, 0.9, 0.0);
                 material = new THREE.MeshBasicMaterial({
-                  color: "lightgreen"
+                  vertexColors: THREE.VertexColors
                 });
-                cube = new THREE.Mesh(geometry, material);
-                this.scene.add(cube);
-                camera.position.z = 6;
+                geometry = new THREE.SphereGeometry(5, 5, 5, 5);
+                nmax = geometry.faces.length;
+
+                for (n = 0; n < nmax; n++) {
+                  geometry.faces[n].vertexColors[0] = colorRed;
+                  geometry.faces[n].vertexColors[1] = colorRed;
+                  geometry.faces[n].vertexColors[2] = colorGreen;
+                }
+
+                circle = new THREE.Mesh(geometry, material);
+                this.scene.background = new THREE.Color('grey');
+                this.scene.add(circle);
+                camera.position.z = 17;
 
                 this.cbAnimate = function () {
                   requestAnimationFrame(_this.cbAnimate);
-                  cube.rotation.x += 0.01;
-                  cube.rotation.y += 0.01;
+                  circle.rotation.x += 0.01;
+                  circle.rotation.y += 0.01;
                   renderer.render(_this.scene, camera);
                 };
 
                 this.cbAnimate();
                 this.isThree3D = false;
 
-              case 31:
+              case 34:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function mainMenu() {
@@ -22223,38 +22386,6 @@ function () {
     value: function () {
       var _disconnectInfo = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5(user) {
-        var chatList, message;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                chatList = document.querySelector(".chatBox__window");
-                message = document.createElement("p");
-                message.classList.add("message_disconnect");
-                message.innerHTML = "".concat(user.name, " disconnect from world ").concat(user.world);
-                chatList.appendChild(message);
-                chatList.scrollTop = chatList.scrollHeight;
-
-              case 6:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }));
-
-      function disconnectInfo(_x5) {
-        return _disconnectInfo.apply(this, arguments);
-      }
-
-      return disconnectInfo;
-    }()
-  }, {
-    key: "connectionInfo",
-    value: function () {
-      var _connectionInfo = _asyncToGenerator(
-      /*#__PURE__*/
       regeneratorRuntime.mark(function _callee6(user) {
         var chatList, message;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -22263,8 +22394,8 @@ function () {
               case 0:
                 chatList = document.querySelector(".chatBox__window");
                 message = document.createElement("p");
-                message.classList.add("message_connection");
-                message.innerHTML = "".concat(user.name, " connection in world ").concat(user.world);
+                message.classList.add("message_disconnect");
+                message.innerHTML = "".concat(user.name, " disconnect from world ").concat(user.world);
                 chatList.appendChild(message);
                 chatList.scrollTop = chatList.scrollHeight;
 
@@ -22276,7 +22407,39 @@ function () {
         }, _callee6);
       }));
 
-      function connectionInfo(_x6) {
+      function disconnectInfo(_x7) {
+        return _disconnectInfo.apply(this, arguments);
+      }
+
+      return disconnectInfo;
+    }()
+  }, {
+    key: "connectionInfo",
+    value: function () {
+      var _connectionInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee7(user) {
+        var chatList, message;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                chatList = document.querySelector(".chatBox__window");
+                message = document.createElement("p");
+                message.classList.add("message_connection");
+                message.innerHTML = "".concat(user.name, " connection in world ").concat(user.world);
+                chatList.appendChild(message);
+                chatList.scrollTop = chatList.scrollHeight;
+
+              case 6:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }));
+
+      function connectionInfo(_x8) {
         return _connectionInfo.apply(this, arguments);
       }
 

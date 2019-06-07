@@ -71,6 +71,7 @@ class MainGameView {
   async mapRender(map, camera) {
     let canvas = this.buffer.mainBuffer;
     let ctx = canvas.getContext('2d');
+    let currentMap = map.images;
 
     let x = camera.viewPort.x;
     let y = camera.viewPort.y;
@@ -79,20 +80,20 @@ class MainGameView {
     let viewHeight = canvas.height;
 
     // if cropped image is smaller than canvas we need to change the source dimensions
-    if (map.imageWidth.width - x < viewWidth) {
+    if (currentMap.width - x < viewWidth) {
 
-        viewWidth = map.width - x;
+        viewWidth = currentMap.width - x;
     }
-    if (map.imageWidth.height - y < viewHeight) {
+    if (currentMap.height - y < viewHeight) {
 
-        viewHeight = map.imageWidth.height - y;
+        viewHeight = currentMap.height - y;
     }
 
     // match destination with source to not scale the image
     let dWidth = viewWidth;
     let dHeight = viewHeight;
 
-    ctx.drawImage(map.imageWidth.images,
+    ctx.drawImage(currentMap.images,
                 x,y,viewWidth,viewHeight,
                 0,0,dWidth,dHeight
     );
@@ -137,7 +138,7 @@ class MainGameView {
     });
   }
 
-   renderOtherPlayers(loader, camera) {
+  async renderOtherPlayers(loader, camera) {
     let player = loader.getPlayer();
     let other_players = loader.other;
     let canvas = this.buffer.mainBuffer;
@@ -234,13 +235,13 @@ class MainGameView {
     ctx.fillStyle = "tomato";
     ctx.font = "80px serif";
 
-    ctx.translate(-180, 0);
+    ctx.textAlign = "center";
     ctx.shadowColor = "red";
     ctx.shadowOffsetX = 3;
     ctx.shadowOffsetY = 6;
     ctx.shadowBlur = 5;
 
-    ctx.fillText("Social game", config().width / 1.4, 80);
+    ctx.fillText("Social game", config().width / 2, 80);
 
     ctx.restore();
     ctx.save();
@@ -248,31 +249,42 @@ class MainGameView {
     this.scene = new THREE.Scene();
 
     const color = "red";
-    const density = 0.14;
-    this.scene.fog = new THREE.FogExp2(color, density);
 
-    let camera = new THREE.PerspectiveCamera(30,
+
+    let camera = new THREE.PerspectiveCamera(45,
         window.innerWidth / window.innerHeight,
-        0.5,1000
+        1,1000
     );
 
     let renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     this.isThree3D ? document.body.appendChild(renderer.domElement) : "";
+    
 
-    let geometry = new THREE.BoxGeometry(2, 1, 2);
-    let material = new THREE.MeshBasicMaterial({
-      color: "lightgreen"
-    });
-    let cube = new THREE.Mesh(geometry, material);
-    this.scene.add(cube);
+    let colorRed = new THREE.Color (0.9, 0.0, 0.0);
+    let colorGreen = new THREE.Color (0.0, 0.9, 0.0);
+  
+    let material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors});
+  
+    let geometry =  new THREE.SphereGeometry( 5, 5, 5, 5);
+  
+    let nmax = geometry.faces.length;
+    for (let n=0; n<nmax; n++) {
+        geometry.faces[n].vertexColors[0] = colorRed;
+        geometry.faces[n].vertexColors[1] = colorRed;
+        geometry.faces[n].vertexColors[2] = colorGreen;
+    }
+  
+      var circle = new THREE.Mesh( geometry, material );
+      this.scene.background = new THREE.Color('grey');
+      this.scene.add( circle );
 
-    camera.position.z = 6;
+    camera.position.z = 17;
 
     this.cbAnimate = () => {
       requestAnimationFrame(this.cbAnimate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      circle.rotation.x += 0.01;
+      circle.rotation.y += 0.01;
 
       renderer.render(this.scene, camera);
     };

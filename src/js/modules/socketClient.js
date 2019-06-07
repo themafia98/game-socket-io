@@ -37,7 +37,7 @@ export default function SocketIOClient(views, loader, route, game) {
     let windowGame = document.querySelector('.game');
     let cav = document.querySelectorAll("canvas");
     windowGame.classList.toggle('gameMain');
-    windowGame.style.maxWidth = `${cav[0].width}px`;
+    // windowGame.style.maxWidth = `${cav[0].width}px`;
     cav[1].remove();
     cancelAnimationFrame(views.cbAnimate);
   

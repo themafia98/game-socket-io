@@ -3,6 +3,7 @@ import config from './config';
 export default class Player {
 
     constructor(name, skin) {
+        let self = this;
         this.name = name;
         this.skin = skin;
         this.speed = 5;
@@ -19,7 +20,7 @@ export default class Player {
         this.coords = {
             x: 0,
             y: 0,
-            worldStart: [150, 150]
+            worldStart: [50+ Math.trunc(self.startW * (Math.random())),50 + Math.trunc(self.startH * (Math.random()))]
         };
         this.viewPort = {
             x: this.startW,

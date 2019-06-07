@@ -155,3 +155,189 @@
 {"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
 {"message":"213 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
 {"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 213 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"3123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"132 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 132 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"132 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 132 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"132 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 132 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"213 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 213 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"213 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 213 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"12 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 12 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"2312 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 2312 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"213 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 213 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"1231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 1231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"213 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 213 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"1231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 1231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"1231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 1231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"1231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 1231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"12313 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 12313 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"1231 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 1231 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"132 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 132 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"13 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 13 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"132 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 132 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"123 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 123 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"21312 connect!","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"Saved! user world:1","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
+{"message":"User 21312 leave game","level":"\u001b[32minfo\u001b[39m","service":"user-service"}
