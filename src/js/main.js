@@ -7,7 +7,7 @@ import controll from './modules/controll';
 import Loader from './modules/loader';
 import Tile from './modules/map';
 
-const map = require('../../map.json');
+const map = require('../../mapnext.json');
 
 
 export default function main() {
@@ -21,7 +21,7 @@ export default function main() {
 
     let img = new Image();
     let hero = new Image();
-    img.src = '../images/s1.png';
+    img.src = '../images/Dungeon_Tileset.png';
     hero.src = '../images/hero1.png';
 
     loader.loadTexture(img);
@@ -58,12 +58,13 @@ export default function main() {
 
         delta = start - end;
 
-        if (steel > fpsInterval && states('game', 'get')) {
+        if (delta > fpsInterval && states('game', 'get')) {
 
             socket = loader.getSocket();
             PushInput = getInput();
             camera.update();
             loader.player.update(camera);
+            views.clear();
             views.render(PushInput, loader, camera);
 
             end = start - (delta % fpsInterval);

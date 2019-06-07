@@ -35,6 +35,15 @@ class MainGameView {
     };
   }
 
+  clear(){
+    let ctxBuff = this.buffer.bufferOther.getContext('2d');
+    let mainBuff = this.buffer.mainBuffer.getContext('2d');
+
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    ctxBuff.clearRect(0,0,this.buffer.bufferOther.width,this.buffer.bufferOther.height);
+    mainBuff.clearRect(0,0,this.buffer.mainBuffer.width,this.buffer.mainBuffer.height);
+  }
+
   render(PushInput, loader, camera) {
     this.mapRender(loader.texture[1], camera);
     PushInput && this.renderCoords(loader.getPlayer());

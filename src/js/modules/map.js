@@ -9,11 +9,11 @@ export default class Map{
     }
 
     getSourceX(index){
-        return (--index * 32) % 3200;
+        return (--index * 64) % 3200;
     }
 
     getSourceY(index){
-        return Math.trunc((--index * 32) / 3200) * 32;
+        return Math.trunc((--index * 64) / 3200) * 64;
     }
 
     createMap(name,map,tileset){

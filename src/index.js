@@ -3,7 +3,7 @@
 import './style/main.scss';
 
 // image
-import './images/s1.png';
+import './images/Dungeon_Tileset.png';
 import './images/s2.png';
 import './images/hero1.png';
 
