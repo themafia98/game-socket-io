@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Server</title>
+
+    <style>
+
+        .container{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+    <h1>Server game</h1>
+    <button type="button" class="btn btn-primary">Statistic</button>
+    <div class="statisticBox">
+
+    </div>
+    </div>
+</body>
+
+<script>
+
+let btn = document.querySelector('.btn');
+btn.onclick = (e) => {
+
+    fetch('http://localhost:5000/statistic')
+    .then(res => res.text())
+    .then(res => {
+        let box = document.querySelector('.statisticBox');
+        box.innerHTML = '';
+        let players = JSON.parse(res);
+        if (typeof players != 'object') return console.log('none');
+        let playerArray = {};
+        for (let item of Object.keys(players)){
+
+            let wrapper = document.createElement('div');
+            let about = document.createElement('p');
+            wrapper.setAttribute('data-gamerID',`${item}`);
+            about.innerHTML = `Player ${players[item].name} online in world ${players[item].world} <br/>` +
+            `Coords: X: ${players[item].coords.x}, Y: ${players[item].coords.y}`;
+            wrapper.appendChild(about);
+            playerArray[item] = wrapper;
+        }
+
+        for (let item of Object.keys(playerArray)){
+            box.appendChild(playerArray[item]);
+        }
+    });
+    e.stopPropagation();
+}
+</script>
+</html>

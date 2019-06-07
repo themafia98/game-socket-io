@@ -26,6 +26,10 @@ export default function input(player,go,settings,camera){
             player.currentSprite = settings.sprite.spriteMenRight;
             break;
         }
+        default: {
+            player.position = 'up';
+            break;
+        }
     }
 
     if(player.coords.x - 100 < 0){

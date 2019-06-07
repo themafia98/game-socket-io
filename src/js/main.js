@@ -23,11 +23,19 @@ export default function main() {
 
     let sprite = null;
     let hero2 = new Image();
-    hero2.src = './images/hero2.png';
+    hero2.src = './images/hero.png';
 
     hero2.onload = (e) => {
 
         sprite = spriteMaker.create(hero2, 4, true, 'x');
+        sprite.settings.canvasSprite.width = hero2.width;
+        sprite.settings.canvasSprite.height = hero2.height;
+        sprite.drawDefaultSprite();
+        loader.loadGamerSkin(sprite);
+        // let img = new Image();
+        // let src = sprite.settings.canvasSprite.toDataURL('image/png');
+        // img.src = src;
+        // document.body.appendChild(img);
         e.stopPropagation();
     }
 
@@ -35,10 +43,9 @@ export default function main() {
     let img = new Image();
     let hero = new Image();
     img.src = '../images/floor.png';
-    hero.src = '../images/hero1.png';
+    hero.src = '../images/hero2.png';
 
     loader.loadTexture(img);
-    loader.loadGamerSkin(hero);
 
     img.onload = (e) => {
 
@@ -69,7 +76,7 @@ export default function main() {
 
         fpsInterval = 1000 / fps;
         start = Date.now();
-
+        console.log(delta);
         delta = start - end;
 
         if (delta > fpsInterval) {
@@ -79,7 +86,7 @@ export default function main() {
             camera.update();
             loader.player.update(camera);
             views.clear();
-            views.render(PushInput, loader, camera);
+            views.render(PushInput, loader, camera, fps);
 
             end = start - (delta % fpsInterval);
             requestAnimationFrame(route);

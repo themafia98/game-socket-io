@@ -44,14 +44,14 @@ class MainGameView {
     mainBuff.clearRect(0,0,this.buffer.mainBuffer.width,this.buffer.mainBuffer.height);
   }
 
-  render(PushInput, loader, camera) {
+  render(PushInput, loader, camera, delta) {
     this.mapRender(loader.texture[1], camera);
     PushInput && this.renderCoords(loader.getPlayer());
 
-    this.renderHero(loader, PushInput, camera);
+    this.renderHero(loader, PushInput, camera, delta);
 
-    if (!isEmpty(loader.other))
-      this.renderOtherPlayers(loader, camera);
+    // if (!isEmpty(loader.other))
+    //   // this.renderOtherPlayers(loader, camera, delta);
 
     this.renderSnapshot();
   }
@@ -99,7 +99,7 @@ class MainGameView {
     );
   }
 
-  renderHero(loader, PushInput, camera) {
+  renderHero(loader, PushInput, camera , delta) {
 
     let player = loader.getPlayer();
     let socket = loader.getSocket();
@@ -109,23 +109,26 @@ class MainGameView {
     PushInput ? input(player, PushInput, this.settings, camera) : null;
 
     ctx.fillStyle = "red";
+    ctx.textAlign = 'center';
     ctx.font = "20px serif";
 
     ctx.fillText(
         player.name,
-        player.coords.x - camera.viewPort.x,
+        (player.coords.x - camera.viewPort.x) + 20,
         player.coords.y - camera.viewPort.y
     );
 
     let skinID = player.skin.ID;
-    let getSkin = loader.getGamerSkin(skinID);
+    let currentSprite = loader.getGamerSkin(skinID);
+    PushInput ? currentSprite.updateSprite(delta, player.position) : null;
+    let sprite = currentSprite.settings;
 
-    ctx.drawImage(getSkin,
-        player.currentSprite[0],player.currentSprite[1],
-        60,125,
+    ctx.drawImage(sprite.canvasSprite,
+        0,0,
+        sprite.width,sprite.height,
         player.coords.x - camera.viewPort.x,
         player.coords.y - camera.viewPort.y,
-        60,125
+        sprite.width,sprite.height
     );
 
     socket.emit("saveChanges", {
@@ -138,7 +141,7 @@ class MainGameView {
     });
   }
 
-  async renderOtherPlayers(loader, camera) {
+  async renderOtherPlayers(loader, camera, delta) {
     let player = loader.getPlayer();
     let other_players = loader.other;
     let canvas = this.buffer.mainBuffer;
@@ -163,13 +166,16 @@ class MainGameView {
         let coords = camera.toCanvas(other_players[id].coords);
 
         let skinID = other_players[id].skin.ID;
-        let getSkin = loader.getGamerSkin(skinID);
+        let currentSprite = loader.getGamerSkin(skinID);
+        let sprite = currentSprite.settings;
+        currentSprite.updateOtherSprite(delta, other_players[id].position, sprite);
 
         ctx.fillText(other_players[id].name, coords.x, coords.y);
-        ctx.drawImage(getSkin,
-            other_players[id].currentSprite[0],
-            other_players[id].currentSprite[1],
-            60,125,coords.x,coords.y,60,125
+        ctx.drawImage(sprite.canvasSprite,
+            0,0,
+            sprite.width,sprite.height,
+            coords.x,coords.y,
+            sprite.width,sprite.height
         );
         }
     }

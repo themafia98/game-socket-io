@@ -11,7 +11,7 @@ export default class Player {
 
         this.world = "1"; //default
 
-        this.position = "right";
+        this.position = "up";
         this.currentSprite = [105, 254];
 
         this.startW = config().width / 2;

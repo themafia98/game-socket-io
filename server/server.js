@@ -1,16 +1,54 @@
-const http = require('http'),
+const app = require('http').createServer(handler),
+http = require('http'),
+  fs = require('fs'),
   logger = require('./logger'),
-  io = require('socket.io')();
+  io = require('socket.io')(app);
 
 io.origins('*:*');
 
 process.env.NODE_ENV = process.env.PORT ? 'production': 'development';
 
 let port = process.env.PORT || 5000;
-io.listen(port);
+app.listen(port);
 
 let players = {};
 
+function handler(req,res) {
+
+  if (req.url === '/'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    console.log(__dirname + '/index.html');
+    let index = fs.createReadStream(__dirname + '/index.html');
+    index.pipe(res);
+  } else if (req.url === "/settings"){
+
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    console.log(__dirname + '/index.html');
+    let index = fs.createReadStream(__dirname + '/index.html');
+    index.pipe(res);
+  }  else if ('/statistic'){
+
+    res.writeHead(200, {"content-type":"text/plain"});
+    res.end(JSON.stringify(players));
+  }
+  
+  else {
+
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    console.log(__dirname + '/index.html');
+    let index = fs.createReadStream(__dirname + '/index.html');
+    index.pipe(res);
+  } 
+};
+
+
+app.on('req', function(req, res) {
+
+  console.log('hello bro');
+
+});
+
+logger.info(`Server listen on ${port} `);
 
 io.on('connection', function (socket) {
 

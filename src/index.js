@@ -9,7 +9,7 @@ import './images/animTexture/torch.png';
 import './images/animShot/fire.png';
 import './images/animShot/ice.png';
 import './images/static/column.png';
-import './images/spriteHero/hero2.png';
+import './images/spriteHero/hero.png';
 // JavaScript
 import 'babel-polyfill';
 import main from './js/main.js';
