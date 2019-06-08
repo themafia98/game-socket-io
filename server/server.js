@@ -11,8 +11,8 @@ process.env.NODE_ENV = process.env.PORT ? 'production': 'development';
 
 let port = process.env.PORT || 5000;
 app.listen(port);
-
-let players = {};
+let storageSocket = new Map();
+let players = new Map();
 
 function handler(req,res) {
 
@@ -42,8 +42,16 @@ function handler(req,res) {
   } 
 };
 
-
 logger.info(`Server listen on ${port} `);
+
+
+let configs = config();
+let limit = configs.map.limit;
+
+
+function addNewPlayer(id,socket){
+    storageSocket.set(id,socket);
+}
 
 
 io.on('connection', function (socket) {
@@ -51,87 +59,95 @@ io.on('connection', function (socket) {
   console.log("New client has connected with id:", socket.id);
 
   socket.on('messageServer', function (data) {
-    let username = players[socket.id].name;
+    let username = players.get(socket.id).name;
     io.to(`${data.world}`).emit('chatMessage', data.msg, username);
   });
 
   socket.on('save', (data) => {
-    console.log(data.worldNumber);
+
+    data.player = JSON.parse(data.player);
     if (typeof data === 'object' && data.hasOwnProperty('player')) {
-    logger.info(`${data.player.name} connect!`);
-    socket.player = data.player;
-    socket.player.id = socket.id;
 
-    players[socket.id] = data.player;
-    players[socket.id].world = data.worldNumber;
-    logger.info('Saved! user world:' + players[socket.id].world);
-    socket.join(`${data.worldNumber}`, () => {
+      logger.info(`${data.player.name} connect!`);
+      data.player.id = socket.id;
+      players.set(socket.id,data.player);
+      addNewPlayer(socket.id, socket);
 
-      io.to(`${data.worldNumber}`).emit('connectPlayer', players[socket.id]);
-      io.to(`${data.worldNumber}`).emit('update', players);
+      logger.info('Saved! user world:' + players.get(socket.id).world);
 
-    }).emit('changeState', data.player);
-  } else return {data: 'no save player', status: '404'};
+      socket.join(`${data.player.world}`, () => {
+          io.to(`${data.player.world}`).emit('connectPlayer', players.get(socket.id));
+      }).emit('changeState', data.player);
+
+  } else ogger.error('Error in save player');
   });
 
-  socket.on('saveChanges', function (data) {
+ 
+  socket.on('movePlayer', function (player) {
 
-    // if (data.hasOwnProperty('input')){
-  
-    console.log(data.player);
-    switch(data.player.input){
-      case 83: {
-        data.player.coords.y += data.player.speed;
-        data.player.position = 'down';
+    player = JSON.parse(player);
+    console.log(player.input);
+    switch(player.input){
+        case 40:
+        case 83:
+        case 115:
+        player.coords.y += player.speed;
+        player.position = 'down';
           break;
-      }
-      case 87: {
-        data.player.coords.y -= data.player.speed;
-        data.player.position = 'up';
+        case 38:
+        case 87:
+        case 199:
+        player.coords.y -= player.speed;
+        player.position = 'up';
           break;
-      }
-      case 65: {
-        data.player.coords.x -= data.player.speed;
-        data.player.position = 'left';
+        case 37:
+        case 65:
+        case 97:
+        player.coords.x -= player.speed;
+        player.position = 'left';
           break;
-      }
-      case 68: {
-        data.player.coords.x += data.player.speed;
-        data.player.position = 'right';
+          case 39:
+          case 68:
+          case 100:
+        player.coords.x += player.speed;
+        player.position = 'right';
           break;
-      }
-  // }
-  // data = data.player;
+  }
+
+    if(player.coords.x - 100 < 0){
+      player.coords.x = 100;
+  }
+  if(player.coords.y - 150 < 0){
+    player.coords.y = 150;
   }
 
 
-    if(data.player.coords.x - 100 < 0){
-      data.player.coords.x = 100;
+  if(player.coords.x > limit[0]){
+    player.coords.x = limit[0]-5;
   }
-  if(data.player.coords.y - 150 < 0){
-    data.player.coords.y = 150;
-  }
-
-
-  let limit = config().map.limit;
-
-  if(data.player.coords.x > limit[0]){
-    data.player.coords.x = limit[0]-5;
-  }
-  if(data.player.coords.y > limit[1]){
-    data.player.coords.y = limit[1]-5;
+  if(player.coords.y > limit[1]){
+    player.coords.y = limit[1]-5;
   }
 
-  players[socket.id] = data.player;
-
-    io.to(players[socket.id].world).emit('update', players);
+  players.set(socket.id,player);
   });
+
+  setInterval(function updateState(time) {
+
+    players.forEach(player =>{
+      storageSocket.get(player.id).emit('update',{ self: player, players: players });
+    });
+
+    },1000 / 60);
+
+
 
   socket.on('disconnect', function (string) {
     console.log(string);
-    logger.info(`User ${players[socket.id].name} leave game`);
-    let world = players[socket.id].world;
-    delete players[socket.id];
+    let player = players.get(socket.id);
+    logger.info(`User ${player.name} leave game`);
+    let world = player.world;
+    delete player;
     socket.leave(socket.rooms);
     io.to(world).emit('disconnectPlayer', socket.id);
   });

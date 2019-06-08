@@ -6,7 +6,7 @@ export default class Loader{
         this.texture = [];
         this.playersSkin = [];
         this.player = {};
-        this.other = {};
+        this.other = new Map();
         this.socket = [];
     }
 

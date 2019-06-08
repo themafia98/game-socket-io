@@ -1,7 +1,10 @@
 import io from "socket.io-client";
 import states from "./states";
+import config from './config';
+import { type } from "os";
+import { nextTick } from "q";
 
-export default function SocketIOClient(views, loader, route, game) {
+export default function SocketIOClient(views, loader, route, game, camera) {
   let socket = null;
   if (process.env.NODE_ENV === 'production')
   socket = io("https://socket-io-server-game.herokuapp.com/");
@@ -32,53 +35,54 @@ export default function SocketIOClient(views, loader, route, game) {
     chatList.scrollTop = chatList.scrollHeight;
   });
 
-  socket.on("changeState", function(player) {
-    states("game", "set");
+  socket.on("changeState", function() {
     let windowGame = document.querySelector('.game');
     let cav = document.querySelectorAll("canvas");
     windowGame.classList.toggle('gameMain');
-    // windowGame.style.maxWidth = `${cav[0].width}px`;
     cav[1].remove();
     cancelAnimationFrame(views.cbAnimate);
-  
-    game.loadGame(views,loader.player);
-
+    loader.saveSocket(socket);
+    game.loadGame(views,loader, camera);
+    states("game", "set");
     requestAnimationFrame(route);
   });
 
-  socket.on("update", function(players) {
-    let found = {};
-    loader.player.world = players[socket.id].world;
+  socket.on("update",function(data) {
 
-    for (let id in players) {
-      if (loader.other[id] == undefined && id != socket.id) {
-        loader.other[id] = players[id];
-        console.log("Create new player");
-      }
+    loader.player.coords.x = data.self.coords.x;
+    loader.player.coords.y = data.self.coords.y;
+    loader.player.position = data.self.position;
+    loader.player.input = data.self.input;
 
-      found[id] = true;
+    // else loader.other.delete(data.self.id);
 
-      if (id != socket.id) {
-        loader.other[id].coords._x = players[id].coords.x;
-        loader.other[id].coords._y = players[id].coords.y;
-      } else if (id === socket.id){
-        loader.player.position = players[id].position;
-        loader.player.coords.x = players[id].coords.x;
-        loader.player.coords.y = players[id].coords.y;
-      }
-    }
+  //   let found = {};
+  //   let check = players[socket.id];
+  //   if (check != undefined) {
+  //   loader.player.coords.x = players[socket.id].coords.x;
+  //   loader.player.coords.y = players[socket.id].coords.y;
+  //   loader.player.position = players[socket.id].position;
 
-    for (let id in loader.other) {
-      if (!found[id]) {
-        delete loader.other[id];
-      }
-    }
+  //   for (let id in players) {
+  //     if (loader.other[id] == undefined && id != socket.id) {
+  //       loader.other[id] = players[id];
+  //       console.log("Create new player");
+  //     }
+  //     found[id] = true;
+  //     if (id != socket.id) {
+  //       loader.other[id].coords._x = players[id].coords.x;
+  //       loader.other[id].coords._y = players[id].coords.y;
+  //     }
+  //   }
+  // }
+
+    // for (let id in loader.other) {
+    //   if (!found[id]) {
+    //     delete loader.other[id];
+    //   }
+    // }
   });
 
-  socket.on("saveChangesClient", function(player) {
-    let currentPlayer = loader.getPlayer();
-    currentPlayer.coords = player.coords;
-  });
 
   socket.on("disconnectPlayer", function(id) {
     views.disconnectInfo(loader.other[id]);

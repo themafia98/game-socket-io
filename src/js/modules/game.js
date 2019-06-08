@@ -7,15 +7,12 @@ export default class Game {
         this.view = null;
     }
 
-    loadGame(view,player){
+    loadGame(view,loader, camera){
 
-        // set coords
-        player.coords.x = player.coords.worldStart[0];
-        player.coords.y = player.coords.worldStart[1];
-        
         view.removeLogin()
             .chatBox()
-            .currentCoordsBox(player);
+            .currentCoordsBox(loader.player);
+        camera.follow(loader.player,config().width/2,config().height/2);
     }
 
     setSize() {

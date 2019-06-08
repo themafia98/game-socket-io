@@ -6,15 +6,15 @@ import config from './config';
 export default function controll(views, loader, route, game, camera, sprite){
     let inputDown = null;
 
+
     document.addEventListener("keydown", e => {
         let target = e.target;
 
         if (target.classList[0] === "chatBox__input") return;
 
         if (states("game", "get")){
- 
         loader.player.input = e.which;
-        // socket.emit('saveChanges', {player:  loader.player, input: e.which});
+        loader.getSocket().emit("movePlayer", JSON.stringify(loader.player));
     }
     },false);
 
@@ -32,22 +32,15 @@ export default function controll(views, loader, route, game, camera, sprite){
             worldNumber = worldNumber.find(btn => btn.checked === true);
             if (!worldNumber) return;
             worldNumber = worldNumber.dataset.world;
-            let socket = socketIO(views, loader, route, game);
+            let socket = socketIO(views, loader, route, game, camera);
 
             socket.on("connect", function() {
                 console.log("socket connection, create new player.");
-                let skin = {ID: 0, skin: loader.getGamerSkin(0)};
-                let player = new Player(username, skin);
-                player.id = socket.id;
-
-                loader.loadPlayer(player);
-                loader.saveSocket(socket);
-                loader.player.sprite = sprite;
-                camera.follow(loader.player,configs.width/2,configs.height/2);
-
+                let newPlayer = new Player(socket.id, username,{ID: 0, skin: loader.getGamerSkin(0)}, sprite, worldNumber);
+                loader.loadPlayer(newPlayer);
+                let playerStringServer = JSON.stringify(newPlayer);
                 socket.emit("save",{
-                    player: player,
-                    worldNumber: worldNumber
+                    player: playerStringServer,
                 });
             });
         }
@@ -56,7 +49,10 @@ export default function controll(views, loader, route, game, camera, sprite){
     document.addEventListener("keyup",e => {
         let target = e.target;
 
+        if (e.which != 13 && e.keyCode != 13 && target.classList[0] === "chatBox__input") return;
+
         if (states("game", "get")) {
+            loader.player.input = '';
             let input = document.querySelector(".chatBox__input");
             if (e.which == 13 && target.classList[0] === "chatBox__input") {
                 if (input.value)
@@ -66,7 +62,7 @@ export default function controll(views, loader, route, game, camera, sprite){
                     });
                 input.value = "";
             }
-            loader.player.input = '';
+            loader.getSocket().emit("movePlayer", JSON.stringify(loader.player));
         }
     },false);
 }

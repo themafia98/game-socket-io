@@ -6,6 +6,7 @@ import states from './modules/states';
 import controll from './modules/controll';
 import Loader from './modules/loader';
 import Tile from './modules/map';
+import Player from './modules/player';
 
 const map = require('../../map.json');
 
@@ -15,6 +16,7 @@ export default function main() {
     const game = new Game(document.getElementById('MMO'), document.createElement('canvas'));
     // const audio = new Audio();
     const spriteMaker = new Sprite();
+    const bufPlayer = new Player();
     const tile = new Tile(3200);
     const loader = new Loader();
     const views = new MainGameView(game.ctx, game.bufferCtx);
@@ -72,7 +74,7 @@ export default function main() {
     ({end, fpsInterval, delta, start} = {end:0, fpsInterval: 0, delta: 0, start: 0});
 
 
-    async function route(fps) {
+    function route(fps) {
 
         fpsInterval = 1000 / fps;
         start = Date.now();
@@ -80,11 +82,12 @@ export default function main() {
 
         if (delta > fpsInterval) {
 
-            socket = loader.getSocket();
-            camera.update();
-            loader.player.update(camera);
-            views.clear();
-            views.render(loader, camera, fps);
+            if(loader.getSocket()){
+                camera.update();
+                loader.player.update(camera);
+                views.clear();
+                views.render(loader, camera, fps);
+            }
 
             end = start - (delta % fpsInterval);
             requestAnimationFrame(route);
