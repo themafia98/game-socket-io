@@ -49,10 +49,12 @@ export default function SocketIOClient(views, loader, route, game, camera) {
 
   socket.on("update",function(data) {
 
+    if(data.self){
     loader.player.coords.x = data.self.coords.x;
     loader.player.coords.y = data.self.coords.y;
     loader.player.position = data.self.position;
     loader.player.input = data.self.input;
+    }
 
     data.players = JSON.parse(data.players);
 
