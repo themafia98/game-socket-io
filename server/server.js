@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
   console.log("New client has connected with id:", socket.id);
 
   socket.on('messageServer', function (data) {
-    let username = players.get(socket.id).name;
+    let username = players[socket.id].name;
     io.to(`${data.world}`).emit('chatMessage', data.msg, username);
   });
 
@@ -70,13 +70,13 @@ io.on('connection', function (socket) {
 
       logger.info(`${data.player.name} connect!`);
       data.player.id = socket.id;
-      players.set(socket.id,data.player);
+      players[socket.id] = data.player;
       addNewPlayer(socket.id, socket);
 
-      logger.info('Saved! user world:' + players.get(socket.id).world);
+      logger.info('Saved! user world:' + players[socket.id].world);
 
       socket.join(`${data.player.world}`, () => {
-          io.to(`${data.player.world}`).emit('connectPlayer', players.get(socket.id));
+          io.to(`${data.player.world}`).emit('connectPlayer', players[socket.id]);
       }).emit('changeState', data.player);
 
   } else ogger.error('Error in save player');
@@ -86,7 +86,7 @@ io.on('connection', function (socket) {
   socket.on('movePlayer', function (player) {
 
     player = JSON.parse(player);
-    console.log(player.input);
+
     switch(player.input){
         case 40:
         case 83:
@@ -129,14 +129,12 @@ io.on('connection', function (socket) {
     player.coords.y = limit[1]-5;
   }
 
-  players.set(socket.id,player);
+  players[socket.id] = player;
   });
 
   setInterval(function updateState(time) {
-
-    players.forEach(player =>{
-      storageSocket.get(player.id).emit('update',{ self: player, players: players });
-    });
+    
+  io.sockets.emit('update',{ self: players[socket.id], players: JSON.stringify(players) });
 
     },1000 / 60);
 
@@ -144,7 +142,7 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function (string) {
     console.log(string);
-    let player = players.get(socket.id);
+    let player = players[socket.id];
     logger.info(`User ${player.name} leave game`);
     let world = player.world;
     delete player;

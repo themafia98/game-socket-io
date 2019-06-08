@@ -14,10 +14,13 @@ export default class Camera {
         this.viewportRect = new ViewPort(this.viewPort.x,this.viewPort.y,this.cavView[0],this.cavView[1]);
     }
 
-    toWorld(position, viewPort = this.saveViewPort) {
-        this.saveViewPort = position ? position : Vector.zero();
-        return position.add(position, viewPort);
+
+
+    toCanvas(position, viewPort = this.saveViewPort) {
+        this.saveViewPort  = position ? position : Vector.zero();
+        return Vector.sub(position, viewPort);
     }
+
 
     toCanvas(position, viewPort = this.saveViewPort) {
         this.saveViewPort  = position ? position : Vector.zero();

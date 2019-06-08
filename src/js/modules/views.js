@@ -48,9 +48,7 @@ class MainGameView {
     this.mapRender(loader.texture[1], camera);
     this.renderCoords(loader.player);
     this.renderHero(loader, camera, delta);
-
-    // if (!isEmpty(loader.other))
-    //   this.renderOtherPlayers(loader, camera, delta);
+    // this.renderOtherPlayers(loader, camera, delta);
 
     this.renderSnapshot();
   }
@@ -130,47 +128,39 @@ class MainGameView {
   }
 
   async renderOtherPlayers(loader, camera, delta) {
-    let player = loader.getPlayer();
+
     let other_players = loader.other;
+    let othersPlayers = null;
     let canvas = this.buffer.mainBuffer;
     let ctx = canvas.getContext('2d');
 
-    for (let id of other_players) {
+    other_players.forEach((other_player,id,map) => {
 
-    if (other_players[id].world == player.world && other_players[id].id != loader.player.id) {
-
-          other_players[id].coords.x = other_players[id].coords._x;
-          other_players[id].coords.y = other_players[id].coords._y;
+      let player = loader.player;
+    if (other_player.world == player.world && other_player.id != loader.player.id) {
 
           ctx.fillStyle = "red";
           ctx.font = "20px serif";
 
-          let x = other_players[id].coords.x;
-          let y = other_players[id].coords.y;
+          let x = other_player.coords.x;
+          let y = other_player.coords.y;
 
-          camera.setCoordsFromViewPort(camera.viewPort.x,
-                                        camera.viewPort.y
-          );
-
-          let coords = camera.toCanvas(other_players[id].coords);
+          camera.setCoordsFromViewPort(camera.viewPort.x,camera.viewPort.y);
+          let coords = camera.toCanvas(other_player.coords);
 
           // let skinID = other_players[id].skin.ID;
           // let currentSprite = loader.getGamerSkin(skinID);
-          // currentSprite.updateOtherSprite(other_players[id].time, other_players[id].position, loader.player.spirte, delta);
+          // currentSprite.updateOtherSprite(other_players[id].time, other_players[id].position, other_players[id].spirte, delta);
 
-          ctx.fillText(other_players[id].name,coords.x, coords.y);
+          ctx.fillText(other_player.name,coords.x, coords.y);
           ctx.drawImage(loader.player.spirte.canvasSprite,
               0,0,
-              loader.player.spirte.width,loader.player.spirte.height,
+              64,64,
               coords.x,coords.y,
-              loader.player.spirte.width,loader.player.spirte.height
+              64,64
           );
         }
-    }
-    let othersPlayers = new Image();
-    othersPlayers.src = canvas.toDataURL("image/png");
-
-    return othersPlayers;
+      });
   }
 
   async currentCoordsBox(player) {

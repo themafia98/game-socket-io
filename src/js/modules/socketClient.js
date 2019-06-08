@@ -54,6 +54,17 @@ export default function SocketIOClient(views, loader, route, game, camera) {
     loader.player.position = data.self.position;
     loader.player.input = data.self.input;
 
+    data.players = JSON.parse(data.players);
+
+    // let arr = Object.keys(data.players);
+    // let arrValue = Object.values(data.players);
+    
+    // arr.forEach((id,i) => {
+    //   if (loader.player.id != id)
+    //   loader.other.set(id,arrValue[i]);
+    // });
+  
+
     // else loader.other.delete(data.self.id);
 
   //   let found = {};
