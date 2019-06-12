@@ -7,7 +7,7 @@ import { nextTick } from "q";
 export default function SocketIOClient(views, loader, route, game, camera) {
   let socket = null;
   if (process.env.NODE_ENV === 'production')
-  socket = io("https://socket-io-server-game.herokuapp.com/");
+  socket = io("https://socketiotestgame.herokuapp.com/");
   else socket = io("http://localhost:5000/");
 
   socket.on("reconnect_attempt", () => {
@@ -50,50 +50,23 @@ export default function SocketIOClient(views, loader, route, game, camera) {
   socket.on("update",function(data) {
 
     if(data.self){
-    loader.player.coords.x = data.self.coords.x;
-    loader.player.coords.y = data.self.coords.y;
-    loader.player.position = data.self.position;
-    loader.player.input = data.self.input;
+      loader.player.coords.x = data.self.coords.x;
+      loader.player.coords.y = data.self.coords.y;
+      loader.player.position = data.self.position;
+      loader.player.input = data.self.input;
     }
 
     data.players = JSON.parse(data.players);
 
-    // let arr = Object.keys(data.players);
-    // let arrValue = Object.values(data.players);
+    console.log(data.players);
+
+    let arr = Object.keys(data.players);
+    let arrValue = Object.values(data.players);
     
-    // arr.forEach((id,i) => {
-    //   if (loader.player.id != id)
-    //   loader.other.set(id,arrValue[i]);
-    // });
-  
-
-    // else loader.other.delete(data.self.id);
-
-  //   let found = {};
-  //   let check = players[socket.id];
-  //   if (check != undefined) {
-  //   loader.player.coords.x = players[socket.id].coords.x;
-  //   loader.player.coords.y = players[socket.id].coords.y;
-  //   loader.player.position = players[socket.id].position;
-
-  //   for (let id in players) {
-  //     if (loader.other[id] == undefined && id != socket.id) {
-  //       loader.other[id] = players[id];
-  //       console.log("Create new player");
-  //     }
-  //     found[id] = true;
-  //     if (id != socket.id) {
-  //       loader.other[id].coords._x = players[id].coords.x;
-  //       loader.other[id].coords._y = players[id].coords.y;
-  //     }
-  //   }
-  // }
-
-    // for (let id in loader.other) {
-    //   if (!found[id]) {
-    //     delete loader.other[id];
-    //   }
-    // }
+    arr.forEach((id,i) => {
+      if (loader.player.id != id)
+      loader.other.set(id,arrValue[i]);
+    });
   });
 
 

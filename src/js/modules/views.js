@@ -2,7 +2,7 @@ import config from "./config";
 import input from "./input";
 
 class MainGameView {
-  constructor(ctx, bufferCtx) {
+  constructor(ctx, bufferCtx, buf3) {
 
     this.ctx = ctx;
 
@@ -16,6 +16,7 @@ class MainGameView {
     }
     this.buffer = {
         mainBuffer: bufferCtx,
+        buf3: buf3,
         bufferOther: document.createElement("canvas"),
     }
 
@@ -48,7 +49,7 @@ class MainGameView {
     this.mapRender(loader.texture[1], camera);
     this.renderCoords(loader.player);
     this.renderHero(loader, camera, delta);
-    // this.renderOtherPlayers(loader, camera, delta);
+    this.renderOtherPlayers(loader, camera, delta);
 
     this.renderSnapshot();
   }

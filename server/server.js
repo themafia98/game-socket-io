@@ -1,48 +1,19 @@
-const app = require('http').createServer(handler),
-config = require('./config'),
-http = require('http'),
+const config = require('./config'),
+  server = require('http').createServer(),
   fs = require('fs'),
-  logger = require('./logger'),
-  io = require('socket.io')(app);
-
+  logger = require('./logger');
+  io = require('socket.io')(server);
 io.origins('*:*');
 
-process.env.NODE_ENV = process.env.PORT ? 'production': 'development';
 
 let port = process.env.PORT || 5000;
-app.listen(port);
+
 let storageSocket = new Map();
 let players = new Map();
 
-function handler(req,res) {
-
-  if (req.url === '/'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    console.log(__dirname + '/index.html');
-    let index = fs.createReadStream(__dirname + '/index.html');
-    index.pipe(res);
-  } else if (req.url === "/settings"){
-
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    console.log(__dirname + '/index.html');
-    let index = fs.createReadStream(__dirname + '/index.html');
-    index.pipe(res);
-  }  else if ('/statistic'){
-
-    res.writeHead(200, {"content-type":"text/plain"});
-    res.end(JSON.stringify(players));
-  }
-  
-  else {
-
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    console.log(__dirname + '/index.html');
-    let index = fs.createReadStream(__dirname + '/index.html');
-    index.pipe(res);
-  } 
-};
-
-logger.info(`Server listen on ${port} `);
+server.listen(port, () =>{
+  logger.info(`Server listen on ${port} `);
+});
 
 
 let configs = config();
@@ -130,15 +101,8 @@ io.on('connection', function (socket) {
   }
 
   players[socket.id] = player;
+  socket.emit('update',{ self: player, players: JSON.stringify(players) });
   });
-
-  setInterval(function updateState(time) {
-    
-  io.sockets.emit('update',{ self: players[socket.id], players: JSON.stringify(players) });
-
-    },1000 / 60);
-
-
 
   socket.on('disconnect', function (string) {
     console.log(string);
